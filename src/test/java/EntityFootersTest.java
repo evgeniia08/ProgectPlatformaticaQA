@@ -61,7 +61,6 @@ public class EntityFootersTest extends BaseTest {
         deleteRow.click();
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"),"2"));
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"),"2"));
-        Thread.sleep(3000);
     }
 
     @Test
@@ -144,11 +143,15 @@ public class EntityFootersTest extends BaseTest {
         WebElement inputDec1 = driver.findElement(By.xpath("//textarea[@id='t-74-r-1-decimal']"));
         inputDec1.clear();
         inputDec1.sendKeys("2.2");
-
         WebElement randomClick =  driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
         randomClick.click();
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-decimal']"),"2.2"));
 
-        Thread.sleep(1000);
+       // WebElement randomClick =  driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
+        randomClick.click();
+
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"200,2.2"));
+
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
         saveButton.click();
 
