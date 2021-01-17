@@ -29,7 +29,7 @@ public class EntityFields1Test extends BaseTest {
         final String int_ = "11";
         final String decimal = "0";
 
-        final List<String> record = Arrays.asList(title, comments, int_, decimal, "", "");
+        String[] record = {"", title, comments, int_, decimal, "", "", "", null, "", "menu"};
 
         FieldsPage fieldsPage = new MainPage(getDriver())
                 .clickMenuFields()
@@ -38,7 +38,8 @@ public class EntityFields1Test extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
-        Assert.assertEquals(fieldsPage.getRow(0), record);
+        record[8] = fieldsPage.getRow(0).get(8);
+        Assert.assertEquals(fieldsPage.getRow(0), Arrays.asList(record));
     }
 
     @Ignore

@@ -17,6 +17,7 @@ public class BaseViewPage extends BasePage {
     }
 
     public List<String> getValues() {
+
         return values.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 

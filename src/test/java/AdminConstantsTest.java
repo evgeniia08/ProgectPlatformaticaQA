@@ -2,6 +2,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -9,6 +10,8 @@ import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
+
+@Ignore
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
@@ -61,10 +64,6 @@ public class AdminConstantsTest extends BaseTest {
     public void createApplicationTest() throws InterruptedException {
         driver = getDriver();
 
-        WebElement instance_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated
-                (By.xpath("//div[contains(@class,'card-body')]")));
-        Assert.assertTrue(instance_table.getText().isEmpty());
-
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
         String[] entity_values;
@@ -81,13 +80,13 @@ public class AdminConstantsTest extends BaseTest {
         } while (isUnableCreateApp());
 
         String congrats = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class,'card-body')]//h3[1]"))).getText();
+                (By.xpath("//div[@class='card-body ']//h3[1]"))).getText();
         Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
 
         app_name = entity_values[0];
 
         final String admin_password = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class,'card-body')]//h4[2]/b"))).getText();
+                (By.xpath("//div[@class='card-body ']//h4[2]/b"))).getText();
 
         driver.get(String.format("https://%s.eteam.work", entity_values[0]));
         WebElement login_element = driver.findElement(By.xpath("//input[@name='login_name']"));
@@ -102,7 +101,7 @@ public class AdminConstantsTest extends BaseTest {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
         goToConstantsList();
-        String company_name_1 = ProjectUtils.createRandomString();
+        String company_name_1 = ProjectUtils.createUUID();
         commandInCMD(driver, String.format("create constant \"Company Name\" = \"%s\"", company_name_1));
         commandInCMD(driver, "create constant \"Company Email\" = \"contact@company.com\"");
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -118,7 +117,7 @@ public class AdminConstantsTest extends BaseTest {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
         goToConstantsList();
-        String company_name_2 = ProjectUtils.createRandomString();
+        String company_name_2 = ProjectUtils.createUUID();
         getCompany("Name").clear();
         getCompany("Name").sendKeys(company_name_2);
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
