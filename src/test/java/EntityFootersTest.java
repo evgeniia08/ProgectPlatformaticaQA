@@ -1,46 +1,33 @@
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class EntityFootersTest extends BaseTest {
 
     @Ignore
     @Test
-    public void sumFooter() throws InterruptedException{
-
-
+    public void sumFooter(){
     }
 
     @Ignore
     @Test
-    public void minFooter() throws InterruptedException{
-
-
+    public void minFooter(){
     }
 
     @Ignore
     @Test
-    public void maxFooter() throws InterruptedException{
-
-
+    public void maxFooter(){
     }
 
 
     @Test
-    public void countFooter() throws InterruptedException {
+    public void countFooter(){
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = getWebDriverWait();
 
         WebElement footerTab = driver.findElement(By.xpath("//p[contains(text(),'Footers')]"));
         footerTab.click();
@@ -64,10 +51,10 @@ public class EntityFootersTest extends BaseTest {
     }
 
     @Test
-    public void aveFooter() throws InterruptedException{
+    public void aveFooter(){
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = getWebDriverWait();
 
         WebElement footerTab = driver.findElement(By.xpath("//p[contains(text(),'Footers')]"));
         footerTab.click();
@@ -123,7 +110,7 @@ public class EntityFootersTest extends BaseTest {
     public void saveFooter() throws InterruptedException{
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+        WebDriverWait wait = getWebDriverWait();
 
         WebElement footerTab = driver.findElement(By.xpath("//p[contains(text(),'Footers')]"));
         footerTab.click();
@@ -143,15 +130,16 @@ public class EntityFootersTest extends BaseTest {
         WebElement inputDec1 = driver.findElement(By.xpath("//textarea[@id='t-74-r-1-decimal']"));
         inputDec1.clear();
         inputDec1.sendKeys("2.2");
-        WebElement randomClick =  driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
+
+        WebElement randomClick = driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
         randomClick.click();
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-decimal']"),"2.2"));
 
-       // WebElement randomClick =  driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
         randomClick.click();
 
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"200,2.2"));
 
+        Thread.sleep(2000);
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
         saveButton.click();
 
@@ -162,22 +150,16 @@ public class EntityFootersTest extends BaseTest {
 
     @Ignore
     @Test
-    public void viewFooter() throws InterruptedException{
-
-
+    public void viewFooter(){
     }
 
     @Ignore
     @Test
-    public void editFooter() throws InterruptedException{
-
-
+    public void editFooter(){
     }
 
     @Ignore
     @Test
-    public void deleteFooter() throws InterruptedException{
-
-
+    public void deleteFooter(){
     }
 }
