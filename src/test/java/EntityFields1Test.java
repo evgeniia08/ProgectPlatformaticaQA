@@ -14,7 +14,6 @@ import runner.type.Run;
 import runner.type.RunType;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 @Run(run = RunType.Multiple)
@@ -24,12 +23,11 @@ public class EntityFields1Test extends BaseTest {
     public void newRecord() {
 
         final String title = UUID.randomUUID().toString();
-        ;
         final String comments = "TEST IT";
         final String int_ = "11";
         final String decimal = "0";
 
-        String[] record = {"", title, comments, int_, decimal, "", "", "", null, "", "menu"};
+        String[] record = {title, comments, int_, decimal, "", "", "", null, ""};
 
         FieldsPage fieldsPage = new MainPage(getDriver())
                 .clickMenuFields()
@@ -38,7 +36,7 @@ public class EntityFields1Test extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
-        record[8] = fieldsPage.getRow(0).get(8);
+        record[7] = fieldsPage.getRow(0).get(7);
         Assert.assertEquals(fieldsPage.getRow(0), Arrays.asList(record));
     }
 

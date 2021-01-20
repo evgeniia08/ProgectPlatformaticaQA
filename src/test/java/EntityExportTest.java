@@ -1,13 +1,11 @@
-import model.ExportEditPage;
-import model.ExportPage;
-import model.MainPage;
+import model.*;
+import model.ErrorPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -20,6 +18,8 @@ import java.util.List;
 
 @Run(run = RunType.Multiple)
 public class EntityExportTest extends BaseTest {
+    private static final String INVALID_ENTRY = "comments";
+    private static final String ERROR_MESSAGE = "error saving entity";
     private static final By BY_STRING = By.id("string");
     private static final By BY_TEXT = By.id("text");
     private static final By BY_INT = By.id("int");
@@ -267,13 +267,12 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
     }
 
-    @Ignore
     @Test
     public void negativeTestForInt() {
-        MainPage mainPage = new MainPage(getDriver());
-        ExportEditPage exportEditPage = mainPage.clickMenuExport().clickNewExportButton();
-        ExportPage exportPage = exportEditPage
-                .sendKeys("comments").clickSaveButton();
-        exportPage.getErrorMassage();
+        ErrorPage errorPage = new MainPage(getDriver()).clickMenuExport()
+                .clickNewFolder()
+                .fillInt(INVALID_ENTRY)
+                .clickSaveButtonErrorExpected();
+        Assert.assertEquals(errorPage.getErrorMessage(),ERROR_MESSAGE );
     }
 }

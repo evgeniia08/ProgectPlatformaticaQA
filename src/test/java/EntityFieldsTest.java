@@ -31,7 +31,6 @@ public class EntityFieldsTest extends BaseTest {
     private static final String NEW_DATE = "25/10/2018";
     private static final String NEW_DATE_TIME = "25/10/2018 08:22:05";
     private static final String INVALID_ENTRY = "a";
-    private static final String ERROR_MESSAGE = "error saving entity";
 
     private String randomUser = null;
     private String currentUser = null;
@@ -40,7 +39,7 @@ public class EntityFieldsTest extends BaseTest {
     public void createRecordTest() {
 
         currentUser = new MainPage(getDriver()).getCurrentUser();
-        final List<String> expectedValues = Arrays.asList("", TITLE, COMMENTS, INT, DECIMAL, DATE, DATE_TIME, "", currentUser, "", "menu");
+        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, INT, DECIMAL, DATE, DATE_TIME, "", currentUser, "");
 
         FieldsPage fieldsPage = new FieldsPage(getDriver())
                 .clickMenuFields()
@@ -62,7 +61,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "deleteRecordTest")
     public void createDraftTest() {
 
-        final List<String> expectedValues = Arrays.asList("", TITLE, COMMENTS, "0", "0", "", "", "", currentUser, "", "menu");
+        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0", "", "", "", currentUser, "");
 
         FieldsPage fieldsPage = new FieldsPage(getDriver())
                 .clickMenuFields()
@@ -80,12 +79,12 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "createRecordTest")
     public void editRecordTest() {
 
-        String[] expectedValues = {"", NEW_TITLE, NEW_COMMENTS, NEW_INT, NEW_DECIMAL, NEW_DATE, NEW_DATE_TIME, "", randomUser, "", "menu"};
+        String[] expectedValues = {NEW_TITLE, NEW_COMMENTS, NEW_INT, NEW_DECIMAL, NEW_DATE, NEW_DATE_TIME, "", randomUser, ""};
 
         MainPage mainPage = new MainPage(getDriver());
         FieldsEditPage fieldsEditsPage = mainPage.clickMenuFields().editRow(0);
 
-        randomUser = expectedValues[8] = fieldsEditsPage.getRandomUser();
+        randomUser = expectedValues[7] = fieldsEditsPage.getRandomUser();
         FieldsPage fieldsPage = fieldsEditsPage
                 .fillTitle(NEW_TITLE)
                 .fillComments(NEW_COMMENTS)
@@ -140,7 +139,7 @@ public class EntityFieldsTest extends BaseTest {
                 .fillInt(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
     }
 
     @Test
@@ -152,7 +151,7 @@ public class EntityFieldsTest extends BaseTest {
                 .fillDecimal(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
     }
 
     @Ignore
