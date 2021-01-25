@@ -28,17 +28,35 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//p[contains(text(), 'Export')]")
     private WebElement menuExport;
 
-    @FindBy(css = "#menu-list-parent>ul>li>a[href*='id=62")
+    @FindBy(css = "#menu-list-parent>ul>li>a[href*='id=62']")
     private WebElement menuEventsChain2;
 
     @FindBy(css = "#menu-list-parent>ul>li>a[href*='id=61']")
     private WebElement menuEventsChain1;
 
-    @FindBy(xpath = "//p[contains(text(),'Placeholder')]")
+    @FindBy(xpath = "//p[contains (text(), 'Default')]")
+    private WebElement menuDefault;
+
+    @FindBy(xpath = "//p[contains(text(),'Placeholder')]/preceding-sibling::i")
     private WebElement menuPlaceholder;
 
     @FindBy(xpath = "//p[contains(text(),'Platform functions')]")
     private WebElement menuPlatformFunctions;
+
+    @FindBy(xpath = "//p[contains(text(),'Board')]")
+    private WebElement menuBoard;
+
+    @FindBy(xpath = "//p[contains (text(), 'Init')]/parent::a")
+    private WebElement init;
+
+    @FindBy(xpath = "//p[contains(text(), 'Chevron')]")
+    private WebElement menuChevron;
+
+    @FindBy(xpath = "//p[contains(text(), 'Arithmetic Inline')]")
+    private WebElement menuArithmeticInline;
+
+    @FindBy(xpath = "//p[contains(text(), 'Reference values')]")
+    private WebElement menuReferenceValues;
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -59,7 +77,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public RecycleBinPage clickRecycleBin () {
+    public RecycleBinPage clickRecycleBin() {
         ProjectUtils.click(getWait(), recycleBinIcon);
         return new RecycleBinPage(getDriver());
     }
@@ -73,7 +91,7 @@ public class MainPage extends BasePage {
         clickMenu(menuImportValues);
         return new ImportValuesPage(getDriver());
     }
-  
+
     public Chain2Page clickMenuEventsChain2() {
         clickMenu(menuEventsChain2);
         return new Chain2Page(getDriver());
@@ -84,14 +102,24 @@ public class MainPage extends BasePage {
         return new ExportPage(getDriver());
     }
 
-    public Chain1Page clickMenuEventsChain1(){
+    public Chain1Page clickMenuEventsChain1() {
         clickMenu(menuEventsChain1);
         return new Chain1Page(getDriver());
     }
 
-    public PlaceholderPage clickMenuPlaceholder(){
+    public DefaultPage clickMenuDefault() {
+        clickMenu(menuDefault);
+        return new DefaultPage(getDriver());
+    }
+
+    public PlaceholderPage clickMenuPlaceholder() {
         clickMenu(menuPlaceholder);
         return new PlaceholderPage(getDriver());
+    }
+
+    public BoardPage clickMenuBoard() {
+        clickMenu(menuBoard);
+        return new BoardPage(getDriver());
     }
 
     public PlatformFuncPage clickMenuPlatformFunctions() {
@@ -99,4 +127,23 @@ public class MainPage extends BasePage {
         return new PlatformFuncPage(getDriver());
     }
 
+    public InitPage clickMenuInit() {
+        clickMenu(init);
+        return new InitPage(getDriver());
+    }
+
+    public ChevronPage clickMenuChevron() {
+        clickMenu(menuChevron);
+        return new ChevronPage(getDriver());
+    }
+
+    public ArithmeticInlinePage clickMenuArithmeticInline() {
+        clickMenu(menuArithmeticInline);
+        return new ArithmeticInlinePage(getDriver());
+    }
+
+    public ReferenceValuesPage clickMenuReferenceValues() {
+        clickMenu(menuReferenceValues);
+        return new ReferenceValuesPage(getDriver());
+    }
 }

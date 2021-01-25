@@ -54,4 +54,3 @@ public final class PlaceholderEditPage  extends BasePage{
         return new PlaceholderPage(getDriver());
     }
 }
-

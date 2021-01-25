@@ -38,4 +38,12 @@ public final class RecycleBinPage extends MainPage {
     public String getDeletedImportValue() {
         return rows.get(0).findElement(By.xpath("//td/a/span/b")).getText();
     }
+
+    public String getFirstCellValue( int rowNumber) {
+        return rows.get(rowNumber).findElement(By.xpath("//td[1]/a/span[1]/b")).getText();
+    }
+
+    public void clickDeletePermanently(int rowNumber){
+        rows.get(rowNumber).findElement(By.xpath("//a[contains (text(), 'delete permanently')]")).click();
+    }
 }

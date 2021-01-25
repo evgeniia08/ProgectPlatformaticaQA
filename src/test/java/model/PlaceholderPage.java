@@ -1,3 +1,4 @@
+
 package model;
 
 import org.openqa.selenium.WebDriver;
@@ -19,4 +20,3 @@ public final class PlaceholderPage extends BasePage{
         return new PlaceholderEditPage(getDriver());
     }
 }
-

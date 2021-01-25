@@ -1,6 +1,3 @@
-import model.MainPage;
-import model.PlaceholderEditPage;
-import model.PlaceholderPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,13 +35,20 @@ public class EntityPlaceholderTest extends BaseTest {
         String[] array = {null, TITLE, COMMENTS, INT_NUMBER, decimal, null, null, null, null, userSelected, null};
         WebDriver driver = getDriver();
 
-        MainPage mainPage = new MainPage(driver);
-        PlaceholderEditPage placeholderEditPage = mainPage.clickMenuPlaceholder().createNewRecord();
-
-        placeholderEditPage
-                .sendKeys(TITLE,COMMENTS,INT_NUMBER,decimal)
-                .selectUser()
-                .clickSaveButton();
+        ProjectUtils.click(driver, driver.findElement(placeholderButtonXpath));
+        ProjectUtils.click(driver, driver.findElement(createNewFolderXpath));
+        WebElement titleElement = driver.findElement(inputTitleXpath);
+        titleElement.sendKeys(TITLE);
+        WebElement commentsElement = driver.findElement(inputCommentsXpath);
+        commentsElement.sendKeys((COMMENTS));
+        WebElement numberElement = driver.findElement(inputIntNumberXpath);
+        numberElement.sendKeys(INT_NUMBER);
+        WebElement valueElement = driver.findElement(inputDecimalXpath);
+        valueElement.sendKeys(decimal);
+        WebElement userSelection = driver.findElement(By.xpath("//div[contains(text(),'Demo')]"));
+        ProjectUtils.click(driver, userSelection);
+        ProjectUtils.click(driver, driver.findElement(newUserSelectedXpath));
+        ProjectUtils.click(driver, driver.findElement(saveButtonXpath));
 
         List<WebElement> listOfRecords = driver.findElements(By.xpath("//tbody/tr"));
         List<WebElement> listOfValues = listOfRecords.get(0).findElements(By.xpath("//td"));
@@ -64,13 +68,20 @@ public class EntityPlaceholderTest extends BaseTest {
         String[] array = {null, TITLE, COMMENTS, INT_NUMBER, newDecimal, null, null, null, null, userSelected, null};
         WebDriver driver = getDriver();
 
-        MainPage mainPage = new MainPage(driver);
-        PlaceholderEditPage placeholderEditPage = mainPage.clickMenuPlaceholder().createNewRecord();
-
-        placeholderEditPage
-                .sendKeys(TITLE,COMMENTS,INT_NUMBER,newDecimal)
-                .selectUser()
-                .clickSaveButton();
+        ProjectUtils.click(driver, driver.findElement(placeholderButtonXpath));
+        ProjectUtils.click(driver, driver.findElement(createNewFolderXpath));
+        WebElement titleElement = driver.findElement(inputTitleXpath);
+        titleElement.sendKeys(TITLE);
+        WebElement commentsElement = driver.findElement(inputCommentsXpath);
+        commentsElement.sendKeys(COMMENTS);
+        WebElement numberElement = driver.findElement(inputIntNumberXpath);
+        numberElement.sendKeys(INT_NUMBER);
+        WebElement valueElement = driver.findElement(inputDecimalXpath);
+        valueElement.sendKeys(newDecimal);
+        WebElement userSelection = driver.findElement(By.xpath("//div[contains(text(),'Demo')]"));
+        ProjectUtils.click(driver, userSelection);
+        ProjectUtils.click(driver, driver.findElement(newUserSelectedXpath));
+        ProjectUtils.click(driver, driver.findElement(saveButtonXpath));
 
         List<WebElement> listOfRecords = driver.findElements(By.xpath("//tbody/tr"));
         List<WebElement> listOfValues = listOfRecords.get(0).findElements(By.xpath("//td"));
@@ -210,7 +221,7 @@ public class EntityPlaceholderTest extends BaseTest {
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
 
-        ProjectUtils.click(driver,driver.findElement(By.xpath("//p[contains(text(),'Placeholder')]")));
+        driver.findElement(By.xpath("//p[contains(text(),'Placeholder')]")).click();
         driver.findElement(By.xpath("//i[contains(text(),'create_new_folder')]")).click();
         driver.findElement(By.xpath("//input[@name='entity_form_data[string]']")).sendKeys(TITLE);
         driver.findElement(By.xpath("//textarea[@name='entity_form_data[text]']")).sendKeys("test");
@@ -260,5 +271,9 @@ public class EntityPlaceholderTest extends BaseTest {
                 Assert.assertEquals(listOfValues.get(i).getText(), array[i]);
             }
         }
+
     }
+
+
+
 }

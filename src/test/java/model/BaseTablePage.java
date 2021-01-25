@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +26,9 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
 
     @FindBy(xpath = "//table[@id='pa-all-entities-table']/tbody/tr")
     private List<WebElement> trs;
+
+    @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
+    private WebElement listButton;
 
     public BaseTablePage(WebDriver driver) {
         super(driver);
@@ -50,20 +53,23 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         }
     }
 
-    public WebElement getRowEntityIcon(int rowNumber) {
-        return getRows().get(rowNumber).findElement(By.cssSelector("td > i"));
+    public String getRowIconClass(int rowNumber) {
+        return getRows().get(rowNumber).findElement(By.cssSelector("td > i")).getAttribute("class");
     }
 
     public List<String> getRow(int rowNumber) {
-        return getRows().get(rowNumber).findElements(By.xpath("//td/a/div")).stream()
+        return getRow(rowNumber, "//td/a/div");
+    }
+
+    public List<String> getRow(int rowNumber, String xpath) {
+        return getRows().get(rowNumber).findElements(By.xpath(xpath)).stream()
                 .map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private void clickRowMenu(int rowNumber, By menu) {
-        trs.get(rowNumber).findElement(By.xpath("//td//div//button")).click();
 
-        WebElement menuElement = getWait().until(ExpectedConditions.visibilityOfElementLocated(menu));
-        getWait().until(ExpectedConditions.elementToBeClickable(menuElement)).click();
+    public void clickRowMenu(int rowNumber, By menu) {
+        trs.get(rowNumber).findElement(By.xpath("//td//div//button")).click();
+        getWait().until(TestUtils.movingIsFinished(menu)).click();
     }
 
     public BaseViewPage viewRow(int rowNumber) {
@@ -93,4 +99,8 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         return deleteRow(getRows().size() - 1);
     }
 
+    public BaseTablePage clickListButton() {
+        listButton.click();
+        return this;
+    }
 }

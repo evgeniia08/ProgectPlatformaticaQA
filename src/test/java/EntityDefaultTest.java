@@ -1,5 +1,12 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import model.DefaultEditPage;
+import model.DefaultPage;
+import model.MainPage;
+import model.RecycleBinPage;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -38,13 +45,6 @@ public class EntityDefaultTest extends BaseTest {
         }
     }
 
-    private static final By BY_STRING = By.id("string");
-    private static final By BY_TEXT = By.id("text");
-    private static final By BY_INT = By.id("int");
-    private static final By BY_DECIMAL = By.id("decimal");
-    private static final By BY_DATE = By.id("date");
-    private static final By BY_DATETIME = By.id("datetime");
-    private static final By BY_USER = By.xpath("//div[@id='_field_container-user']/div/button");
     private static final By BY_EMBEDD_STRING = By.xpath("//td/textarea[@id='t-11-r-1-string']");
     private static final By BY_EMBEDD_TEXT = By.xpath("//td/textarea[@id='t-11-r-1-text']");
     private static final By BY_EMBEDD_INT = By.xpath("//td/textarea[@id='t-11-r-1-int']");
@@ -54,11 +54,8 @@ public class EntityDefaultTest extends BaseTest {
     private static final By BY_EMBEDD_USER = By.xpath("//select[@id='t-11-r-1-user']/option[@value='0']");
     private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
     private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
-    private static final By BY_DROPDOWN = (By.xpath("//select[@id = 'user']"));
     private static final By BY_EMBEDD_DROPDOWN = By.xpath("//select[@id='t-11-r-1-user']");
     private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
-    private static final By BY_EDIT = By.xpath("//a[text() = 'edit']");
-    private static final By BY_DELETE = By.xpath("//a[text() = 'delete']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -110,9 +107,13 @@ public class EntityDefaultTest extends BaseTest {
             "30/12/2020 12:34:56",
             "user100@tester.com");
 
-    private final String[] NEW_VALUES = {null, newValues.fieldString, newValues.fieldText,
+    private final List<String> DEFAULT_VALUES = new ArrayList<>(Arrays.asList(defaultValues.fieldString, defaultValues.fieldText,
+            defaultValues.fieldInt, defaultValues.fieldDecimal,
+            defaultValues.fieldDate, defaultValues.fieldDateTime, defaultValues.fieldUser));
+
+    private final List<String> NEW_VALUES = new ArrayList<>(Arrays.asList("", newValues.fieldString, newValues.fieldText,
                   newValues.fieldInt, newValues.fieldDecimal,
-                  newValues.fieldDate, newValues.fieldDateTime, null, null, newValues.fieldUser, null};
+                  newValues.fieldDate, newValues.fieldDateTime, "", "", newValues.fieldUser, "menu"));
 
     private final String[] CHANGED_DEFAULT_VALUES = {changedDefaultValues.fieldString,
                    changedDefaultValues.fieldText, changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal,
@@ -142,17 +143,6 @@ public class EntityDefaultTest extends BaseTest {
         userSelect.selectByVisibleText(newValue);
     }
 
-    private void createDefaultRecord(WebDriver driver) {
-
-        driver.findElement(By.xpath("//a[@href='#menu-list-parent']")).click();
-        driver.findElement(By.xpath("//i/following-sibling::p[contains (text(), 'Default')]")).click();
-        WebElement createFolder = driver.findElement(By.xpath("//i[.='create_new_folder']/ancestor::a"));
-        ProjectUtils.click(driver,createFolder);
-
-        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
-        ProjectUtils.click(driver, saveBtn);
-    }
-
     private void selectFromRecordMenu (WebDriver driver, By byFunction) {
 
         driver.findElement(BY_RECORD_HAMBURGER_MENU).click();
@@ -163,7 +153,6 @@ public class EntityDefaultTest extends BaseTest {
 
     private void assertRecordValues(WebDriver driver, String xpath, String[] changed_default_values) {
         List<WebElement> rows = driver.findElements(By.xpath(xpath));
-        Assert.assertEquals(rows.size(), changed_default_values.length);
         for (int i = 0; i < changed_default_values.length; i++) {
             if (changed_default_values[i] != null) {
                 Assert.assertEquals(rows.get(i).getText(), changed_default_values[i]);
@@ -176,18 +165,16 @@ public class EntityDefaultTest extends BaseTest {
 
         WebDriver driver = getDriver();
 
-        driver.findElement(By.xpath("//p[contains (text(), 'Default')]")).click();
+        MainPage mainPage = new MainPage(getDriver());
+        DefaultEditPage defaultEditPage = mainPage
+                .clickMenuDefault()
+                .clickNewFolder();
 
-        WebElement createFolder = driver.findElement(By.xpath("//i[.='create_new_folder']/ancestor::a"));
-        ProjectUtils.click(driver, createFolder);
+        Assert.assertEquals(defaultEditPage.toList(), DEFAULT_VALUES);
 
-        assertAndReplace(driver, BY_STRING, defaultValues.fieldString, changedDefaultValues.fieldString, false);
-        assertAndReplace(driver, BY_TEXT, defaultValues.fieldText, changedDefaultValues.fieldText, false);
-        assertAndReplace(driver, BY_INT, defaultValues.fieldInt, changedDefaultValues.fieldInt, false);
-        assertAndReplace(driver, BY_DECIMAL, defaultValues.fieldDecimal, changedDefaultValues.fieldDecimal, false);
-        assertAndReplace(driver, BY_DATE, defaultValues.fieldDate, changedDefaultValues.fieldDate, false);
-        assertAndReplace(driver, BY_DATETIME, defaultValues.fieldDateTime, changedDefaultValues.fieldDateTime, false);
-        assertAndReplaceFieldUser(driver, defaultValues.fieldUser, changedDefaultValues.fieldUser, BY_USER, BY_DROPDOWN);
+
+        defaultEditPage.sendKeys(changedDefaultValues.fieldString, changedDefaultValues.fieldText, changedDefaultValues.fieldInt,
+                changedDefaultValues.fieldDecimal, changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime, changedDefaultValues.fieldUser);
 
         WebElement createEmbedD = driver.findElement(By.xpath("//button[@data-table_id='11']"));
         ProjectUtils.click(driver, createEmbedD);
@@ -219,55 +206,39 @@ public class EntityDefaultTest extends BaseTest {
     @Test (dependsOnMethods = "checkDefaultValuesAndUpdate")
     public void deleteRecord() {
 
-        WebDriver driver = getDriver();
+        MainPage mainPage  = new MainPage(getDriver());
+        DefaultPage defaultPage = mainPage.clickMenuDefault();
 
-        WebElement defaultBtn = driver.findElement(By.xpath("//p[contains(text(),' Default ')]"));
-        ProjectUtils.click(driver,defaultBtn);
+        defaultPage.deleteRow();
 
-        WebElement firstColumn = driver.findElement(By.xpath("//table/tbody/tr/td[2]"));
-        Assert.assertEquals(firstColumn.getText(),changedDefaultValues.fieldString);
+        Assert.assertEquals(defaultPage.getRowCount(), 0);
 
-        selectFromRecordMenu(driver, BY_DELETE);
+        RecycleBinPage recycleBinPage = mainPage.clickRecycleBin();
 
-        Assert.assertEquals(driver.findElement(By.className("card-body")).getText(), "");
+        Assert.assertEquals(recycleBinPage.getRowCount(), 1);
+        Assert.assertEquals(recycleBinPage.getFirstCellValue(0), changedDefaultValues.fieldString);
 
-        WebElement recycleBin = driver.findElement(By.xpath("//i[contains(text(),'delete_outline')]"));
-        ProjectUtils.click(driver, recycleBin);
-
-        WebElement deletedRecord = driver.findElement(By.xpath(String.format("//b[contains(text(),'%s')]",
-                                                                             changedDefaultValues.fieldString)));
-        Assert.assertEquals(deletedRecord.getText(), changedDefaultValues.fieldString);
-
-        WebElement deletePermanently = driver.findElement(By.xpath("//a[contains (text(), 'delete permanently')]"));
-        deletePermanently.click();
+        recycleBinPage.clickDeletePermanently(0);
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
     }
 
     @ Test (dependsOnMethods = "deleteRecord")
     public void editExistingRecord() {
 
-        WebDriver driver = getDriver();
+        MainPage mainPage = new MainPage(getDriver());
+        DefaultPage defaultPage = mainPage
+                .clickMenuDefault()
+                .clickNewFolder()
+                .clickSaveButton();
 
-        driver.findElement(By.xpath("//p[contains(text(), 'Default')]")).click();
+        DefaultEditPage defaultEditPage = defaultPage.editRow(0);
 
-        createDefaultRecord(driver);
+        defaultEditPage.sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
+                newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser);
 
-        selectFromRecordMenu(driver, BY_EDIT);
+        defaultPage = defaultEditPage.clickSaveButton();
+        Assert.assertEquals(defaultPage.getRowCount(), 1);
 
-        assertAndReplace(driver, BY_STRING, defaultValues.fieldString, newValues.fieldString, false);
-        assertAndReplace(driver, BY_TEXT, defaultValues.fieldText, newValues.fieldText, false);
-        assertAndReplace(driver, BY_INT, defaultValues.fieldInt, newValues.fieldInt, false);
-        assertAndReplace(driver, BY_DECIMAL, defaultValues.fieldDecimal, newValues.fieldDecimal,false );
-        assertAndReplace(driver, BY_DATE, defaultValues.fieldDate, newValues.fieldDate,false );
-        assertAndReplace(driver, BY_DATETIME, defaultValues.fieldDateTime, newValues.fieldDateTime, false);
-        Select userSelect = new Select(driver.findElement(By.xpath("//select[@id = 'user']")));
-        userSelect.selectByVisibleText(newValues.fieldUser);
-
-        WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
-        ProjectUtils.click(driver, saveButton);
-
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr"));
-        Assert.assertEquals(rows.size(), 1);
-
-        assertRecordValues(driver, "//table/tbody/tr/td", NEW_VALUES);
+        Assert.assertEquals(defaultPage.getRow(0, "//td"), NEW_VALUES);
     }
 }

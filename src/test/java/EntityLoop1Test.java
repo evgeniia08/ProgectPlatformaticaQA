@@ -93,7 +93,7 @@ public class EntityLoop1Test extends BaseTest {
     }
 
     @Ignore("The test is good, but too long. Let it be ignored until we switch to parallel execution")
-    @Test (dependsOnMethods = {"newLoop1", "viewLoop1"})
+    @Test (dependsOnMethods = "viewLoop1")
     public void editLoop1() throws InterruptedException {
         WebDriver driver = getDriver();
         ProjectUtils.click(driver, driver.findElement(LOOP1_ENTITY));
@@ -113,7 +113,7 @@ public class EntityLoop1Test extends BaseTest {
     }
 
     @Ignore("The test is good, but too long. Let it be ignored until we switch to parallel execution")
-    @Test (dependsOnMethods = {"newLoop1", "viewLoop1", "editLoop1"})
+    @Test (dependsOnMethods = "editLoop1")
     public void deleteLoop1() {
         WebDriver driver = getDriver();
         ProjectUtils.click(driver, driver.findElement(LOOP1_ENTITY));

@@ -22,7 +22,7 @@ public class EntityCalendarTest extends BaseTest {
     private static final String TITLE_FIELD_NEW = UUID.randomUUID().toString();
 
     @Test
-    public void newCalendar() throws InterruptedException {
+    public void newCalendar() {
 
         WebDriver driver = getDriver();
 
@@ -62,7 +62,7 @@ public class EntityCalendarTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "newCalendar")
-    public void editCalendar() throws InterruptedException {
+    public void editCalendar() {
 
         WebDriver driver = getDriver();
 
@@ -80,7 +80,7 @@ public class EntityCalendarTest extends BaseTest {
         clickEdit.click();
 
         WebElement str =
-                getWebDriverWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='string']")));
+                getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='string']")));
         str.clear();
         ProjectUtils.sendKeys(str,"New Record");
 

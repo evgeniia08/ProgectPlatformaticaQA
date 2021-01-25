@@ -1,10 +1,8 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.*;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 
@@ -14,84 +12,96 @@ import java.util.List;
 @Run(run = RunType.Multiple)
 public class EntityArithmeticInTest extends BaseTest {
 
-    private static final String NUM_1 = "8";
-    private static final String NUM_2 = "2";
+    private static final String NUM_1 = "20";
+    private static final String NUM_2 = "5";
+    private static final String SUM = "25";
+    private static final String SUB = "15";
+    private static final String MUL = "100";
+    private static final String DIV = "4";
+    private static final String NUMERIC_CHAR ="5";
     private static final String ALPHABETIC_CHAR ="t";
     private static final String ERROR_MESSAGE ="error saving entity";
 
-    @Test
-    public void newIntRecord() {
+    @DataProvider(name = "positiveTestData")
+    private Object[][] testData1() {
+        return new Object[][] {
+                {"8", "2", "10", "6", "16", "4"},
+                {"8", "-2", "6", "10", "-16", "-4"},
+                {"-8", "2", "-6", "-10", "-16", "-4"},
+                {"-8", "-2", "-10", "-6", "16", "4"}
+        };
+    }
 
-        final String SUM = "10";
-        final String SUB = "6";
-        final String MUL = "16";
-        final String DIV = "4";
+    @DataProvider(name = "negativeTestData")
+    private Object[][] testData2() {
+        return new Object[][] {
+                {NUMERIC_CHAR, ALPHABETIC_CHAR},
+                {ALPHABETIC_CHAR, NUMERIC_CHAR}
+        };
+    }
+
+    @Test
+    public void createRecordTest() {
+
         final List<String> expectedValues = Arrays.asList(NUM_1, NUM_2, SUM, SUB, MUL, DIV);
 
-        WebDriver driver = getDriver();
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .clickNewFolder()
+                .fillF1F2(NUM_1, NUM_2)
+                .waitSumToBe(SUM)
+                .waitSubToBe(SUB)
+                .waitMulToBe(MUL)
+                .waitDivToBe(DIV)
+                .clickSaveButton();
 
-        WebElement elementArithmetic = driver.findElement(By.xpath("//p[contains(text(), 'Arithmetic Inline')]"));
-        ProjectUtils.click(driver, elementArithmetic);
-        ProjectUtils.click(getWebDriverWait(), driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")));
-
-        driver.findElement(By.xpath("//input[@id = 'f1']")).sendKeys(NUM_1);
-        driver.findElement(By.xpath("//input[@id = 'f2']")).sendKeys(NUM_2);
-        getWebDriverWait().until(d -> !driver.findElement(By.cssSelector("input#div")).getAttribute("value").equals(""));
-
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#sum")).getAttribute("value"), SUM);
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#sub")).getAttribute("value"), SUB);
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#mul")).getAttribute("value"), MUL);
-        Assert.assertEquals(driver.findElement(By.cssSelector("input#div")).getAttribute("value"), DIV);
-
-        ProjectUtils.click(driver, driver.findElement(By.cssSelector("button[id*=save]")));
-
-        List<WebElement> rows  = driver.findElements(By.cssSelector("tbody tr"));
-        Assert.assertEquals(rows.size(), 1);
-        for (int i = 0; i < expectedValues.size(); i++) {
-            Assert.assertEquals(rows.get(0).findElement(By.xpath(String.format("//td[%d]", i + 2))).getText(), expectedValues.get(i));
-        }
-
-        rows.get(0).findElement(By.tagName("button")).click();
-        ProjectUtils.click(driver, rows.get(0).findElement(By.cssSelector("ul a")));
-
-        for (int i = 0; i < expectedValues.size(); i++) {
-            String actualValue = driver.findElement(By.xpath(String.format("//div[@class='row']//div[%d]/div/span", i + 1))).getText();
-            Assert.assertEquals(actualValue, expectedValues.get(i));
-        }
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), 1);
+        Assert.assertEquals(arithmeticInlinePage.getRow(0), expectedValues);
+        Assert.assertEquals(arithmeticInlinePage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
-    @Test(dependsOnMethods = "newIntRecord")
-    public void invalidF1Entry() {
+    @Test(dependsOnMethods = "createRecordTest")
+    public void deleteRecordTest() {
 
-        WebDriver driver = getDriver();
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .deleteRow();
 
-        WebElement elementArithmetic = driver.findElement(By.xpath("//p[contains(text(), 'Arithmetic Inline')]"));
-        ProjectUtils.click(driver, elementArithmetic);
-
-        driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")).click();
-        driver.findElement(By.cssSelector("input#f1")).sendKeys(ALPHABETIC_CHAR);
-        driver.findElement(By.cssSelector("input#f2")).sendKeys(NUM_2);
-        driver.findElement(By.cssSelector("button[id*=save]")).click();
-
-        WebElement error = driver.findElement(By.tagName("body"));
-        Assert.assertEquals(error.getText(), ERROR_MESSAGE);
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), 0);
+        Assert.assertEquals(arithmeticInlinePage.clickRecycleBin().getDeletedEntityContent(),
+                (String.format("F1: %sF2: %sSUM: %sSUB: %sMUL: %sDIV: %s", NUM_1, NUM_2, SUM, SUB, MUL, DIV)));
     }
 
-    @Test(dependsOnMethods = "invalidF1Entry")
-    public void invalidF2Entry() {
+    @Test(dependsOnMethods = "deleteRecordTest", dataProvider = "positiveTestData")
+    public void parametrizedCreateRecordTest(String num_1, String num_2, String sum, String sub, String mul, String div) {
 
-        WebDriver driver = getDriver();
+        final List<String> expectedValues = Arrays.asList(num_1, num_2, sum, sub, mul, div);
 
-        WebElement elementArithmetic = driver.findElement(By.xpath("//p[contains(text(), 'Arithmetic Inline')]"));
-        ProjectUtils.click(driver, elementArithmetic);
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline();
+        int rowCount = arithmeticInlinePage.getRowCount();
 
-        driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")).click();
-        driver.findElement(By.cssSelector("input#f1")).sendKeys(NUM_1);
-        driver.findElement(By.cssSelector("input#f2")).sendKeys(ALPHABETIC_CHAR);
-        driver.findElement(By.cssSelector("button[id*=save]")).click();
+        arithmeticInlinePage
+                .clickNewFolder()
+                .fillF1F2(num_1, num_2)
+                .waitSumToBe(sum)
+                .waitSubToBe(sub)
+                .waitMulToBe(mul)
+                .waitDivToBe(div)
+                .clickSaveButton();
 
-        WebElement error = driver.findElement(By.tagName("body"));
-        Assert.assertEquals(error.getText(), ERROR_MESSAGE);
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), rowCount + 1);
+        Assert.assertEquals(arithmeticInlinePage.getRow(rowCount), expectedValues);
     }
 
+    @Test(dependsOnMethods = "parametrizedCreateRecordTest", dataProvider = "negativeTestData")
+    public void invalidEntryTest(String f1Value, String f2Value) {
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .clickNewFolder()
+                .fillF1F2(f1Value, f2Value)
+                .clickSaveButtonErrorExpected()
+                .getErrorMessage(), ERROR_MESSAGE);
+    }
 }

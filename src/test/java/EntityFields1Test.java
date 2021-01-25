@@ -1,78 +1,58 @@
-import model.FieldsPage;
-import model.MainPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import model.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
-
-import java.util.Arrays;
 import java.util.UUID;
 
 @Run(run = RunType.Multiple)
 public class EntityFields1Test extends BaseTest {
 
+    private static final String TITLE = UUID.randomUUID().toString();
+    private static final String COMMENT = "NEW RECORD";
+    private static final String INT_ = "11";
+    private static final String NEW_TITLE = UUID.randomUUID().toString();
+    private static final String NEW_COMMENT = "EDIT RECORD";
+    private static final String NEW_INT_ = "1996";
+
     @Test
-    public void newRecord() {
+    public void createRecord() {
 
-        final String title = UUID.randomUUID().toString();
-        final String comments = "TEST IT";
-        final String int_ = "11";
-        final String decimal = "0";
+        Fields1Page fieldsPage1 = new Main1Page(getDriver())
+                .clickFields()
+                .clickCreateNewFolder()
+                .sendKeys(TITLE,COMMENT, INT_)
+                .clickSaveBtn();
 
-        String[] record = {title, comments, int_, decimal, "", "", "", null, ""};
-
-        FieldsPage fieldsPage = new MainPage(getDriver())
-                .clickMenuFields()
-                .clickNewFolder()
-                .sendKeys(title, comments, int_, decimal, "", "")
-                .clickSaveButton();
-
-        Assert.assertEquals(fieldsPage.getRowCount(), 1);
-        record[7] = fieldsPage.getRow(0).get(7);
-        Assert.assertEquals(fieldsPage.getRow(0), Arrays.asList(record));
+        Assert.assertEquals(fieldsPage1.getRowCount(), 1);
+        Assert.assertEquals(fieldsPage1.getTitleText(), TITLE);
+        Assert.assertEquals(fieldsPage1.getCommentsText(), COMMENT);
+        Assert.assertEquals(fieldsPage1.getInt_Text(), INT_);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "newRecord")
-    public void editRecord() throws InterruptedException {
+    @Test(dependsOnMethods = "createRecord")
+    public void editRecord() {
 
-        final String newTitle = UUID.randomUUID().toString();
-        final String newComments = "EDIT fields";
-        final int newInt = 12;
+        Fields1Page fields1Page = new Main1Page(getDriver())
+                .clickFields()
+                .clickEditRecord()
+                .sendKeys(NEW_TITLE, NEW_COMMENT, NEW_INT_)
+                .clickSaveBtn();
 
-        WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 4);
+        Assert.assertEquals(fields1Page.getRowCount(), 1);
+        Assert.assertEquals(fields1Page.getTitleText(), NEW_TITLE);
+        Assert.assertEquals(fields1Page.getCommentsText(), NEW_COMMENT);
+        Assert.assertEquals(fields1Page.getInt_Text(), NEW_INT_);
+    }
 
-        WebElement tab = driver.findElement(By.xpath("//li[@id = 'pa-menu-item-45']"));
-        tab.click();
-        WebElement tab1 = driver.findElement(By.xpath("//div[@class = 'dropdown pull-left']"));
-        tab1.click();
-        WebElement edit = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, 'edit')]")));
-        edit.click();
+    @Test(dependsOnMethods = "editRecord")
+    public void deleteRecord() {
 
-        WebElement first = driver.findElement(By.xpath("//input[contains(@name, 'title')]"));
-        first.clear();
-        ProjectUtils.sendKeys(first, newTitle);
-        WebElement second = driver.findElement(By.xpath("//textarea[@id = 'comments']"));
-        second.clear();
-        ProjectUtils.sendKeys(second, newComments);
-        WebElement tri = driver.findElement(By.xpath("//input[contains(@name, 'int')]"));
-        tri.clear();
-        ProjectUtils.sendKeys(tri, newInt);
+        Fields1Page fields1Page = new Main1Page(getDriver())
+                .clickFields()
+                .clickDeleteRecord();
 
-        WebElement button2 = driver.findElement(By.xpath("//button[text() = 'Save']"));
-        ProjectUtils.click(driver, button2);
-
-        WebElement butt3 = driver.findElement(By.xpath("//div[contains(text() , '" + newTitle + "')]"));
-
-        Assert.assertEquals(butt3.getText(), newTitle);
+        Assert.assertEquals(fields1Page.getRowCount(), 0);
     }
 }

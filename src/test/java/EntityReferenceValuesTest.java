@@ -1,101 +1,177 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.MainPage;
+import model.ReferenceValuesPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.type.Run;
+import runner.type.RunType;
+
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
-
+@Run(run = RunType.Multiple)
 public class EntityReferenceValuesTest extends BaseTest {
-    final String LABEL = UUID.randomUUID().toString();
-    final String FILTER_1 = "Filter 1";
-    final String FILTER_2 = "Filter 2";
 
-    void clickReferenceValue(WebDriver driver) {
-        WebElement referenceValuesMenuBtn = driver.findElement(By.xpath("//i/following-sibling::p[contains (text(), 'Reference values')]"));
-        referenceValuesMenuBtn.click();
-    }
-
-    void createNewReferenceValueBtn(WebDriver driver) {
-        WebElement createNewReferenceValueBtn = driver.findElement(By.xpath("//div[@class='card-icon']"));
-        createNewReferenceValueBtn.click();
-    }
-
-    void fillUpValues(WebDriver driver, String label, String filter_1, String filter_2) {
-        WebElement labelField = driver.findElement(By.xpath("//input[@data-field_name='label']"));
-        WebElement filter1 = driver.findElement(By.xpath("//input[@data-field_name='filter_1']"));
-        WebElement filter2 = driver.findElement(By.xpath("//input[@data-field_name='filter_2']"));
-        labelField.sendKeys(label);
-        filter1.sendKeys(filter_1);
-        filter2.sendKeys(filter_2);
-    }
-
-    void clickSaveButton(WebDriver driver) {
-        WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
-        ProjectUtils.click(driver, saveButton);
-    }
-
-    void clickSaveDraftButton(WebDriver driver) {
-        WebElement saveDraftButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-draft-btn']"));
-        ProjectUtils.click(driver, saveDraftButton);
-    }
+    private static final String LABEL = ProjectUtils.createUUID();
+    private static final String FILTER_1 = ProjectUtils.createUUID();
+    private static final String FILTER_2 = ProjectUtils.createUUID();
+    private static final String LABEL_EDITED = "Edited Label";
+    private static final String FILTER_1_EDITED = "Edited Filter 1";
+    private static final String FILTER_2_EDITED = "Edited Filter 2";
+    private static final String DRAFT_LABEL = ProjectUtils.createUUID();
+    private static final String DRAFT_FILTER_1 = ProjectUtils.createUUID();
+    private static final String DRAFT_FILTER_2 = ProjectUtils.createUUID();
+    private static final String DRAFT_LABEL_EDITED = "Edited Draft Label";
+    private static final String DRAFT_FILTER_1_EDITED = "Edited Draft Filter 1";
+    private static final String DRAFT_FILTER_2_EDITED = "Edited Draft Filter 2";
+    private static final String RECORD_ICON_CLASS = AppConstant.RECORD_ICON_CLASS;
+    private static final String DRAFT_ICON_CLASS = AppConstant.DRAFT_ICON_CLASS;
 
     @Test
-    public void newRecordTest() {
+    public void createRecordTest() {
 
-        WebDriver driver = getDriver();
-        String[] expectedData = {null, LABEL, FILTER_1, FILTER_2, null};
-        clickReferenceValue(driver);
-        createNewReferenceValueBtn(driver);
-        fillUpValues(driver, LABEL, FILTER_1, FILTER_2);
-        clickSaveButton(driver);
+        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
 
-        List<WebElement> rows = driver.findElements(By.xpath("//tbody/tr"));
-        Assert.assertEquals(rows.size(), 1);
-        List<WebElement> columns = rows.get(0).findElements(By.tagName("td"));
-        Assert.assertEquals(columns.size(), expectedData.length);
-        for (int i = 0; i < columns.size(); i++) {
-            if (expectedData[i] != null) {
-                Assert.assertEquals(columns.get(i).getText(), expectedData[i]);
-            }
-        }
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .clickNewFolder()
+                .fillData(LABEL, FILTER_1, FILTER_2)
+                .clickSaveButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
     }
 
-    @Test
-    public void newRecordEmptyFieldsTest() {
+    @Test(dependsOnMethods = "createRecordTest")
+    public void viewRecordTest() {
 
-        WebDriver driver = getDriver();
-        String[] expectedData = {null, "", "", "", null};
-        clickReferenceValue(driver);
-        createNewReferenceValueBtn(driver);
-        clickSaveButton(driver);
+        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
 
-
-        List<WebElement> rows = driver.findElements(By.xpath("//tbody/tr"));
-        Assert.assertEquals(rows.size(), 1);
-        List<WebElement> columns = rows.get(0).findElements(By.tagName("td"));
-        Assert.assertEquals(columns.size(), expectedData.length);
-        for (int i = 0; i < columns.size(); i++) {
-            if (expectedData[i] != null) {
-                Assert.assertEquals(columns.get(i).getText(), expectedData[i]);
-            }
-        }
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .viewRow()
+                .getReferenceValues(), expectedValues);
     }
 
-    @Test
-    public void saveAsDraftTest() {
+    @Test(dependsOnMethods = "viewRecordTest")
+    public void editRecordTest() {
 
-        WebDriver driver = getDriver();
-        clickReferenceValue(driver);
-        createNewReferenceValueBtn(driver);
-        fillUpValues(driver, LABEL, FILTER_1, FILTER_2);
-        clickSaveDraftButton(driver);
+        List<String> expectedValues = Arrays.asList(LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED);
 
-        //validation
-        Assert.assertTrue(driver.findElement(By.xpath("//tr[@data-index='0']//i[contains(@class, 'fa fa-pencil')]")).isDisplayed());
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .editRow(0)
+                .fillData(LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED)
+                .clickSaveButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
     }
 
+    @Test(dependsOnMethods = "editRecordTest")
+    public void deleteRecordTest() {
+
+        String deletedReferenceValueRecord = String.format("Label: %sFilter 1: %sFilter 2: %s",
+                LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED);
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .deleteRow()
+                .getRowCount(), 0);
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickRecycleBin()
+                .getDeletedEntityContent(0), deletedReferenceValueRecord);
+    }
+
+    @Test(dependsOnMethods = "deleteRecordTest")
+    public void createDraftTest() {
+
+        List<String> expectedValues = Arrays.asList(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2);
+
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .clickNewFolder()
+                .fillData(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2)
+                .clickSaveDraftButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = "createDraftTest")
+    public void viewDraftTest() {
+
+        List<String> expectedValues = Arrays.asList(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2);
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .viewRow()
+                .getReferenceValues(), expectedValues);
+    }
+
+    @Test(dependsOnMethods = "viewDraftTest")
+    public void editDraftTest() {
+
+        List<String> expectedValues = Arrays.asList(DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED);
+
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .editRow(0)
+                .fillData(DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED)
+                .clickSaveDraftButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = "editDraftTest")
+    public void deleteDraftTest() {
+
+        String deletedReferenceValueDraft = String.format("Label: %sFilter 1: %sFilter 2: %s",
+                DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED);
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuReferenceValues()
+                .deleteRow()
+                .getRowCount(), 0);
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickRecycleBin()
+                .getDeletedEntityContent(0), deletedReferenceValueDraft);
+    }
+
+    @Test(dependsOnMethods = "deleteDraftTest")
+    public void saveRecordAsDraftTest() {
+
+        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
+
+        createRecordTest();
+
+        ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver()).editRow().clickSaveDraftButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = "saveRecordAsDraftTest")
+    public void saveDraftAsRecordTest() {
+
+        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
+
+        ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver())
+                .clickMenuReferenceValues()
+                .editRow()
+                .clickSaveButton();
+
+        Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
+        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
+    }
 }

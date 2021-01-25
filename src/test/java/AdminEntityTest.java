@@ -130,14 +130,13 @@ public class AdminEntityTest extends BaseTest {
                     (By.xpath("//button[@id='pa-entity-form-save-btn']"))).click();
         } while (isUnableCreateApp());
 
-        String congrats = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='card-body ']//h3[1]"))).getText();
+        String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
         Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
 
         app_name = entity_values[0];
 
         final String admin_password = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[@class='card-body ']//h4[2]/b"))).getText();
+                (By.xpath("//div[contains(@class,'card-body')]//h4[2]/b"))).getText();
 
         driver.get(String.format("https://%s.eteam.work", entity_values[0]));
         WebElement login_element = driver.findElement(By.xpath("//input[@name='login_name']"));
@@ -177,7 +176,7 @@ public class AdminEntityTest extends BaseTest {
         }
     }
 
-    @Test (dependsOnMethods = {"createApplicationTest", "createEntityTest"})
+    @Test (dependsOnMethods = "createEntityTest")
     public void createRecordsTest() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
@@ -199,7 +198,7 @@ public class AdminEntityTest extends BaseTest {
         assertEntityRecords (entity_record);
     }
 
-    @Test (dependsOnMethods = {"createApplicationTest", "createEntityTest", "createRecordsTest"})
+    @Test (dependsOnMethods = "createRecordsTest")
     public void recordActionsTest() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 

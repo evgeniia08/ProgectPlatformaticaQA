@@ -7,20 +7,20 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlatformFuncPage extends BaseTablePage<PlatformFuncPage, PlatformFuncEditPage> {
+public class ReferenceValuesPage extends BaseTablePage<ReferenceValuesPage, ReferenceValuesEditPage> {
 
-    public PlatformFuncPage(WebDriver driver) {
+    public ReferenceValuesPage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    protected PlatformFuncEditPage createEditPage() {
-        return new PlatformFuncEditPage(getDriver());
+    protected ReferenceValuesEditPage createEditPage() {
+        return new ReferenceValuesEditPage(getDriver());
     }
 
     @Override
     public List<String> getRow(int rowNumber) {
         return getRows().get(rowNumber).findElements(By.tagName("td")).stream()
-                .map(WebElement::getText).collect(Collectors.toList()).subList(1,4);
+                .map(WebElement::getText).collect(Collectors.toList()).subList(1, 4);
     }
 }
