@@ -71,6 +71,9 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//p[contains(text(),'Calendar')]")
     private WebElement menuCalendar;
 
+    @FindBy(xpath = "//p[contains(text(),'Parent')]")
+    private WebElement menuParent;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -179,5 +182,10 @@ public class MainPage extends BasePage {
     public CalendarPage clickMenuCalendar() {
         clickMenu(menuCalendar);
         return new CalendarPage(getDriver());
+    }
+
+    public ParentPage clickMenuParent() {
+        clickMenu(menuParent);
+        return new ParentPage(getDriver());
     }
 }
