@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,7 +23,6 @@ public abstract class BaseEditPage<TablePage> extends BasePage {
     protected abstract TablePage createPage();
 
     public TablePage clickSaveButton() {
-        WebElement saveButton = getDriver().findElement(By.id("pa-entity-form-save-btn"));
         ProjectUtils.scroll(getDriver(), saveButton);
         ProjectUtils.click(getWait(), saveButton);
         return createPage();
