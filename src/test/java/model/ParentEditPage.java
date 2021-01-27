@@ -58,14 +58,6 @@ public final class ParentEditPage extends BaseEditPage<ParentPage> {
         return this;
     }
 
-//    public ParentEditPage selectUser(String user) {
-//        ProjectUtils.scroll(getDriver(), inputUser);
-//        Select dropUser = new Select(inputUser);
-//        dropUser.selectByVisibleText(user);
-//
-//        return this;
-//    }
-
     public ParentPage clickSaveButton() {
         ProjectUtils.click(getDriver(), buttonSave);
 

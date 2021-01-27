@@ -62,4 +62,15 @@ public class EntityParentTest extends BaseTest {
         Assert.assertEquals(parentPage.getNumberText(), EDIT_INT);
         Assert.assertEquals(parentPage.getNumber1Text(), EDIT_DECIMAL);
     }
+    @Ignore
+    @Test(dependsOnMethods = {"createParent, editParent"})
+    public void deleteParent() {
+
+        ParentPage parentPage = new MainPage(getDriver())
+                .clickMenuParent()
+                .deleteRow();
+
+        Assert.assertEquals(parentPage.getRowCount(), 0);
+    }
 }
+
