@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -25,7 +26,9 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
+    private static final String PRIMARY_LANGUAGE = "German";
     private String[] app_values = new String[7];
+
 
     private Boolean isUnableCreateApp() {
         return getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -52,6 +55,21 @@ public class MarketplaceInstanceTest extends BaseTest {
             getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
         } while (isUnableCreateApp());
         return instance_values;
+    }
+
+    private void createInstance(WebDriver driver, String name, String subDomain, String primaryLanguage) throws InterruptedException {
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
+                (By.id("name")));
+         ProjectUtils.fill(getWebDriverWait(), driver.findElement(By.id("name")), name);
+         ProjectUtils.fill(getWebDriverWait(), driver.findElement(By.id("subdomain")), name);
+
+         Select drop = new Select(driver.findElement(By.id("primary_language")));
+         drop.selectByVisibleText(primaryLanguage);
+         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
+
+
     }
 
     private void actionsClick(WebDriver driver, int record_index, String mode) {
@@ -111,7 +129,6 @@ public class MarketplaceInstanceTest extends BaseTest {
     @Test
     public void instanceCancelTest() throws InterruptedException {
         WebDriver driver = getDriver();
-
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
         WebElement app_name = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -237,5 +254,11 @@ public class MarketplaceInstanceTest extends BaseTest {
         actionsClick(driver, 0, "delete");
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
+    }
+
+    @Test
+    public void ascOrder() throws InterruptedException {
+        WebDriver driver = getDriver();
+        createInstance(driver, "zzzz", "zzzz", PRIMARY_LANGUAGE);
     }
 }
