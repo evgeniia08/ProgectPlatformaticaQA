@@ -1,13 +1,11 @@
-import model.ExportEditPage;
-import model.ExportPage;
-import model.MainPage;
+import model.*;
+import model.ErrorPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -20,6 +18,8 @@ import java.util.List;
 
 @Run(run = RunType.Multiple)
 public class EntityExportTest extends BaseTest {
+    private static final String INVALID_ENTRY = "comments";
+    private static final String ERROR_MESSAGE = "error saving entity";
     private static final By BY_STRING = By.id("string");
     private static final By BY_TEXT = By.id("text");
     private static final By BY_INT = By.id("int");
@@ -37,7 +37,7 @@ public class EntityExportTest extends BaseTest {
     public String exportInt = "1234";
     public String exportDec = "23.34";
     public String User = "User 1";
-    public String tablString = "abc";
+    public String tableString = "abc";
     public String tableTex = "abc123";
     public String tableInt = "124";
     public String tableDec = "34.56";
@@ -86,7 +86,7 @@ public class EntityExportTest extends BaseTest {
 
         driver.findElement(By.id("t-23-r-1-string")).click();
         driver.findElement(By.id("t-23-r-1-string")).clear();
-        driver.findElement(By.id("t-23-r-1-string")).sendKeys(tablString);
+        driver.findElement(By.id("t-23-r-1-string")).sendKeys(tableString);
 
         driver.findElement(By.xpath("//tr[@id='row-23-1']/td[4]")).click();
         driver.findElement(By.id("t-23-r-1-text")).click();
@@ -118,7 +118,7 @@ public class EntityExportTest extends BaseTest {
 
     private void clickSandwichAction(WebElement row, String menuItem) throws InterruptedException {
         row.findElement(By.tagName("button")).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
         row.findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", menuItem.toLowerCase()))).click();
     }
 
@@ -159,7 +159,7 @@ public class EntityExportTest extends BaseTest {
 
         driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr[" + (number + 1) + "]/td[2]/a/div")).click();
 
-        Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[2]")).getText(), tablString);
+        Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[2]")).getText(), tableString);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[3]")).getText(), tableTex);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[4]")).getText(), tableInt);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[5]")).getText(), tableDec);
@@ -167,7 +167,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[7]")).getText(), DataTime);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[9]")).getText(), User);
 
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains(text(), ' Export ')]/..")));
+        //ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains(text(), ' Export ')]/..")));
     }
 
     @Test(dependsOnMethods = "inputTest")
@@ -197,13 +197,13 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(verifyInt.getText(), exportInt);
         Assert.assertTrue(verifyDecimal.isDisplayed());
         Assert.assertTrue(tableNumberColumn.isDisplayed());
-        Assert.assertEquals(tableStringField.getText(), tablString);
+        Assert.assertEquals(tableStringField.getText(), tableString);
         Assert.assertEquals(tableTextField.getText(), tableTex);
         Assert.assertEquals(tableIntField.getText(), tableInt);
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
     }
 
-    @Test(dependsOnMethods = {"inputTest", "viewTest"})
+    @Test(dependsOnMethods = {"someLabelTest"})
     public void editTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -230,7 +230,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(savedRecord.get(0).findElements(By.tagName("td")).get(6).getText(), EDITED_DATETIME);
     }
 
-    @Test(dependsOnMethods = "inputTest")
+    @Test(dependsOnMethods = "viewTest")
     public void someLabelTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -239,12 +239,12 @@ public class EntityExportTest extends BaseTest {
         WebElement recordLabel = driver.findElement(By.xpath("//a[contains(text(),'Some label')]"));
         ProjectUtils.click(driver, recordLabel);
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
-        saveButton.click();
+        ProjectUtils.click(driver, saveButton);
 
-        WebElement exportDistination = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[9]/a"));
-        ProjectUtils.click(driver, exportDistination);
+        WebElement exportDestination = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[9]/a"));
+        ProjectUtils.click(driver, exportDestination);
         WebElement verifyRecord = driver.findElement(By.xpath("//tbody/tr/td[2]/a"));
-        verifyRecord.click();
+        ProjectUtils.click(driver, verifyRecord);
 
         WebElement verifyString = driver.findElement(By.xpath("//label[text()='String']/../div[1]//span"));
         WebElement verifyText = driver.findElement(By.xpath("//label[text()='String']/../div[2]//span"));
@@ -261,7 +261,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(verifyInt.getText(), exportInt);
         Assert.assertTrue(verifyDecimal.isDisplayed());
         Assert.assertTrue(tableNumberColumn.isDisplayed());
-        Assert.assertEquals(tableStringField.getText(), tablString);
+        Assert.assertEquals(tableStringField.getText(), tableString);
         Assert.assertEquals(tableTextField.getText(), tableTex);
         Assert.assertEquals(tableIntField.getText(), tableInt);
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
@@ -287,12 +287,27 @@ public class EntityExportTest extends BaseTest {
 
 
     @Ignore
+    @Test(dependsOnMethods = "editTest")
+    public void deleteRecord() {
+
+        ExportPage exportPage = new ExportPage(getDriver());
+
+        Assert.assertEquals(exportPage
+                .clickMenuExport()
+                .deleteRow()
+                .getRowCount(), 0);
+
+        Assert.assertEquals(exportPage
+                .clickRecycleBin()
+                .getCellValue(0, 1), EDITED_STRING);
+    }
+
     @Test
     public void negativeTestForInt() {
-        MainPage mainPage = new MainPage(getDriver());
-        ExportEditPage exportEditPage = mainPage.clickTubExport().clickNewExportButton();
-        ExportPage exportPage = exportEditPage
-                .sendKeys("comments").clickSaveButton();
-        exportPage.getErrorMassage();
+        ErrorPage errorPage = new MainPage(getDriver()).clickMenuExport()
+                .clickNewFolder()
+                .fillInt(INVALID_ENTRY)
+                .clickSaveButtonErrorExpected();
+        Assert.assertEquals(errorPage.getErrorMessage(),ERROR_MESSAGE );
     }
 }

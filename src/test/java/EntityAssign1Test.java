@@ -1,3 +1,6 @@
+import model.AssignPage;
+import model.MainPage;
+import model.MyAssignmentsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -48,31 +51,21 @@ public class EntityAssign1Test extends BaseTest {
     @Test
     public void assignTest() {
 
-        WebDriver driver = getDriver();
+        final String intInp = String.valueOf((int)(Math.random() * 100));
+        final String decimalInp = String.valueOf(Math.random());
 
-        ProjectUtils.click(driver, driver.findElement(ASSIGN_TAB));
-        driver.findElement(By.xpath("//i[contains(text(), 'create_new')]")).click();
-        driver.findElement(By.id("string")).sendKeys(STRING_INP);
-        driver.findElement(By.id("text")).sendKeys("test text");
-        driver.findElement(By.id("int")).sendKeys(String.valueOf((int)(Math.random() * 100)));
-        driver.findElement(By.id("decimal")).sendKeys(String.valueOf(Math.random()));
-        driver.findElement(By.id("date")).click();
-        driver.findElement(By.xpath("//input[@id='datetime']")).click();
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']")));
-        WebElement userSelect = driver.findElement(By.xpath
-                (String.format("//option[text()='%s']", PROFILE_TYPE.getUserName())));
-        userSelect.click();
+        AssignPage assignPage = new AssignPage(getDriver())
+                .clickMenuAssign()
+                .clickNewFolder()
+                .fillOutForm(STRING_INP, "test text", intInp, decimalInp)
+                .clickSaveButton()
+                .selectUser(PROFILE_TYPE.getUserName());
 
-        driver.navigate().refresh();
+        Assert.assertEquals(assignPage.getSelectedUser(), PROFILE_TYPE.getUserName());
 
-        WebElement selectedUser = driver.findElement(By.xpath
-                (String.format("//option[@selected and text()='%s']", PROFILE_TYPE.getUserName())));
-        Assert.assertTrue(selectedUser.isDisplayed());
+        new MainPage(getDriver()).clickMenuMyAssignments();
 
-        driver.findElement(ASSIGNMENTS_TAB).click();
-        driver.findElement(ASSIGNMENTS_TAB_TEXT);
-
-        Assert.assertTrue(driver.findElement(RECORD).isDisplayed());
+        Assert.assertTrue(new MyAssignmentsPage(getDriver()).isTablePresent());
     }
 
     @Ignore

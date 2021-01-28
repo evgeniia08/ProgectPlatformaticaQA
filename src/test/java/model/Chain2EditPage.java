@@ -1,74 +1,67 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.ProjectUtils;
+import static runner.ProjectUtils.fill;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chain2EditPage extends BasePage {
+public class Chain2EditPage extends BaseEditPage<Chain2Page> {
+
+    @FindBy(id = "f1")
+    private WebElement f1Field;
+
+    @FindBy(id = "f10")
+    private WebElement f10Field;
 
     @FindBy(css = "input[id*='f']")
-    private List<WebElement> fValuesEdit;
-
-    @FindBy(id = "pa-entity-form-save-btn")
-    private WebElement saveButton;
+    private List<WebElement> allFFields;
 
     public Chain2EditPage(WebDriver driver) {
         super(driver);
     }
 
-    public Chain2Page clickSaveButton() {
-        saveButton.click();
+    @Override
+    protected Chain2Page createPage() {
         return new Chain2Page(getDriver());
     }
 
-    public Chain2ErrorPage clickSaveButtonReturnError() {
+    public ErrorPage clickSaveButtonReturnError() {
         saveButton.click();
-        return new Chain2ErrorPage(getDriver());
+        return new ErrorPage(getDriver());
     }
 
     public List<String> getActualValues() {
-        List<WebElement> fValues = fValuesEdit;
-
+        List<WebElement> fValues = allFFields;
         final List<String> actualValues = new ArrayList<>();
         for (WebElement fValue : fValues) {
             actualValues.add(fValue.getAttribute("value"));
         }
+
         return actualValues;
     }
 
     public Chain2EditPage inputF1Value(String f1Value) {
-        ProjectUtils.sendKeys(fValuesEdit.get(0), f1Value);
-        getWait().until(ExpectedConditions.attributeToBeNotEmpty(fValuesEdit.get(9), "value"));
+        fill(getWait(), f1Field, f1Value);
+        getWait().until(ExpectedConditions.attributeToBeNotEmpty(f10Field, "value"));
         return this;
     }
 
     public Chain2EditPage editF1Value(String f1Value, List<String> expectedValues) {
         String f10ExpectedValue = expectedValues.get(expectedValues.size() - 1);
-        WebElement f1 = getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("f1")));
-        WebElement f10 = getWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("f10")));
-
-        f1.clear();
-        f1.sendKeys(f1Value);
-        getWait().until(ExpectedConditions.attributeToBe(f1, "value", f1Value));
-        getWait().until(ExpectedConditions.attributeToBe(f10, "value", f10ExpectedValue));
+        fill(getWait(), f1Field, f1Value);
+        getWait().until(ExpectedConditions.attributeToBe(f1Field, "value", f1Value));
+        getWait().until(ExpectedConditions.attributeToBe(f10Field, "value", f10ExpectedValue));
         return this;
     }
 
     public Chain2EditPage editValues(List<String> newValues) {
-        List<WebElement> f1ToF10 = getWait()
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("input[id*='f']")));
-
         for (int i = 0; i < newValues.size(); i ++) {
-            WebElement fi = f1ToF10.get(i);
-            fi.clear();
-            ProjectUtils.sendKeys(fi, newValues.get(i));
-            getWait().until(ExpectedConditions.attributeToBe(fi, "value", newValues.get(i)));
+            WebElement fi = allFFields.get(i);
+            fill(getWait(), fi, newValues.get(i));
         }
         return this;
     }

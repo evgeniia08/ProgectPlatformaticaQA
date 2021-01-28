@@ -1,18 +1,70 @@
+import model.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import runner.BaseTest;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.ProjectUtils;
+import runner.type.Run;
+import runner.type.RunType;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-
+@Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
+    final String comments = "TEST";
+    final String int_ = "11";
+    final String decimal = "0.1";
+    final  String xpath = "//tbody/tr[1]/td[10]/div[1]/ul[1]/li[1]/a[1]";
+
+    SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+    public String Data = data.format(new Date());
+
+    SimpleDateFormat Time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    public String DataTime = Time.format(new Date());
+
+    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST", "11", "0.1", Data, DataTime);
 
     @Test
-    public void findChevron() throws InterruptedException {
+    public void createNewRecord() {
+        ChevronPage chevronPage = new MainPage(getDriver())
+                .clickMenuChevron()
+                .clickNewFolder()
+                .chooseRecordStatus()
+                .sendKeys(comments, int_, decimal, DataTime, Data)
+                .clickSaveButton();
+        Assert.assertEquals(chevronPage.getRow(0), expectedResults);
+    }
 
-        WebDriver driver = ProjectUtils.loginProcedure(getDriver());
+    @Test (dependsOnMethods = "createNewRecord")
+    public void viewRecord() {
+        ChevronPage page = new MainPage(getDriver())
+                .clickMenuChevron()
+                .clickViewButton(xpath)
+                .getColumn();
+    }
+
+    @Test (dependsOnMethods = "viewRecord")
+    public void deleteRecord() {
+
+        ChevronPage chevronPage = new ChevronPage(getDriver());
+        Assert.assertEquals(chevronPage
+                .clickMenuChevron()
+                .deleteRow()
+                .getRowCount(), 0);
+
+        Assert.assertEquals(chevronPage
+                .clickRecycleBin()
+                .getCellValue(0, 2), expectedResults.get(1));
+    }
+
+    @Test (dependsOnMethods = "deleteRecord")
+    public void findChevron() {
+        WebDriver driver = getDriver();
 
         WebElement clickChevron = driver.findElement(By.xpath("//p[contains(text(),'Chevron')]"));
         ProjectUtils.click(driver, clickChevron);
@@ -50,8 +102,6 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'Fulfillment')]")).getText(),
                 "Fulfillment");
 
-        WebDriverWait wait = new WebDriverWait(driver, 6);
-
         WebElement findFulfillmentAgain = driver.findElement(By.xpath("//td//div[contains(text(), 'Fulfillment')]"));
         ProjectUtils.click(driver, findFulfillmentAgain);
 
@@ -60,12 +110,6 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(ExpectedSign, recheckFulfillment.getText());
     }
 }
-
-
-
-
-
-
 
 
 

@@ -1,109 +1,146 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import model.MainPage;
+import model.ArithmeticInlineEditPage;
+import model.ArithmeticInlinePage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
+import runner.type.Run;
+import runner.type.RunType;
 
+import java.util.Arrays;
+import java.util.List;
+
+@Run(run = RunType.Multiple)
 public class EntityArithmeticInTest extends BaseTest {
 
-    @Test
-    private void getNewRecord() throws InterruptedException {
+    private static final String NUM_1 = "20";
+    private static final String NUM_2 = "5";
+    private static final String SUM = "25";
+    private static final String SUB = "15";
+    private static final String MUL = "100";
+    private static final String DIV = "4";
+    private static final String EDIT_NUM_1 = "9";
+    private static final String EDIT_NUM_2 = "3";
+    private static final String EDIT_SUM = "12";
+    private static final String EDIT_SUB = "6";
+    private static final String EDIT_MUL = "27";
+    private static final String EDIT_DIV = "3";
+    private static final String NUMERIC_CHAR = "5";
+    private static final String ALPHABETIC_CHAR = "t";
+    private static final String ERROR_MESSAGE = "error saving entity";
+    private static final List<String> INITIAL_VALUES = Arrays.asList(NUM_1, NUM_2, SUM, SUB, MUL, DIV);
+    private static final List<String> EDIT_VALUES = Arrays.asList(EDIT_NUM_1, EDIT_NUM_2, EDIT_SUM, EDIT_SUB, EDIT_MUL, EDIT_DIV);
 
-        final int num1 = 3;
-        final int num2 = 7;
-        final int sum = num1 + num2;
-        final int sub = num1 - num2;
-        final int mul = num1 * num2;
-        final int div = num1 / num2;
-
-        WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 4);
-
-        WebElement elementArithmetic = driver.findElement(By.xpath("//p[contains(text(), 'Arithmetic Inline')]"));
-        ProjectUtils.click(driver, elementArithmetic);
-
-        WebElement clickNewFolder = driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]"));
-        ProjectUtils.click(driver, clickNewFolder);
-
-        WebElement clickF1 = driver.findElement(By.xpath("//input[@id = 'f1']"));
-        ProjectUtils.click(driver, clickF1);
-        clickF1.sendKeys(Integer.toString(num1));
-
-        WebElement clickF2 = driver.findElement(By.xpath("//input[@id = 'f2']"));
-        ProjectUtils.click(driver, clickF2);
-        clickF2.sendKeys(Integer.toString(num2));
-
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@id = 'div']"), "0.43"));
-
-        WebElement saveNewRecord = driver.findElement(By.xpath("//*[@id=\"pa-entity-form-save-btn\"]"));
-        ProjectUtils.click(driver, saveNewRecord);
-
-        WebElement clickNCheckRecord =
-                driver.findElement(By.xpath("//*[@id=\"pa-all-entities-table\"]/tbody/tr/td[2]/a"));
-        ProjectUtils.click(driver, clickNCheckRecord);
-
-        WebElement findNCheckF1 =
-                driver.findElement(By.xpath("//span[contains(text(), '3')]"));
-        ProjectUtils.click(driver, findNCheckF1);
-
-        WebElement findNCheckF2 =
-                driver.findElement(By.xpath("//span[contains(text(), '7')]"));
-        ProjectUtils.click(driver, findNCheckF1);
-
-        Thread.sleep(5000);
-
-        Assert.assertEquals(findNCheckF1.getText(), "3");
-        Assert.assertEquals(findNCheckF2.getText(), "7");
-
-        WebElement findNCheckSum =
-                driver.findElement(By.xpath("//div[2]/div/div/div/div[3]/div"));
-        Assert.assertEquals(findNCheckSum.getText(), Integer.toString(sum));
-
-        WebElement findNCheckSub =
-                driver.findElement(By.xpath("//div[2]/div/div/div/div[4]/div"));
-        WebElement findNCheckMul =
-                driver.findElement(By.xpath("//div[2]/div/div/div/div[5]/div"));
-        WebElement findNCheckDiv =
-                driver.findElement(By.xpath("//div[2]/div/div/div/div[6]/div"));
-
-        Assert.assertEquals(findNCheckSub.getText(), Integer.toString(sub));
-        Assert.assertEquals(findNCheckMul.getText(), Integer.toString(mul));
-        Assert.assertEquals(findNCheckDiv.getText(), Integer.toString(div));
+    @DataProvider(name = "positiveTestData")
+    private Object[][] testData1() {
+        return new Object[][]{
+                {"8", "2", "10", "6", "16", "4"},
+                {"8", "-2", "6", "10", "-16", "-4"},
+                {"-8", "2", "-6", "-10", "-16", "-4"},
+                {"-8", "-2", "-10", "-6", "16", "4"}
+        };
     }
 
-    @Ignore
+    @DataProvider(name = "negativeTestData")
+    private Object[][] testData2() {
+        return new Object[][]{
+                {NUMERIC_CHAR, ALPHABETIC_CHAR},
+                {ALPHABETIC_CHAR, NUMERIC_CHAR}
+        };
+    }
+
     @Test
-    private void setNewData() throws InterruptedException {
+    public void createRecordTest() {
 
-        final String F1 = "Hi";
-        final String F2 = "Hi";
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .clickNewFolder()
+                .fillF1F2(NUM_1, NUM_2)
+                .waitSumToBe(SUM)
+                .waitSubToBe(SUB)
+                .waitMulToBe(MUL)
+                .waitDivToBe(DIV)
+                .clickSaveButton();
 
-        WebDriver driver = getDriver();
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), 1);
+        Assert.assertEquals(arithmeticInlinePage.getRow(0), INITIAL_VALUES);
+        Assert.assertEquals(arithmeticInlinePage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
+    }
 
-        WebElement elementArithmetic = driver.findElement(By.xpath("//p[contains(text(), 'Arithmetic Inline')]"));
-        ProjectUtils.click(driver, elementArithmetic);
+    @Test(dependsOnMethods = "createRecordTest")
+    public void viewRecordTest() {
 
-        WebElement clickNewFolder = driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]"));
-        ProjectUtils.click(driver, clickNewFolder);
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .viewRow(0).getValues(), INITIAL_VALUES);
+    }
 
-        WebElement clickF1 = driver.findElement(By.xpath("//input[@id = 'f1']"));
-        ProjectUtils.click(driver, clickF1);
-        clickF1.sendKeys(F1);
+    @Test(dependsOnMethods = "viewRecordTest")
+    public void editRecordTest() {
 
-        WebElement clickF2 = driver.findElement(By.xpath("//input[@id = 'f2']"));
-        ProjectUtils.click(driver, clickF2);
-        clickF2.sendKeys(F2);
+        ArithmeticInlineEditPage arithmeticInlineEditPage = new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .editRow(0);
 
-        Thread.sleep(5000);
+        Assert.assertEquals(arithmeticInlineEditPage.getInputValues(), INITIAL_VALUES);
 
-        driver.findElement(By.xpath("//*[@id=\"pa-entity-form-save-btn\"]")).click();
+        arithmeticInlineEditPage.fillF1F2(EDIT_VALUES.get(0), EDIT_VALUES.get(1))
+                .waitSumToBe(EDIT_VALUES.get(2))
+                .waitSubToBe(EDIT_VALUES.get(3))
+                .waitMulToBe(EDIT_VALUES.get(4))
+                .waitDivToBe(EDIT_VALUES.get(5));
 
-        WebElement error = driver.findElement(By.xpath("//*[@id = 'pa-error']"));
-        Assert.assertEquals(error.getText(), "Error saving entity");
+        ArithmeticInlinePage arithmeticInlinePage = arithmeticInlineEditPage.clickSaveButton();
+
+        Assert.assertEquals(arithmeticInlinePage.getRow(0), EDIT_VALUES);
+        Assert.assertEquals(arithmeticInlinePage.viewRow(0).getValues(), EDIT_VALUES);
+        Assert.assertEquals(arithmeticInlinePage.clickMenuArithmeticInline().editRow().getInputValues(), EDIT_VALUES);
+    }
+
+    @Test(dependsOnMethods = "editRecordTest")
+    public void deleteRecordTest() {
+
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .deleteRow();
+
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), 0);
+        Assert.assertEquals(arithmeticInlinePage.clickRecycleBin().getDeletedEntityContent(),
+                (String.format("F1: %sF2: %sSUM: %sSUB: %sMUL: %sDIV: %s",
+                        EDIT_NUM_1, EDIT_NUM_2, EDIT_SUM, EDIT_SUB, EDIT_MUL, EDIT_DIV)));
+    }
+
+    @Test(dependsOnMethods = "deleteRecordTest", dataProvider = "positiveTestData")
+    public void parametrizedCreateRecordTest(String num_1, String num_2, String sum, String sub, String mul, String div) {
+
+        final List<String> expectedValues = Arrays.asList(num_1, num_2, sum, sub, mul, div);
+
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
+                .clickMenuArithmeticInline();
+        int rowCount = arithmeticInlinePage.getRowCount();
+
+        arithmeticInlinePage
+                .clickNewFolder()
+                .fillF1F2(num_1, num_2)
+                .waitSumToBe(sum)
+                .waitSubToBe(sub)
+                .waitMulToBe(mul)
+                .waitDivToBe(div)
+                .clickSaveButton();
+
+        Assert.assertEquals(arithmeticInlinePage.getRowCount(), rowCount + 1);
+        Assert.assertEquals(arithmeticInlinePage.getRow(rowCount), expectedValues);
+    }
+
+    @Test(dependsOnMethods = "parametrizedCreateRecordTest", dataProvider = "negativeTestData")
+    public void invalidEntryTest(String f1Value, String f2Value) {
+
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuArithmeticInline()
+                .clickNewFolder()
+                .fillF1F2(f1Value, f2Value)
+                .clickSaveButtonErrorExpected()
+                .getErrorMessage(), ERROR_MESSAGE);
     }
 }

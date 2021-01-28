@@ -218,6 +218,7 @@ public class EntityFieldOpsTest extends BaseTest {
         Assert.assertEquals(cardTitle.getText(), "Fields Ops", "Redirection works incorrectly");
     }
 
+    @Ignore
     @Test
     public void viewBaseRecordNoRefExistTest() throws InterruptedException {
 

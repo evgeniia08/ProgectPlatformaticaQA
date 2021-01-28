@@ -167,6 +167,7 @@ public class EntityImportEditTest extends BaseTest {
         userDelete(driver);
     }
 
+    @Ignore
     @Test
     public void importEditDoImport() {
 

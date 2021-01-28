@@ -3,29 +3,24 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.ProjectUtils;
+import static runner.ProjectUtils.fill;
 
-public final class ExportEditPage extends BasePage {
+public final class ExportEditPage extends BaseEditPage<ExportPage> {
 
-    @FindBy(xpath = "//*[@name='entity_form_data[int]']")
-    private WebElement fieldInt;
+    @FindBy(id = "int")
+    private WebElement inputInt;
 
-    @FindBy(xpath = "//button[@class='btn btn-warning']")
-    private WebElement saveButton;
-
-    @FindBy (xpath = "//div[@id='pa-error']")
-    private WebElement getError;
+    @Override
+    protected ExportPage createPage() {
+        return new ExportPage(getDriver());
+    }
 
     public ExportEditPage(WebDriver driver) {
         super(driver);
     }
 
-    public ExportEditPage sendKeys(String comments) {
-        ProjectUtils.sendKeys(fieldInt, comments);
+    public ExportEditPage fillInt (String int_) {
+        fill(getWait(),inputInt,int_);
         return this;
-    }
-    public ExportPage clickSaveButton() {
-        ProjectUtils.click(getDriver(), saveButton);
-        return new ExportPage(getDriver());
     }
 }
