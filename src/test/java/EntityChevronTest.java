@@ -55,7 +55,7 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage.getRow(4), expectedResults);
     }
 
-    @Test(dependsOnMethods = "createNewRecord")
+    @Test (dependsOnMethods = "createNewRecord")
     public void viewRecord() {
         List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -63,7 +63,6 @@ public class EntityChevronTest extends BaseTest {
                 .getColumn();
         Assert.assertEquals(page,expectedResults);
     }
-
 
     @Test(dataProvider = "testData")// dependsOnMethods="viewRecord" )
     public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
@@ -88,10 +87,13 @@ public class EntityChevronTest extends BaseTest {
                 .drugUp()
                 .getCellData();
         Assert.assertEquals(getDriver().findElement(By.xpath(secondEntity)).getText(), "TEST5");
-
     }
-    @Test()
-    public void findChevron() throws InterruptedException {
+   
+        
+
+    @Test (dependsOnMethods = "deleteRecord")
+    public void findChevron() {
+        WebDriver driver = getDriver();
 
         WebDriver driver = ProjectUtils.loginProcedure(getDriver());
 
