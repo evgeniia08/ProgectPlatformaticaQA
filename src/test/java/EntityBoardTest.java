@@ -166,19 +166,15 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"deleteRecord"})
-    public void recordDeletionRecBin() throws InterruptedException {
+    public void recordDeletionRecBin() {
 
-       /* RecycleBinPage recycleBinPage = new MainPage(getDriver())
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
                 .clickMenuBoard()
-                .clickRecycleBin()
-                .clickDeletePermanently(0);
-        Thread.sleep(3000);
-*/
-        //Assert.assertEquals(recycleBinPage.getRowCount(), 0);
-        //Assert.assertEquals(recycleBinPage.getNotification(), "No empty recycle bin message found.");
-
-        //Assert.assertEquals(recycleBinPage.getNotification(), "Good job with housekeeping! Recycle bin is currently empty!");
-
+                .clickRecycleBin();
+                recycleBinPage.clickDeletePermanently(0);
+        System.out.println(recycleBinPage.getNotification());
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
+        Assert.assertNull(null, "Good job with housekeeping! Recycle bin is currently empty!");
     }
 }
 
