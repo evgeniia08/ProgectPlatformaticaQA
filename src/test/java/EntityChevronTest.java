@@ -1,4 +1,5 @@
 import model.*;
+import org.testng.annotations.DataProvider;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,19 +17,30 @@ import java.util.List;
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
-    private final String comments = "TEST";
-    private final String int_ = "11";
-    private final String decimal = "0.1";
+    final String comments = "TEST1";
+    final String int_ = "11";
+    final String decimal = "0.11";
+    final String xpath = "//tr[@data-index='4']";
 
     SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-    private String Data = data.format(new Date());
+    public String Data = data.format(new Date());
 
     SimpleDateFormat Time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    private String DataTime = Time.format(new Date());
+    public String DataTime = Time.format(new Date());
 
-    private List<String> expectedResults = Arrays.asList("Fulfillment", "TEST", "11", "0.1", Data, DataTime);
+    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST1", "11", "0.11", Data, DataTime);
 
-    @Test
+    @DataProvider(name = "testData")
+    private Object[][] testData1() {
+        return new Object[][]{
+                {"TEST2", "11", "0.11", Data, DataTime},
+                {"TEST3", "11", "0.11", Data, DataTime},
+                {"TEST4", "11", "0.11", Data, DataTime},
+                {"TEST5", "11", "0.11", Data, DataTime}
+        };
+    }
+
+    @Test()
     public void createNewRecord() {
         ChevronPage chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -36,15 +48,40 @@ public class EntityChevronTest extends BaseTest {
                 .chooseRecordStatus()
                 .sendKeys(comments, int_, decimal, DataTime, Data)
                 .clickSaveButton();
-        Assert.assertEquals(chevronPage.getRow(0), expectedResults);
+        Assert.assertEquals(chevronPage.getRow(4), expectedResults);
     }
 
-    @Test (dependsOnMethods = "createNewRecord")
+    @Test(dependsOnMethods = "createNewRecord")
     public void viewRecord() {
-        ChevronPage page = new MainPage(getDriver())
+        List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
-                .clickViewButton()
+                .clickRowToView(xpath)
                 .getColumn();
+        Assert.assertEquals(page,expectedResults);
+    }
+
+
+    @Test(dataProvider = "testData")
+    public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
+
+        ChevronPage chevronPage = new MainPage(getDriver()).clickMenuChevron();
+        int rowCount = chevronPage.getRowCount();
+        chevronPage.clickNewFolder()
+                .chooseRecordStatus()
+                .sendKeys(title, int_, decimal, data, time)
+                .clickSaveButton();
+        Assert.assertEquals(chevronPage.getRowCount(), rowCount + 1);
+
+    }
+
+    @Test(dependsOnMethods = "createMultipleEntities")
+    public void dragTheRowUp() throws InterruptedException {
+        String chevronPage = new MainPage(getDriver())
+                .clickMenuChevron()
+                .orderBy()
+                .drugUp()
+                .getCellData();
+        Assert.assertEquals(chevronPage, "TEST1");
     }
 
     @Test (dependsOnMethods = "viewRecord")
@@ -53,16 +90,12 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage
                 .clickMenuChevron()
                 .deleteRow()
-                .getRowCount(), 0);
-
-        Assert.assertEquals(chevronPage
-                .clickRecycleBin()
-                .getCellValue(0, 2), expectedResults.get(1));
+                .getRowCount(), 5);
     }
+    @Test()
+    public void findChevron() throws InterruptedException {
 
-    @Test (dependsOnMethods = "deleteRecord")
-    public void findChevron() {
-        WebDriver driver = getDriver();
+        WebDriver driver = ProjectUtils.loginProcedure(getDriver());
 
         WebElement clickChevron = driver.findElement(By.xpath("//p[contains(text(),'Chevron')]"));
         ProjectUtils.click(driver, clickChevron);
