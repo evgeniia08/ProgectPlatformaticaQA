@@ -118,7 +118,7 @@ public class EntityExportTest extends BaseTest {
 
     private void clickSandwichAction(WebElement row, String menuItem) throws InterruptedException {
         row.findElement(By.tagName("button")).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
         row.findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", menuItem.toLowerCase()))).click();
     }
 
@@ -167,7 +167,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[7]")).getText(), DataTime);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[9]")).getText(), User);
 
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains(text(), ' Export ')]/..")));
+        //ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains(text(), ' Export ')]/..")));
     }
 
     @Test(dependsOnMethods = "inputTest")
@@ -203,7 +203,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
     }
 
-    @Test(dependsOnMethods = {"inputTest", "viewTest"})
+    @Test(dependsOnMethods = {"someLabelTest"})
     public void editTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -230,7 +230,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(savedRecord.get(0).findElements(By.tagName("td")).get(6).getText(), EDITED_DATETIME);
     }
 
-    @Test(dependsOnMethods = "inputTest")
+    @Test(dependsOnMethods = "viewTest")
     public void someLabelTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -265,6 +265,21 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(tableTextField.getText(), tableTex);
         Assert.assertEquals(tableIntField.getText(), tableInt);
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
+    }
+
+    @Test(dependsOnMethods = "editTest")
+    public void deleteRecord() {
+
+        ExportPage exportPage = new ExportPage(getDriver());
+
+        Assert.assertEquals(exportPage
+                .clickMenuExport()
+                .deleteRow()
+                .getRowCount(), 0);
+
+        Assert.assertEquals(exportPage
+                .clickRecycleBin()
+                .getCellValue(0, 1), EDITED_STRING);
     }
 
     @Test
