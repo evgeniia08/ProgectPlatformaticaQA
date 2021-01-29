@@ -44,6 +44,7 @@ public class EntityDefaultTest extends BaseTest {
 
     private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
     private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
+    private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -159,7 +160,9 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
                 changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, changedEmbedDValues.fieldUser);
 
-        defaultEditPage.clickSaveButton();
+        //defaultEditPage.clickSaveButton();
+        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
+        ProjectUtils.click(driver, saveBtn);
 
         selectFromRecordMenu(driver, BY_VIEW);
 
