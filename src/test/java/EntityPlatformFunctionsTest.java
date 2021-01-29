@@ -12,7 +12,7 @@ import runner.type.RunType;
 
 import java.util.Arrays;
 import java.util.List;
-
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityPlatformFunctionsTest extends BaseTest {
 
@@ -29,7 +29,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
     private static final String MAX_INT = "2147483647";
     private static final String OUT_OF_RANGE_MIN_INT = "-2147483649";
     private static final String ERROR_MESSAGE = "error saving entity";
-    @Ignore
+
     @Test
     public void createRecordTest() {
 
@@ -45,7 +45,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
         Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "createRecordTest")
     public void editRecordTest() {
 
@@ -61,7 +61,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
         Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "editRecordTest")
     public void deleteRecordTest() {
         PlatformFuncPage platformFuncPage = new MainPage(getDriver())
@@ -76,7 +76,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(TEST_TEXT_10));
         Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(CUSTOM_CONSTANT));
     }
-    @Ignore
+
     @Test(dependsOnMethods = "deleteRecordTest")
     public void entityMainLogicTest() {
 
@@ -126,7 +126,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         platformFuncPage.deleteRow(0).deleteRow(0).deleteRow(0);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "entityMainLogicTest")
     public void createCancelTest() {
 
@@ -139,7 +139,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRowCount(), 0);
         Assert.assertEquals(platformFuncPage.clickNewFolder().getLastInt(), LAST_INT);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "createCancelTest")
     public void createDraftTest() {
 
@@ -157,7 +157,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         platformFuncPage.deleteRow();
     }
-    @Ignore
+
     @Test(dependsOnMethods = "createDraftTest")
     public void viewRecordLongStringTest() {
 
@@ -175,7 +175,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .viewRow()
                 .getValues(), expectedValues);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "viewRecordLongStringTest")
     public void invalidLastIntTest() {
 
@@ -186,7 +186,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .clickSaveButtonErrorExpected()
                 .getErrorMessage(), ERROR_MESSAGE);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "invalidLastIntTest")
     public void maxBoundaryIntTest() {
 
@@ -205,7 +205,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .clickSaveButtonErrorExpected()
                 .getErrorMessage(), ERROR_MESSAGE);
     }
-    @Ignore
+
     @Test(dependsOnMethods = "maxBoundaryIntTest")
     public void minBoundaryIntTest() {
 
