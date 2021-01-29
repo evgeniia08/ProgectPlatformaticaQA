@@ -30,7 +30,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
     private static final String PRIMARY_LANGUAGE = "English";
-    private static List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
+    private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
 
 
