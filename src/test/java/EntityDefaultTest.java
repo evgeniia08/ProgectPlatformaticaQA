@@ -160,9 +160,9 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
                 changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, changedEmbedDValues.fieldUser);
 
-        //defaultEditPage.clickSaveButton();
-        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
-        ProjectUtils.click(driver, saveBtn);
+        defaultEditPage.clickSaveButton();
+//        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
+//        ProjectUtils.click(driver, saveBtn);
 
         selectFromRecordMenu(driver, BY_VIEW);
 

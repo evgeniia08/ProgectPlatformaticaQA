@@ -77,6 +77,12 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
         embededTable = new DefaultEmbededPage(driver);
     }
 
+    @Override
+    public DefaultPage clickSaveButton() {
+        ProjectUtils.click(getDriver(), saveButton);
+        return createPage();
+    }
+
     public void sendKeys(String string, String text, String int_, String decimal, String date,
                          String dateTime, String user) {
         sendKeys(fieldString, string);
