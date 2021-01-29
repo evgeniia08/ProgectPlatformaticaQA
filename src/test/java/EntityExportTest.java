@@ -82,11 +82,15 @@ public class EntityExportTest extends BaseTest {
     private void createEmbedExp(WebDriver driver) {
         WebElement addRecord = driver.findElement(By.xpath("//tr[@id='add-row-23']/td/button"));
         ProjectUtils.click(driver, addRecord);
-        driver.findElement(By.id("t-undefined-r-1-_line_number")).click();
+        WebElement embedString = driver.findElement(By.id("t-undefined-r-1-_line_number"));
+        ProjectUtils.click(driver, embedString);
+        //driver.findElement(By.id("t-undefined-r-1-_line_number")).click();
 
-        driver.findElement(By.id("t-23-r-1-string")).click();
-        driver.findElement(By.id("t-23-r-1-string")).clear();
-        driver.findElement(By.id("t-23-r-1-string")).sendKeys(tableString);
+        WebElement embedText = driver.findElement(By.id("t-23-r-1-string"));
+        ProjectUtils.scroll(driver, embedText);
+        ProjectUtils.fill(getWebDriverWait(), embedText, tableString);
+        //driver.findElement(By.id("t-23-r-1-string")).clear();
+        //driver.findElement(By.id("t-23-r-1-string")).sendKeys(tableString);
 
         driver.findElement(By.xpath("//tr[@id='row-23-1']/td[4]")).click();
         driver.findElement(By.id("t-23-r-1-text")).click();
@@ -203,7 +207,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
     }
 
-    @Test(dependsOnMethods = {"someLabelTest"})
+    @Test(dependsOnMethods = "viewTest")
     public void editTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -230,7 +234,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(savedRecord.get(0).findElements(By.tagName("td")).get(6).getText(), EDITED_DATETIME);
     }
 
-    @Test(dependsOnMethods = "viewTest")
+    @Test(dependsOnMethods = "editTest")
     public void someLabelTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -256,9 +260,9 @@ public class EntityExportTest extends BaseTest {
         WebElement tableIntField = driver.findElement(By.xpath("//tbody/tr[1]/td[4]"));
         WebElement tableDecimalField = driver.findElement(By.xpath("//tbody/tr[1]/td[5]"));
 
-        Assert.assertEquals(verifyString.getText(), exportString);
-        Assert.assertEquals(verifyText.getText(), exportText);
-        Assert.assertEquals(verifyInt.getText(), exportInt);
+        Assert.assertEquals(verifyString.getText(), EDITED_STRING);
+        Assert.assertEquals(verifyText.getText(), EDITED_TEXT);
+        Assert.assertEquals(verifyInt.getText(), EDITED_INT);
         Assert.assertTrue(verifyDecimal.isDisplayed());
         Assert.assertTrue(tableNumberColumn.isDisplayed());
         Assert.assertEquals(tableStringField.getText(), tableString);
@@ -267,7 +271,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(tableDecimalField.getText(), tableDec);
     }
 
-    @Test(dependsOnMethods = {"inputTest"})
+    @Test(dependsOnMethods = "someLabelTest")
     public void deleteTest() throws InterruptedException {
         WebDriver driver = getDriver();
         WebElement export = driver.findElement(By.xpath("//div[@id= 'menu-list-parent']/ul/li[8]/a"));
@@ -285,10 +289,10 @@ public class EntityExportTest extends BaseTest {
 
     }
 
-
-    @Ignore
-    @Test(dependsOnMethods = "editTest")
+    @Test(dependsOnMethods = "deleteTest")
     public void deleteRecord() {
+
+        inputTest();
 
         ExportPage exportPage = new ExportPage(getDriver());
 
@@ -299,7 +303,7 @@ public class EntityExportTest extends BaseTest {
 
         Assert.assertEquals(exportPage
                 .clickRecycleBin()
-                .getCellValue(0, 1), EDITED_STRING);
+                .getCellValue(0, 1), exportString);
     }
 
     @Test
