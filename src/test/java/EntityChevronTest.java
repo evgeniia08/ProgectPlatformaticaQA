@@ -1,7 +1,10 @@
 import model.*;
+import org.testng.annotations.DataProvider;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Ignore;
 import runner.BaseTest;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.ProjectUtils;
@@ -11,14 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
-    final String comments = "TEST";
+    final String comments = "TEST1";
     final String int_ = "11";
-    final String decimal = "0.1";
-    final  String xpath = "//tbody/tr[1]/td[10]/div[1]/ul[1]/li[1]/a[1]";
+    final String decimal = "0.11";
+    final String xpath = "//tr[@data-index='4']";
 
     SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
     public String Data = data.format(new Date());
@@ -26,9 +29,19 @@ public class EntityChevronTest extends BaseTest {
     SimpleDateFormat Time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     public String DataTime = Time.format(new Date());
 
-    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST", "11", "0.1", Data, DataTime);
+    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST1", "11", "0.11", Data, DataTime);
 
-    @Test
+    @DataProvider(name = "testData")
+    private Object[][] testData1() {
+        return new Object[][]{
+                {"TEST2", "11", "0.11", Data, DataTime},
+                {"TEST3", "11", "0.11", Data, DataTime},
+                {"TEST4", "11", "0.11", Data, DataTime},
+                {"TEST5", "11", "0.11", Data, DataTime}
+        };
+    }
+
+    @Test()
     public void createNewRecord() {
         ChevronPage chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -36,17 +49,51 @@ public class EntityChevronTest extends BaseTest {
                 .chooseRecordStatus()
                 .sendKeys(comments, int_, decimal, DataTime, Data)
                 .clickSaveButton();
-        Assert.assertEquals(chevronPage.getRow(0), expectedResults);
+        Assert.assertEquals(chevronPage.getRow(4), expectedResults);
     }
 
     @Test(dependsOnMethods = "createNewRecord")
     public void viewRecord() {
-        ChevronPage page = new MainPage(getDriver())
+        List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
-                .clickViewButton(xpath)
+                .clickRowToView(xpath)
                 .getColumn();
+        Assert.assertEquals(page,expectedResults);
     }
-    @Test
+
+
+    @Test(dataProvider = "testData")
+    public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
+
+        ChevronPage chevronPage = new MainPage(getDriver()).clickMenuChevron();
+        int rowCount = chevronPage.getRowCount();
+        chevronPage.clickNewFolder()
+                .chooseRecordStatus()
+                .sendKeys(title, int_, decimal, data, time)
+                .clickSaveButton();
+        Assert.assertEquals(chevronPage.getRowCount(), rowCount + 1);
+
+    }
+
+    @Test(dependsOnMethods = "createMultipleEntities")
+    public void dragTheRowUp() throws InterruptedException {
+        String chevronPage = new MainPage(getDriver())
+                .clickMenuChevron()
+                .orderBy()
+                .drugUp()
+                .getCellData();
+        Assert.assertEquals(chevronPage, "TEST1");
+    }
+
+    @Test (dependsOnMethods = "viewRecord")
+    public void deleteRecord() {
+        ChevronPage chevronPage = new ChevronPage(getDriver());
+        Assert.assertEquals(chevronPage
+                .clickMenuChevron()
+                .deleteRow()
+                .getRowCount(), 5);
+    }
+    @Test()
     public void findChevron() throws InterruptedException {
 
         WebDriver driver = ProjectUtils.loginProcedure(getDriver());
@@ -87,8 +134,6 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'Fulfillment')]")).getText(),
                 "Fulfillment");
 
-        WebDriverWait wait = new WebDriverWait(driver, 6);
-
         WebElement findFulfillmentAgain = driver.findElement(By.xpath("//td//div[contains(text(), 'Fulfillment')]"));
         ProjectUtils.click(driver, findFulfillmentAgain);
 
@@ -97,11 +142,3 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(ExpectedSign, recheckFulfillment.getText());
     }
 }
-
-
-
-
-
-
-
-

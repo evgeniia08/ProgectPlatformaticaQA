@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class ArithmeticInlineEditPage extends BaseEditPage<ArithmeticInlinePage>{
+public class ArithmeticInlineEditPage extends BaseEditPage<ArithmeticInlinePage> {
 
     @FindBy(css = "input#f1")
     private WebElement f1;
@@ -36,7 +36,8 @@ public class ArithmeticInlineEditPage extends BaseEditPage<ArithmeticInlinePage>
 
     public ArithmeticInlineEditPage fillF1F2(String f1Value, String f2Value) {
         ProjectUtils.fill(getWait(), f1, f1Value);
-        ProjectUtils.sendKeys(f2, f2Value);
+        ProjectUtils.fill(getWait(), f2, f2Value);
+        f2.click();
         return this;
     }
 

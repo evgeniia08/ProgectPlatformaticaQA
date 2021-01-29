@@ -30,14 +30,15 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
 
-    @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='dashboard']")
-    private  WebElement boardButton;
-
     public BaseTablePage(WebDriver driver) {
         super(driver);
     }
 
     protected abstract EditPage createEditPage();
+
+    public WebElement getBody(){
+        return body;
+    }
 
     protected List<WebElement> getRows() {
         return trs;
@@ -56,8 +57,8 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         }
     }
 
-    public WebElement getRowEntityIcon(int rowNumber) {
-        return getRows().get(rowNumber).findElement(By.cssSelector("td > i"));
+    public String getRowIconClass(int rowNumber) {
+        return getRows().get(rowNumber).findElement(By.cssSelector("td > i")).getAttribute("class");
     }
 
     public List<String> getRow(int rowNumber) {
@@ -69,7 +70,8 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
                 .map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private void clickRowMenu(int rowNumber, By menu) {
+
+    public void clickRowMenu(int rowNumber, By menu) {
         trs.get(rowNumber).findElement(By.xpath("//td//div//button")).click();
         getWait().until(TestUtils.movingIsFinished(menu)).click();
     }
@@ -101,8 +103,9 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         return deleteRow(getRows().size() - 1);
     }
 
-    public void clickListButton() {
+    public BaseTablePage clickListButton() {
         listButton.click();
+        return this;
     }
 
 }

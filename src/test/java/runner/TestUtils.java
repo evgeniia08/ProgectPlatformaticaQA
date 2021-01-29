@@ -11,10 +11,10 @@ import java.lang.reflect.Method;
 
 public abstract class TestUtils {
 
-    public static RunType getRunType(Object object) {
+    public static RunType getRunType(Object object, RunType defaultType) {
         Run run = object.getClass().getAnnotation(Run.class);
         if (run == null) {
-            return RunType.Single;
+            return defaultType;
         }
 
         return run.run();

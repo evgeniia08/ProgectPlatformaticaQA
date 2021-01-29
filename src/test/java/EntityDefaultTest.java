@@ -187,7 +187,7 @@ public class EntityDefaultTest extends BaseTest {
         RecycleBinPage recycleBinPage = mainPage.clickRecycleBin();
 
         Assert.assertEquals(recycleBinPage.getRowCount(), 1);
-        Assert.assertEquals(recycleBinPage.getFirstCellValue(0), changedDefaultValues.fieldString);
+        Assert.assertEquals(recycleBinPage.getCellValue(0, 1), changedDefaultValues.fieldString);
 
         recycleBinPage.clickDeletePermanently(0);
         Assert.assertEquals(recycleBinPage.getRowCount(), 0);

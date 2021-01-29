@@ -1,3 +1,5 @@
+import model.FootersEditPage;
+import model.MainPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -9,22 +11,21 @@ public class EntityFootersTest extends BaseTest {
 
     @Ignore
     @Test
-    public void sumFooter(){
+    public void sumFooter() {
     }
 
     @Ignore
     @Test
-    public void minFooter(){
+    public void minFooter() {
     }
 
     @Ignore
     @Test
-    public void maxFooter(){
+    public void maxFooter() {
     }
 
-
     @Test
-    public void countFooter(){
+    public void countFooter() {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
@@ -41,17 +42,17 @@ public class EntityFootersTest extends BaseTest {
         newRow.click();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr[@id='row-73-2']")));
         newRow.click();
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"),"3"));
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"),"3"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"), "3"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"), "3"));
 
         WebElement deleteRow = driver.findElement(By.xpath("//i[@data-row='3']"));
         deleteRow.click();
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"),"2"));
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"),"2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"), "2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"), "2"));
     }
 
     @Test
-    public void aveFooter(){
+    public void aveFooter() {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
@@ -90,24 +91,23 @@ public class EntityFootersTest extends BaseTest {
         WebElement randomClick = driver.findElement(By.xpath("//textarea[@id='t-74-r-3-control']"));
         randomClick.click();
 
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"33.33,3.67"));
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"),"33.33,3.67"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"), "33.33,3.67"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"), "33.33,3.67"));
 
         inputDec3.clear();
         inputDec3.sendKeys("0.5");
         randomClick.click();
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"33.33,4.2"));
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"),"33.33,4.2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"), "33.33,4.2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"), "33.33,4.2"));
 
         WebElement deleteRow = driver.findElement(By.xpath("//i[@data-row='2']"));
         deleteRow.click();
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"50.5,1.25"));
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"),"50.5,1.25"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"), "50.5,1.25"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='average_control']"), "50.5,1.25"));
     }
 
-
     @Test
-    public void saveFooter() throws InterruptedException{
+    public void saveFooter() throws InterruptedException {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
@@ -133,11 +133,11 @@ public class EntityFootersTest extends BaseTest {
 
         WebElement randomClick = driver.findElement(By.xpath("//textarea[@id='t-74-r-1-control']"));
         randomClick.click();
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-decimal']"),"2.2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-decimal']"), "2.2"));
 
         randomClick.click();
 
-        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"),"200,2.2"));
+        wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-74-control']"), "200,2.2"));
 
         Thread.sleep(2000);
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
@@ -147,19 +147,34 @@ public class EntityFootersTest extends BaseTest {
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'200,2.2')]")));
     }
 
-
     @Ignore
     @Test
-    public void viewFooter(){
+    public void viewFooter() {
     }
 
     @Ignore
     @Test
-    public void editFooter(){
+    public void editFooter() {
     }
 
     @Ignore
     @Test
-    public void deleteFooter(){
+    public void deleteFooter() {
+    }
+
+    @Test
+    public void createNewRecord() throws InterruptedException {
+
+        final int int_ = 1000;
+        final double decimal = 10.5;
+        final String firstRowControl = String.format("%d,%.1f", int_, decimal);
+
+        FootersEditPage footersEditPage = new MainPage(getDriver())
+                .clickMenuFooters()
+                .clickNewFolder()
+                .clickPlusSumButton()
+                .fillSumFtrsRowData(0, int_, decimal)
+                .waitSumFtrsToBe(firstRowControl)
+                .waitSumFtrsControlToBe(firstRowControl);
     }
 }

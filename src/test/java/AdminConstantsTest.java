@@ -76,8 +76,7 @@ public class AdminConstantsTest extends BaseTest {
                     (By.xpath("//button[@id='pa-entity-form-save-btn']"))).click();
         } while (isUnableCreateApp());
 
-        String congrats = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class,'card-body')]//h3[1]"))).getText();
+        String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
         Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
 
         app_name = entity_values[0];

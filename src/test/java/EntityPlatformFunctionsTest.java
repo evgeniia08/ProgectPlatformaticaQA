@@ -4,6 +4,7 @@ import model.PlatformFuncPage;
 import model.RecycleBinPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -11,7 +12,7 @@ import runner.type.RunType;
 
 import java.util.Arrays;
 import java.util.List;
-
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityPlatformFunctionsTest extends BaseTest {
 
@@ -42,8 +43,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         Assert.assertEquals(platformFuncPage.getRowCount(), 1);
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
-        Assert.assertEquals(platformFuncPage.getRowEntityIcon(0).getAttribute("class"),
-                "fa fa-check-square-o");
+        Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "createRecordTest")
@@ -59,8 +59,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         Assert.assertEquals(platformFuncPage.getRowCount(), 1);
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
-        Assert.assertEquals(platformFuncPage.getRowEntityIcon(0).getAttribute("class"),
-                "fa fa-check-square-o");
+        Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "editRecordTest")
@@ -154,7 +153,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         Assert.assertEquals(platformFuncPage.getRowCount(), 1);
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
-        Assert.assertEquals(platformFuncPage.getRowEntityIcon(0).getAttribute("class"), "fa fa-pencil");
+        Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.DRAFT_ICON_CLASS);
 
         platformFuncPage.deleteRow();
     }

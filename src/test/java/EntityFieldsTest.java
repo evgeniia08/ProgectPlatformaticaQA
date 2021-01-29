@@ -55,7 +55,7 @@ public class EntityFieldsTest extends BaseTest {
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
         Assert.assertEquals(fieldsPage.getRow(0), expectedValues);
-        Assert.assertEquals(fieldsPage.getRowEntityIcon(0).getAttribute("class"), "fa fa-check-square-o");
+        Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "deleteRecordTest")
@@ -73,7 +73,7 @@ public class EntityFieldsTest extends BaseTest {
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
         Assert.assertEquals(fieldsPage.getRow(0), expectedValues);
-        Assert.assertEquals(fieldsPage.getRowEntityIcon(0).getAttribute("class"), "fa fa-pencil");
+        Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.DRAFT_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "createRecordTest")
@@ -97,7 +97,7 @@ public class EntityFieldsTest extends BaseTest {
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
         Assert.assertEquals(fieldsPage.getRow(0), Arrays.asList(expectedValues));
-        Assert.assertEquals(fieldsPage.getRowEntityIcon(0).getAttribute("class"), "fa fa-check-square-o");
+        Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "editRecordTest")
