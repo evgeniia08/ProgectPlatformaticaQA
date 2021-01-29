@@ -2,7 +2,6 @@ import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Ignore;
 import runner.BaseTest;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -41,7 +40,6 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage.getRow(0), expectedResults);
     }
 
-    @Ignore
     @Test (dependsOnMethods = "createNewRecord")
     public void viewRecord() {
         ChevronPage page = new MainPage(getDriver())
