@@ -188,7 +188,5 @@ public class EntityBoardTest extends BaseTest {
 
         Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
-
 }
-
 
