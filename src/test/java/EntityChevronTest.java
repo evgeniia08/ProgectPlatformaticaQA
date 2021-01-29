@@ -2,6 +2,7 @@ import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Ignore;
 import runner.BaseTest;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -12,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
