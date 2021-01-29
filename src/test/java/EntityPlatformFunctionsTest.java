@@ -29,7 +29,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
     private static final String MAX_INT = "2147483647";
     private static final String OUT_OF_RANGE_MIN_INT = "-2147483649";
     private static final String ERROR_MESSAGE = "error saving entity";
-
+    @Ignore
     @Test
     public void createRecordTest() {
 
@@ -45,7 +45,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
         Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "createRecordTest")
     public void editRecordTest() {
 
@@ -61,7 +61,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRow(0), expectedValues);
         Assert.assertEquals(platformFuncPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "editRecordTest")
     public void deleteRecordTest() {
         PlatformFuncPage platformFuncPage = new MainPage(getDriver())
@@ -205,7 +205,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .clickSaveButtonErrorExpected()
                 .getErrorMessage(), ERROR_MESSAGE);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "maxBoundaryIntTest")
     public void minBoundaryIntTest() {
 
