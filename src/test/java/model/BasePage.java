@@ -33,5 +33,4 @@ public abstract class BasePage {
         }
         return actions;
     }
-
 }

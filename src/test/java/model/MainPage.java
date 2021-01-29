@@ -74,6 +74,10 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//p[contains(text(),'Parent')]")
     private WebElement menuParent;
 
+    @FindBy(xpath = "//p[contains(text(),'Footers')]")
+    private WebElement menuFooters;
+
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -94,7 +98,7 @@ public class MainPage extends BasePage {
         return this;
     }
 
-    public RecycleBinPage clickRecycleBin () {
+    public RecycleBinPage clickRecycleBin() {
         ProjectUtils.click(getWait(), recycleBinIcon);
         return new RecycleBinPage(getDriver());
     }
@@ -108,7 +112,7 @@ public class MainPage extends BasePage {
         clickMenu(menuImportValues);
         return new ImportValuesPage(getDriver());
     }
-  
+
     public Chain2Page clickMenuEventsChain2() {
         clickMenu(menuEventsChain2);
         return new Chain2Page(getDriver());
@@ -187,5 +191,10 @@ public class MainPage extends BasePage {
     public ParentPage clickMenuParent() {
         clickMenu(menuParent);
         return new ParentPage(getDriver());
+    }
+
+    public FootersPage clickMenuFooters() {
+        clickMenu(menuFooters);
+        return new FootersPage(getDriver());
     }
 }
