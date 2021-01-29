@@ -1,8 +1,10 @@
+import model.MainPage;
+import model.PlaceholderPage;
+import model.PlaceholderEdit1Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -88,5 +90,28 @@ public class EntityPlaceholderInputTest extends BaseTest {
         ProjectUtils.click(driver, actions);
         WebElement delete = driver.findElement(By.xpath("//tr[@data-index='0']//div//li/a[text()='delete']"));
         ProjectUtils.click(driver, delete);
+    }
+
+    @Test
+    public void newRecordPV_POM(){
+
+        WebDriver driver = getDriver();
+
+        MainPage mainPage = new MainPage(driver);
+        PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder().goPlaceholderEdit1Page();
+
+        //Get and save default placeholder values
+        String strValue = placeholderEdit1Page.getStrValue();
+        String txtValue = placeholderEdit1Page.getTxtValue();
+        String intValue = placeholderEdit1Page.getIntValue();
+        String decValue = placeholderEdit1Page.getDecValue();
+
+        placeholderEdit1Page.fillFields();
+
+        PlaceholderPage placeholderPage = placeholderEdit1Page.clickSaveButton();
+
+        placeholderPage.verify(strValue, txtValue, intValue, decValue);
+
+        placeholderPage.deleteRecord();
     }
 }
