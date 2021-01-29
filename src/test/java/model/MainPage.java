@@ -88,8 +88,8 @@ public class MainPage extends BasePage {
     }
 
     public String getCurrentUser() {
-        String profileButtonText = getWait().until(ExpectedConditions.visibilityOf(userProfileButton)).getText();
-        return profileButtonText.substring(profileButtonText.indexOf(' ') + 1).toLowerCase();
+        String profileButtonText = getWait().until(ExpectedConditions.visibilityOf(userProfileButton)).getAttribute("textContent");
+        return profileButtonText.split("\n")[3].trim();
     }
 
     public MainPage resetUserData() {
