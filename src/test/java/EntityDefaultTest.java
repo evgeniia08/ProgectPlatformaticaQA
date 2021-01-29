@@ -1,22 +1,20 @@
+import model.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import runner.BaseTest;
+import runner.ProjectUtils;
+import runner.type.Run;
+import runner.type.RunType;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import model.*;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.Test;
-import org.testng.Assert;
-import runner.BaseTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import runner.ProjectUtils;
-import runner.type.Run;
-import runner.type.RunType;
-
 @Run(run = RunType.Multiple)
-
 public class EntityDefaultTest extends BaseTest {
 
     private class FieldValues {
@@ -44,7 +42,6 @@ public class EntityDefaultTest extends BaseTest {
 
     private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
     private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
-    private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -70,8 +67,8 @@ public class EntityDefaultTest extends BaseTest {
             null,
             "Changed default String",
             "Changed default Text",
-             String.valueOf((int) (Math.random() * 100)),
-             "33.33", //String.valueOf((int) (Math.random()*20000) / 100.0),
+            String.valueOf((int) (Math.random() * 100)),
+            "33.33", //String.valueOf((int) (Math.random()*20000) / 100.0),
             "01/01/2021",
             "01/01/2021 12:34:56",
             "user115@tester.com");
@@ -90,7 +87,7 @@ public class EntityDefaultTest extends BaseTest {
             null,
             UUID.randomUUID().toString(),
             "Some random text as Edited Text Value",
-             String.valueOf((int) (Math.random() * 100)),
+            String.valueOf((int) (Math.random() * 100)),
             "77.77",    //String.valueOf((int) (Math.random()*20000) / 100.0 after a bug will be fixed),
             "30/12/2020",
             "30/12/2020 12:34:56",
@@ -101,12 +98,12 @@ public class EntityDefaultTest extends BaseTest {
             defaultValues.fieldDate, defaultValues.fieldDateTime, defaultValues.fieldUser));
 
     private final List<String> NEW_VALUES = new ArrayList<>(Arrays.asList("", newValues.fieldString, newValues.fieldText,
-                  newValues.fieldInt, newValues.fieldDecimal,
-                  newValues.fieldDate, newValues.fieldDateTime, "", "", newValues.fieldUser, "menu"));
+            newValues.fieldInt, newValues.fieldDecimal,
+            newValues.fieldDate, newValues.fieldDateTime, "", "", newValues.fieldUser, "menu"));
 
     private final String[] CHANGED_DEFAULT_VALUES = {changedDefaultValues.fieldString,
-                   changedDefaultValues.fieldText, changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal,
-                   changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime};
+            changedDefaultValues.fieldText, changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal,
+            changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime};
 
     private final String[] CHANGED_EMBEDD_VALUES = {changedEmbedDValues.lineNumber, changedEmbedDValues.fieldString,
             changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
@@ -114,10 +111,10 @@ public class EntityDefaultTest extends BaseTest {
 
     private final List<String> DEFAULT_EMBEDED_VALUES =
             new ArrayList<>(Arrays.asList(defaultEmbeDValues.lineNumber, defaultEmbeDValues.fieldString,
-            defaultEmbeDValues.fieldText, defaultEmbeDValues.fieldInt, defaultEmbeDValues.fieldDecimal,
-            defaultEmbeDValues.fieldDate, defaultEmbeDValues.fieldDateTime, defaultEmbeDValues.fieldUser));
+                    defaultEmbeDValues.fieldText, defaultEmbeDValues.fieldInt, defaultEmbeDValues.fieldDecimal,
+                    defaultEmbeDValues.fieldDate, defaultEmbeDValues.fieldDateTime, defaultEmbeDValues.fieldUser));
 
-    private void selectFromRecordMenu (WebDriver driver, By byFunction) {
+    private void selectFromRecordMenu(WebDriver driver, By byFunction) {
 
         driver.findElement(BY_RECORD_HAMBURGER_MENU).click();
 
@@ -161,8 +158,6 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, changedEmbedDValues.fieldUser);
 
         defaultEditPage.clickSaveButton();
-//        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
-//        ProjectUtils.click(driver, saveBtn);
 
         selectFromRecordMenu(driver, BY_VIEW);
 
@@ -174,10 +169,10 @@ public class EntityDefaultTest extends BaseTest {
         assertRecordValues(driver, "//table/tbody/tr/td", CHANGED_EMBEDD_VALUES);
     }
 
-    @Test (dependsOnMethods = "checkDefaultValuesAndUpdate")
+    @Test(dependsOnMethods = "checkDefaultValuesAndUpdate")
     public void deleteRecord() {
 
-        MainPage mainPage  = new MainPage(getDriver());
+        MainPage mainPage = new MainPage(getDriver());
         DefaultPage defaultPage = mainPage.clickMenuDefault();
 
         defaultPage.deleteRow();
@@ -196,20 +191,16 @@ public class EntityDefaultTest extends BaseTest {
     @ Test (dependsOnMethods = "deleteRecord")
     public void editExistingRecord() {
 
-        MainPage mainPage = new MainPage(getDriver());
-        DefaultPage defaultPage = mainPage
+        DefaultPage defaultPage = new MainPage(getDriver())
                 .clickMenuDefault()
                 .clickNewFolder()
+                .clickSaveButton()
+                .editRow(0)
+                .sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
+                newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser)
                 .clickSaveButton();
 
-        DefaultEditPage defaultEditPage = defaultPage.editRow(0);
-
-        defaultEditPage.sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
-                newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser);
-
-        defaultPage = defaultEditPage.clickSaveButton();
         Assert.assertEquals(defaultPage.getRowCount(), 1);
-
         Assert.assertEquals(defaultPage.getRow(0, "//td"), NEW_VALUES);
     }
 }

@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import runner.ProjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +78,11 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
 
     @Override
     public DefaultPage clickSaveButton() {
-        ProjectUtils.click(getDriver(), saveButton);
+        getActions().moveToElement(saveButton).click().build().perform();
         return createPage();
     }
 
-    public void sendKeys(String string, String text, String int_, String decimal, String date,
+    public DefaultEditPage sendKeys(String string, String text, String int_, String decimal, String date,
                          String dateTime, String user) {
         sendKeys(fieldString, string);
         sendKeys(fieldText, text);
@@ -93,6 +92,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
         sendKeys(fieldDateTime, dateTime);
         Select userSelect = new Select(buttonUser);
         userSelect.selectByVisibleText(user);
+        return this;
     }
 
     public List<String> toList() {

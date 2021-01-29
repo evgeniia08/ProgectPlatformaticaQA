@@ -1,6 +1,5 @@
 package model;
 
-import com.beust.jcommander.Strings;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +19,7 @@ public final class RecycleBinPage extends MainPage {
     }
 
     public int getRowCount() {
-        if (Strings.isStringEmpty(body.getText())) {
+        if (body.getText().equals("Good job with housekeeping! Recycle bin is currently empty!")) {
             return 0;
         } else {
             return rows.size();
