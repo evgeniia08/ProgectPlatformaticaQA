@@ -40,7 +40,7 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage.getRow(0), expectedResults);
     }
 
-    @Test(dependsOnMethods = "createNewRecord")
+    @Test (dependsOnMethods = "createNewRecord")
     public void viewRecord() {
         ChevronPage page = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -48,7 +48,7 @@ public class EntityChevronTest extends BaseTest {
                 .getColumn();
     }
 
-    @Test(dependsOnMethods = "createNewRecord")
+    @Test (dependsOnMethods = "viewRecord")
     public void deleteRecord() {
 
         ChevronPage chevronPage = new ChevronPage(getDriver());
@@ -62,9 +62,8 @@ public class EntityChevronTest extends BaseTest {
                 .getCellValue(0, 2), expectedResults.get(1));
     }
 
-    @Test
+    @Test (dependsOnMethods = "deleteRecord")
     public void findChevron() {
-
         WebDriver driver = getDriver();
 
         WebElement clickChevron = driver.findElement(By.xpath("//p[contains(text(),'Chevron')]"));

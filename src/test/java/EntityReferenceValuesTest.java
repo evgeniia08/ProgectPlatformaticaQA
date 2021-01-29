@@ -1,4 +1,5 @@
 import model.MainPage;
+import model.ReferenceValuesEditPage;
 import model.ReferenceValuesPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,47 +29,51 @@ public class EntityReferenceValuesTest extends BaseTest {
     private static final String RECORD_ICON_CLASS = AppConstant.RECORD_ICON_CLASS;
     private static final String DRAFT_ICON_CLASS = AppConstant.DRAFT_ICON_CLASS;
 
+    private static final List<String> RECORD_VALUES = Arrays.asList(LABEL, FILTER_1, FILTER_2);
+    private static final List<String> RECORD_EDITED_VALUES = Arrays.asList(LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED);
+    private static final List<String> DRAFT_VALUES = Arrays.asList(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2);
+    private static final List<String> DRAFT_EDITED_VALUES = Arrays.asList(DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED);
+
     @Test
     public void createRecordTest() {
-
-        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
 
         ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .clickNewFolder()
-                .fillData(LABEL, FILTER_1, FILTER_2)
+                .fillData(RECORD_VALUES.get(0), RECORD_VALUES.get(1), RECORD_VALUES.get(2))
                 .clickSaveButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "createRecordTest")
     public void viewRecordTest() {
 
-        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
-
         Assert.assertEquals(new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .viewRow()
-                .getReferenceValues(), expectedValues);
+                .getReferenceValues(), RECORD_VALUES);
     }
 
     @Test(dependsOnMethods = "viewRecordTest")
     public void editRecordTest() {
 
-        List<String> expectedValues = Arrays.asList(LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED);
-
-        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+        ReferenceValuesEditPage referenceValuesEditPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
-                .editRow(0)
-                .fillData(LABEL_EDITED, FILTER_1_EDITED, FILTER_2_EDITED)
+                .editRow(0);
+
+        Assert.assertEquals(referenceValuesEditPage.getInputValues(), RECORD_VALUES);
+
+        ReferenceValuesPage referenceValuesPage = referenceValuesEditPage
+                .fillData(RECORD_EDITED_VALUES.get(0), RECORD_EDITED_VALUES.get(1), RECORD_EDITED_VALUES.get(2))
                 .clickSaveButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_EDITED_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
+        Assert.assertEquals(referenceValuesPage.viewRow().getReferenceValues(), RECORD_EDITED_VALUES);
     }
 
     @Test(dependsOnMethods = "editRecordTest")
@@ -90,51 +95,50 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "deleteRecordTest")
     public void createDraftTest() {
 
-        List<String> expectedValues = Arrays.asList(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2);
-
         ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .clickNewFolder()
-                .fillData(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2)
+                .fillData(DRAFT_VALUES.get(0), DRAFT_VALUES.get(1), DRAFT_VALUES.get(2))
                 .clickSaveDraftButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), DRAFT_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "createDraftTest")
     public void viewDraftTest() {
 
-        List<String> expectedValues = Arrays.asList(DRAFT_LABEL, DRAFT_FILTER_1, DRAFT_FILTER_2);
-
         Assert.assertEquals(new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .viewRow()
-                .getReferenceValues(), expectedValues);
+                .getReferenceValues(), DRAFT_VALUES);
     }
 
     @Test(dependsOnMethods = "viewDraftTest")
     public void editDraftTest() {
 
-        List<String> expectedValues = Arrays.asList(DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED);
-
-        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
+        ReferenceValuesEditPage referenceValuesEditPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
-                .editRow(0)
-                .fillData(DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED)
+                .editRow(0);
+
+        Assert.assertEquals(referenceValuesEditPage.getInputValues(), DRAFT_VALUES);
+
+        ReferenceValuesPage referenceValuesPage = referenceValuesEditPage
+                .fillData(DRAFT_EDITED_VALUES.get(0), DRAFT_EDITED_VALUES.get(1), DRAFT_EDITED_VALUES.get(2))
                 .clickSaveDraftButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), DRAFT_EDITED_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
+        Assert.assertEquals(referenceValuesPage.viewRow().getReferenceValues(), DRAFT_EDITED_VALUES);
     }
 
     @Test(dependsOnMethods = "editDraftTest")
     public void deleteDraftTest() {
 
         String deletedReferenceValueDraft = String.format("Label: %sFilter 1: %sFilter 2: %s",
-                DRAFT_LABEL_EDITED, DRAFT_FILTER_1_EDITED, DRAFT_FILTER_2_EDITED);
+                DRAFT_EDITED_VALUES.get(0), DRAFT_EDITED_VALUES.get(1), DRAFT_EDITED_VALUES.get(2));
 
         Assert.assertEquals(new MainPage(getDriver())
                 .clickMenuReferenceValues()
@@ -149,21 +153,17 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "deleteDraftTest")
     public void saveRecordAsDraftTest() {
 
-        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
-
         createRecordTest();
 
         ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver()).editRow().clickSaveDraftButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
     }
 
     @Test(dependsOnMethods = "saveRecordAsDraftTest")
     public void saveDraftAsRecordTest() {
-
-        List<String> expectedValues = Arrays.asList(LABEL, FILTER_1, FILTER_2);
 
         ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver())
                 .clickMenuReferenceValues()
@@ -171,7 +171,7 @@ public class EntityReferenceValuesTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
-        Assert.assertEquals(referenceValuesPage.getRow(0), expectedValues);
+        Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
     }
 }
