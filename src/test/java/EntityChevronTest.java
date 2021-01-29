@@ -141,11 +141,3 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(ExpectedSign, recheckFulfillment.getText());
     }
 }
-
-
-
-
-
-
-
-
