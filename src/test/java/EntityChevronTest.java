@@ -30,8 +30,6 @@ public class EntityChevronTest extends BaseTest {
 
     List<String> expectedResults = Arrays.asList("Fulfillment", "TEST1", "11", "0.11", Data, DataTime);
 
-    final String secondEntity = "//tbody/tr[2]/td[3]";
-
     @DataProvider(name = "testData")
     private Object[][] testData1() {
         return new Object[][]{
@@ -66,29 +64,35 @@ public class EntityChevronTest extends BaseTest {
     @Test(dataProvider = "testData")
     public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
 
-        final List<String> expectedValues = Arrays.asList(title, int_, decimal, data, time);
-
-        ChevronPage chevronPage = new MainPage(getDriver())
-                .clickMenuChevron();
+        ChevronPage chevronPage = new MainPage(getDriver()).clickMenuChevron();
         int rowCount = chevronPage.getRowCount();
-       chevronPage.clickNewFolder()
+        chevronPage.clickNewFolder()
                 .chooseRecordStatus()
                 .sendKeys(title, int_, decimal, data, time)
                 .clickSaveButton();
         Assert.assertEquals(chevronPage.getRowCount(), rowCount + 1);
 
     }
+
     @Test(dependsOnMethods = "createMultipleEntities")
     public void dragTheRowUp() throws InterruptedException {
-        new MainPage(getDriver())
+        String chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
                 .orderBy()
                 .drugUp()
                 .getCellData();
-        Assert.assertEquals(getDriver().findElement(By.xpath(secondEntity)).getText(), "TEST5");
+        Assert.assertEquals(chevronPage, "TEST1");
+    }
+
+    @Test (dependsOnMethods = "viewRecord")
+    public void deleteRecord() {
+        ChevronPage chevronPage = new ChevronPage(getDriver());
+        Assert.assertEquals(chevronPage
+                .clickMenuChevron()
+                .deleteRow()
+                .getRowCount(), 5);
     }
     @Test()
-
     public void findChevron() throws InterruptedException {
 
         WebDriver driver = ProjectUtils.loginProcedure(getDriver());
