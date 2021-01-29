@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 
@@ -114,14 +113,6 @@ public class EntityDefaultTest extends BaseTest {
                     defaultEmbeDValues.fieldText, defaultEmbeDValues.fieldInt, defaultEmbeDValues.fieldDecimal,
                     defaultEmbeDValues.fieldDate, defaultEmbeDValues.fieldDateTime, defaultEmbeDValues.fieldUser));
 
-    private void selectFromRecordMenu(WebDriver driver, By byFunction) {
-
-        driver.findElement(BY_RECORD_HAMBURGER_MENU).click();
-
-        WebElement viewFunction = driver.findElement(byFunction);
-        ProjectUtils.click(driver, viewFunction);
-    }
-
     private void assertRecordValues(WebDriver driver, String xpath, String[] changed_default_values) {
         List<WebElement> rows = driver.findElements(By.xpath(xpath));
         for (int i = 0; i < changed_default_values.length; i++) {
@@ -157,9 +148,7 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
                 changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, changedEmbedDValues.fieldUser);
 
-        defaultEditPage.clickSaveButton();
-
-        selectFromRecordMenu(driver, BY_VIEW);
+        defaultEditPage.clickSaveButton().viewRow();
 
         assertRecordValues(driver, "//span[@class='pa-view-field']", CHANGED_DEFAULT_VALUES);
 
