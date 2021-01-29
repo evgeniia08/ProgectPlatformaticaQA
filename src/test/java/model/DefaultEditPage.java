@@ -78,7 +78,14 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
 
     @Override
     public DefaultPage clickSaveButton() {
-        getActions().moveToElement(saveButton).click().build().perform();
+        // this is the way it works
+        getActions()
+                .moveToElement(saveDraftButton)
+                .moveToElement(cancelButton)
+                .moveToElement(saveButton)
+                .click()
+                .build()
+                .perform();
         return createPage();
     }
 
