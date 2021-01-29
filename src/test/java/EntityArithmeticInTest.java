@@ -83,7 +83,7 @@ public class EntityArithmeticInTest extends BaseTest {
                 .clickMenuArithmeticInline()
                 .editRow(0);
 
-        Assert.assertEquals(arithmeticInlineEditPage.getEditValues(), INITIAL_VALUES);
+        Assert.assertEquals(arithmeticInlineEditPage.getInputValues(), INITIAL_VALUES);
 
         arithmeticInlineEditPage.fillF1F2(EDIT_VALUES.get(0), EDIT_VALUES.get(1))
                 .waitSumToBe(EDIT_VALUES.get(2))
@@ -95,7 +95,7 @@ public class EntityArithmeticInTest extends BaseTest {
 
         Assert.assertEquals(arithmeticInlinePage.getRow(0), EDIT_VALUES);
         Assert.assertEquals(arithmeticInlinePage.viewRow(0).getValues(), EDIT_VALUES);
-        Assert.assertEquals(arithmeticInlinePage.clickMenuArithmeticInline().editRow().getEditValues(), EDIT_VALUES);
+        Assert.assertEquals(arithmeticInlinePage.clickMenuArithmeticInline().editRow().getInputValues(), EDIT_VALUES);
     }
 
     @Test(dependsOnMethods = "editRecordTest")

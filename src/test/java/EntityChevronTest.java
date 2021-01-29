@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import runner.BaseTest;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.ProjectUtils;
@@ -65,7 +63,7 @@ public class EntityChevronTest extends BaseTest {
     }
 
 
-    @Test(dataProvider = "testData")// dependsOnMethods="viewRecord" )
+    @Test(dataProvider = "testData")
     public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
 
         final List<String> expectedValues = Arrays.asList(title, int_, decimal, data, time);

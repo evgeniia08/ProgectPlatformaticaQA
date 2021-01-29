@@ -9,6 +9,15 @@ import runner.ProjectUtils;
 
 public class EntityReadonlyTest extends BaseTest {
 
+    @Test
+    public void verifyListIsEmptyTest() {
+        WebDriver driver = getDriver();
+
+        driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]")).click();
+        driver.findElement(By.xpath("//a[@href='index.php?action=action_list&list_type=table&entity_id=6']")).click();
+        Assert.assertEquals(driver.findElement(By.className("card-body")).getText(), "");
+    }
+
     @Ignore
     @Test
     public void inputTest() {

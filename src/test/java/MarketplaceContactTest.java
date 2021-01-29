@@ -19,7 +19,7 @@ import java.util.TimeZone;
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
-public class ContactPageTest extends BaseTest {
+public class MarketplaceContactTest extends BaseTest {
 
     private static String getDate() {
         SimpleDateFormat dateFormatGmt = new SimpleDateFormat("dd/MM/yyyy");
