@@ -48,7 +48,7 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "inputValidationTest")
-    public void viewRecords() {
+    public void kanbanValidationRecord() {
 
         BoardPage boardPage = new MainPage(getDriver())
                 .clickMenuBoard();
@@ -60,7 +60,7 @@ public class EntityBoardTest extends BaseTest {
         Assert.assertEquals(boardPage.getPendingText(), String.format("%s %s %s %s %5$s %6$s 8", PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation));
     }
 
-    @Test(dependsOnMethods = {"viewRecords"})
+    @Test(dependsOnMethods = {"kanbanValidationRecord"})
     public void manipulateTest1() {
 
 
@@ -124,7 +124,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = {"manipulateTest4"})
     public void editBoard() {
 
-        List<String> expectedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, "", APP_USER);
+        List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, "", APP_USER);
 
         BoardListPage boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
@@ -135,6 +135,58 @@ public class EntityBoardTest extends BaseTest {
                 .clickListButton();
 
         Assert.assertEquals(boardListPage.getRowCount(), 1);
-        Assert.assertEquals(boardListPage.getRow(0), expectedValues);
+        Assert.assertEquals(boardListPage.getRow(0), editedValues);
+    }
+
+    @Test(dependsOnMethods = {"editBoard"})
+    public void viewRecord() {
+
+        List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, APP_USER);
+        List<String> actualValues;
+
+        BaseViewPage baseViewPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton()
+                .viewRow();
+
+        actualValues = baseViewPage.getValues();
+        actualValues.add(baseViewPage.getUser());
+        Assert.assertEquals(actualValues, editedValues);
+    }
+
+    @Test(dependsOnMethods = {"viewRecord"})
+    public void deleteRecord() {
+
+        BoardListPage boardListPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton()
+                .deleteRow();
+
+        Assert.assertEquals(boardListPage.getRowCount(), 0);
+    }
+
+    @Test(dependsOnMethods = {"deleteRecord"})
+    public void recordDeletionRecBin() {
+
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickRecycleBin();
+                recycleBinPage.clickDeletePermanently(0);
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
+        Assert.assertEquals(recycleBinPage.getNotification(), "Good job with housekeeping! Recycle bin is currently empty!");
+    }
+
+    @Test(dependsOnMethods = {"recordDeletionRecBin"})
+    public void cancelInputTest() {
+
+        BoardPage boardPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickNewFolder()
+                .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)
+                .clickCancelButton();
+
+        Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
 }
+

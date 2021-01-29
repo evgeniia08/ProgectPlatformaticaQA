@@ -16,18 +16,17 @@ import java.util.List;
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
-    final String comments = "TEST";
-    final String int_ = "11";
-    final String decimal = "0.1";
-    final  String xpath = "//tbody/tr[1]/td[10]/div[1]/ul[1]/li[1]/a[1]";
+    private final String comments = "TEST";
+    private final String int_ = "11";
+    private final String decimal = "0.1";
 
     SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-    public String Data = data.format(new Date());
+    private String Data = data.format(new Date());
 
     SimpleDateFormat Time = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    public String DataTime = Time.format(new Date());
+    private String DataTime = Time.format(new Date());
 
-    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST", "11", "0.1", Data, DataTime);
+    private List<String> expectedResults = Arrays.asList("Fulfillment", "TEST", "11", "0.1", Data, DataTime);
 
     @Test
     public void createNewRecord() {
@@ -44,13 +43,12 @@ public class EntityChevronTest extends BaseTest {
     public void viewRecord() {
         ChevronPage page = new MainPage(getDriver())
                 .clickMenuChevron()
-                .clickViewButton(xpath)
+                .clickViewButton()
                 .getColumn();
     }
 
     @Test (dependsOnMethods = "viewRecord")
     public void deleteRecord() {
-
         ChevronPage chevronPage = new ChevronPage(getDriver());
         Assert.assertEquals(chevronPage
                 .clickMenuChevron()
@@ -110,11 +108,3 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(ExpectedSign, recheckFulfillment.getText());
     }
 }
-
-
-
-
-
-
-
-

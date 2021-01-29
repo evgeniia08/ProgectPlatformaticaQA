@@ -36,6 +36,10 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
 
     protected abstract EditPage createEditPage();
 
+    public WebElement getBody(){
+        return body;
+    }
+
     protected List<WebElement> getRows() {
         return trs;
     }
@@ -103,4 +107,5 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         listButton.click();
         return this;
     }
+
 }
