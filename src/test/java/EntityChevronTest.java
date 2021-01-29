@@ -86,9 +86,9 @@ public class EntityChevronTest extends BaseTest {
                 .drugUp()
                 .getCellData();
         Assert.assertEquals(getDriver().findElement(By.xpath(secondEntity)).getText(), "TEST5");
-
     }
     @Test()
+
     public void findChevron() throws InterruptedException {
 
         WebDriver driver = ProjectUtils.loginProcedure(getDriver());
