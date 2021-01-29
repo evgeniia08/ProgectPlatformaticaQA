@@ -172,10 +172,23 @@ public class EntityBoardTest extends BaseTest {
                 .clickMenuBoard()
                 .clickRecycleBin();
                 recycleBinPage.clickDeletePermanently(0);
-        System.out.println(recycleBinPage.getNotification());
+
         Assert.assertEquals(recycleBinPage.getRowCount(), 0);
-        Assert.assertNull(null, "Good job with housekeeping! Recycle bin is currently empty!");
+        Assert.assertEquals(recycleBinPage.getNotification(), "Good job with housekeeping! Recycle bin is currently empty!");
     }
+
+    @Test(dependsOnMethods = {"recordDeletionRecBin"})
+    public void cancelInputTest() {
+
+        BoardPage boardPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickNewFolder()
+                .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)
+                .clickCancelButton();
+
+        Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
+    }
+
 }
 
 

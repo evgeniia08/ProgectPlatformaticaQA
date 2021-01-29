@@ -16,7 +16,7 @@ public final class RecycleBinPage extends MainPage {
     private List<WebElement> rows;
 
     @FindBy(xpath = "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]")
-    private String notification;
+    private WebElement notification;
 
     public RecycleBinPage(WebDriver driver) {
         super(driver);
@@ -51,6 +51,6 @@ public final class RecycleBinPage extends MainPage {
     }
 
     public String getNotification(){
-        return notification;
+        return notification.getText();
     }
 }
