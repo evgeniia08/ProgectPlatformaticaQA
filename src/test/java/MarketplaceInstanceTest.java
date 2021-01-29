@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -14,9 +15,11 @@ import runner.type.Run;
 import runner.type.RunType;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
@@ -26,7 +29,8 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
-    private static final String PRIMARY_LANGUAGE = "German";
+    private static final String PRIMARY_LANGUAGE = "English";
+    private static List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
 
 
@@ -255,10 +259,17 @@ public class MarketplaceInstanceTest extends BaseTest {
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
     }
-
+    //functional bug
+    @Ignore
     @Test
     public void ascOrder() throws InterruptedException {
         WebDriver driver = getDriver();
+        createInstance(driver, "nnnn", "nnnn", PRIMARY_LANGUAGE);
+        createInstance(driver, "bbbb", "bbbb", PRIMARY_LANGUAGE);
+        createInstance(driver, "kkkk", "kkkk", PRIMARY_LANGUAGE);
         createInstance(driver, "zzzz", "zzzz", PRIMARY_LANGUAGE);
+        driver.findElement(By.xpath("//div[text() = 'Name']")).click();
+        Assert.assertEquals(driver.findElements(By.xpath("//tbody//tr//td[2]")).stream().map(WebElement::getText).collect(Collectors.toList()), ascNames);
+
     }
 }
