@@ -19,6 +19,9 @@ public class BaseViewPage extends BasePage {
     })
     private List<WebElement> allValues;
 
+    @FindBy (xpath = "//div[@class='form-group']/p")
+    private WebElement user;
+
     public BaseViewPage(WebDriver driver) {
         super(driver);
     }
@@ -29,5 +32,9 @@ public class BaseViewPage extends BasePage {
 
     public List<String> getReferenceValues() {
         return allValues.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public String getUser(){
+        return user.getText();
     }
 }
