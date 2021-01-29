@@ -4,6 +4,7 @@ import model.PlatformFuncPage;
 import model.RecycleBinPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -75,7 +76,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(TEST_TEXT_10));
         Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(CUSTOM_CONSTANT));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "deleteRecordTest")
     public void entityMainLogicTest() {
 
@@ -125,7 +126,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         platformFuncPage.deleteRow(0).deleteRow(0).deleteRow(0);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "entityMainLogicTest")
     public void createCancelTest() {
 
@@ -138,7 +139,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRowCount(), 0);
         Assert.assertEquals(platformFuncPage.clickNewFolder().getLastInt(), LAST_INT);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "createCancelTest")
     public void createDraftTest() {
 
@@ -156,7 +157,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         platformFuncPage.deleteRow();
     }
-
+    @Ignore
     @Test(dependsOnMethods = "createDraftTest")
     public void viewRecordLongStringTest() {
 
@@ -174,7 +175,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .viewRow()
                 .getValues(), expectedValues);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "viewRecordLongStringTest")
     public void invalidLastIntTest() {
 
@@ -185,7 +186,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
                 .clickSaveButtonErrorExpected()
                 .getErrorMessage(), ERROR_MESSAGE);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "invalidLastIntTest")
     public void maxBoundaryIntTest() {
 
