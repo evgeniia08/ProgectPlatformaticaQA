@@ -1,6 +1,7 @@
 package model;
 
 import com.beust.jcommander.Strings;
+import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,6 +36,10 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
     }
 
     protected abstract EditPage createEditPage();
+
+    public WebElement getBody(){
+        return body;
+    }
 
     protected List<WebElement> getRows() {
         return trs;
@@ -103,4 +108,5 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         listButton.click();
         return this;
     }
+
 }

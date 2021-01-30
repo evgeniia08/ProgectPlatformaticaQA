@@ -1,9 +1,13 @@
 package model;
 
+import model.entity.common.ErrorPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class BaseEditPage<TablePage> extends BasePage {
 
@@ -15,6 +19,9 @@ public abstract class BaseEditPage<TablePage> extends BasePage {
 
     @FindBy(xpath = "//button[text() = 'Cancel']")
     protected WebElement cancelButton;
+
+    @FindBy(css = "input[type=text]")
+    private List<WebElement> inputFields;
 
     public BaseEditPage(WebDriver driver) {
         super(driver);
@@ -50,5 +57,9 @@ public abstract class BaseEditPage<TablePage> extends BasePage {
         ProjectUtils.scroll(getDriver(), cancelButton);
         ProjectUtils.click(getWait(), cancelButton);
         return createPage();
+    }
+
+    public List<String> getInputValues() {
+        return inputFields.stream().map(e -> e.getAttribute("value")).collect(Collectors.toList());
     }
 }

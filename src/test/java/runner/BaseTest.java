@@ -11,17 +11,13 @@ import org.testng.annotations.*;
 import runner.type.ProfileType;
 import runner.type.RunType;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Listeners(TestOrder.class)
@@ -53,8 +49,8 @@ public abstract class  BaseTest {
     private WebDriver driver;
     private WebDriverWait webDriverWait;
 
-    private RunType runType = RunType.Single;
-    private ProfileType profileType = ProfileType.DEFAULT;
+    private RunType runType;
+    private ProfileType profileType;
 
     private WebDriver createBrowser() {
         WebDriver result;
@@ -81,7 +77,6 @@ public abstract class  BaseTest {
         }
 
         result.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         LoggerUtils.log("Browser opened");
 
         return result;
@@ -100,40 +95,58 @@ public abstract class  BaseTest {
         profileType.reset(driver);
     }
 
+    protected RunType getRunType() {
+        return runType;
+    }
+
     @BeforeClass
     protected void beforeClass() {
-        profileType = TestUtils.getProfileType(this, ProfileType.DEFAULT);
-        runType = TestUtils.getRunType(this);
+        beforeClass(TestUtils.getRunType(this, RunType.Single),
+                TestUtils.getProfileType(this, ProfileType.DEFAULT));
+    }
 
-        if (runType == RunType.Multiple) {
+    protected void beforeClass(RunType runType, ProfileType profileType) {
+        this.runType = runType;
+        this.profileType = profileType;
+
+        if (this.runType == RunType.Multiple) {
             driver = createBrowser();
-            startTest(driver, profileType);
+            startTest(driver, this.profileType);
         }
     }
 
     @BeforeMethod
     protected void beforeMethod(Method method) {
-        LoggerUtils.logGreen(String.format("%s.%s()",
-            this.getClass().getName(), method.getName()));
+        beforeMethod(method.getName(),
+                TestUtils.getProfileType(method, this.profileType));
+    }
+
+    protected void beforeMethod(String methodName, ProfileType profileType) {
+        LoggerUtils.logGreen(String.format("%s.%s",
+            this.getClass().getName(), methodName));
 
         if (runType == RunType.Single) {
             driver = createBrowser();
-            startTest(driver, TestUtils.getProfileType(method, profileType));
+            startTest(driver, profileType);
         } else {
             profileType.get(driver);
         }
     }
 
     @AfterMethod
-    protected void afterMethod(Method method, ITestResult tr) {
+    protected void afterMethod(Method method, ITestResult testResult) {
+        afterMethod(method.getName(),
+                (testResult.getEndMillis() - testResult.getStartMillis()) / 1000);
+    }
+
+    protected void afterMethod(String methodName, long executionTime) {
 
         if (runType == RunType.Single) {
             quitBrowser();
         }
 
-        long executionTime = (tr.getEndMillis() - tr.getStartMillis()) / 1000;
-        LoggerUtils.logGreen(String.format("%s.%s() Execution time: %ds",
-            this.getClass().getName(), method.getName(), executionTime));
+        LoggerUtils.logGreen(String.format("%s.%s Execution time: %ds",
+            this.getClass().getName(), methodName, executionTime));
     }
 
     @AfterClass
