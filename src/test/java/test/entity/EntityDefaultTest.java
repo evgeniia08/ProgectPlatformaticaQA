@@ -155,7 +155,9 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
                 changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, changedEmbeddedValues.fieldUser);
 
-        defaultEditPage.clickSaveButton().viewRow();
+        defaultEditPage
+                .clickSaveButton()
+                .viewRow(0);
 
         assertRecordValues(driver, "//span[@class='pa-view-field']", CHANGED_DEFAULT_VALUES);
 
