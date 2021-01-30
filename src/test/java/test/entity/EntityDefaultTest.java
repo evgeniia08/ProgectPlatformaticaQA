@@ -1,24 +1,21 @@
-package test.entity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import model.DefaultEmbeddedPage;
 import model.entity.edit.DefaultEditPage;
 import model.entity.table.DefaultPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
-import org.testng.annotations.Test;
-import org.testng.Assert;
-import runner.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import runner.ProjectUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import runner.BaseTest;
 import runner.type.Run;
 import runner.type.RunType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 @Run(run = RunType.Multiple)
 
@@ -49,7 +46,6 @@ public class EntityDefaultTest extends BaseTest {
 
     private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
     private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
-    //private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -122,14 +118,6 @@ public class EntityDefaultTest extends BaseTest {
             defaultEmbeddedValues.fieldText, defaultEmbeddedValues.fieldInt, defaultEmbeddedValues.fieldDecimal,
             defaultEmbeddedValues.fieldDate, defaultEmbeddedValues.fieldDateTime, defaultEmbeddedValues.fieldUser));
 
-    private void selectFromRecordMenu (WebDriver driver, By byFunction) {
-
-        driver.findElement(BY_RECORD_HAMBURGER_MENU).click();
-
-        WebElement viewFunction = driver.findElement(byFunction);
-        ProjectUtils.click(driver, viewFunction);
-    }
-
     private void assertRecordValues(WebDriver driver, String xpath, String[] changed_default_values) {
         List<WebElement> rows = driver.findElements(By.xpath(xpath));
         for (int i = 0; i < changed_default_values.length; i++) {
@@ -165,11 +153,7 @@ public class EntityDefaultTest extends BaseTest {
                 changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
                 changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, changedEmbeddedValues.fieldUser);
 
-        defaultEditPage.clickSaveButton();
-//        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
-//        ProjectUtils.click(driver, saveBtn);
-
-        selectFromRecordMenu(driver, BY_VIEW);
+        defaultEditPage.clickSaveButton().viewRow();
 
         assertRecordValues(driver, "//span[@class='pa-view-field']", CHANGED_DEFAULT_VALUES);
 
@@ -179,19 +163,16 @@ public class EntityDefaultTest extends BaseTest {
         assertRecordValues(driver, "//table/tbody/tr/td", CHANGED_EMBEDD_VALUES);
     }
 
-    @Test (dependsOnMethods = "checkDefaultValuesAndUpdate")
+    @Test(dependsOnMethods = "checkDefaultValuesAndUpdate")
     public void deleteRecord() {
 
-    //    MainPage mainPage  = new MainPage(getDriver());
-        DefaultPage defaultPage = new DefaultPage(getDriver())
-                .clickMenuDefault()
+        MainPage mainPage = new MainPage(getDriver());
+        DefaultPage defaultPage = mainPage.clickMenuDefault()
                 .deleteRow();
-
-      //  defaultPage.deleteRow();
 
         Assert.assertEquals(defaultPage.getRowCount(), 0);
 
-        RecycleBinPage recycleBinPage = defaultPage.clickRecycleBin();
+        RecycleBinPage recycleBinPage = mainPage.clickRecycleBin();
 
         Assert.assertEquals(recycleBinPage.getRowCount(), 1);
         Assert.assertEquals(recycleBinPage.getCellValue(0, 1), changedDefaultValues.fieldString);
@@ -203,18 +184,15 @@ public class EntityDefaultTest extends BaseTest {
     @ Test (dependsOnMethods = "deleteRecord")
     public void editExistingRecord() {
 
-    //    MainPage mainPage = new MainPage(getDriver());
-        DefaultPage defaultPage = new DefaultPage(getDriver())
+        DefaultPage defaultPage = new MainPage(getDriver())
                 .clickMenuDefault()
                 .clickNewFolder()
+                .clickSaveButton()
+                .editRow(0)
+                .sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
+                newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser)
                 .clickSaveButton();
 
-        DefaultEditPage defaultEditPage = defaultPage.editRow(0);
-
-        defaultEditPage.sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
-                newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser);
-
-        defaultPage = defaultEditPage.clickSaveButton();
         Assert.assertEquals(defaultPage.getRowCount(), 1);
         Assert.assertEquals(defaultPage.getRow(0, "//td"), NEW_VALUES);
     }

@@ -1,7 +1,5 @@
 package model.entity.common;
 
-import com.beust.jcommander.Strings;
-import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,15 +14,12 @@ public final class RecycleBinPage extends MainPage {
     @FindBy(css = "table tbody > tr")
     private List<WebElement> rows;
 
-    @FindBy(xpath = "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]")
-    private WebElement notification;
-
     public RecycleBinPage(WebDriver driver) {
         super(driver);
     }
 
     public int getRowCount() {
-        if (Strings.isStringEmpty(body.getText())) {
+        if (body.getText().equals("Good job with housekeeping! Recycle bin is currently empty!")) {
             return 0;
         } else {
             return rows.size();
@@ -49,9 +44,5 @@ public final class RecycleBinPage extends MainPage {
 
     public void clickDeletePermanently(int rowNumber){
         rows.get(rowNumber).findElement(By.xpath("//a[contains (text(), 'delete permanently')]")).click();
-    }
-
-    public String getNotification(){
-        return notification.getText();
     }
 }

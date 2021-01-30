@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+import runner.ProjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,6 @@ public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
     private static final String DATE_TIME = "t-11-r-%d-datetime";
     private static final String USER      = "//select[@id='t-11-r-%d-user']/option[@value='0']";
     private static final String DROPDOWN  = "//select[@id='t-11-r-%d-user']";
-
-    private void sendKeys(WebElement element, String newValue){
-        element.clear();
-        element.sendKeys(newValue);
-        element.sendKeys("\t");
-    }
 
     public DefaultEmbeddedPage(WebDriver driver) {
         super(driver);
@@ -48,15 +43,12 @@ public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
 
     public void sendKeys(int rowNumber, String string_, String text, String int_,
                          String decimal, String date, String dateTime, String user) {
+        String[] fields = {STRING, TEXT, INT, DECIMAL, DATE, DATE_TIME};
+        String[] data = {string_, text, int_, decimal, date, dateTime};
         WebElement row = getRows().get(rowNumber);
-
-        sendKeys(row.findElement(By.id(String.format(STRING, rowNumber+1))), string_);
-        sendKeys(row.findElement(By.id(String.format(TEXT, rowNumber+1))), text);
-        sendKeys(row.findElement(By.id(String.format(INT, rowNumber+1))), int_);
-        sendKeys(row.findElement(By.id(String.format(DECIMAL, rowNumber+1))), decimal);
-        sendKeys(row.findElement(By.id(String.format(DATE, rowNumber+1))), date);
-        sendKeys(row.findElement(By.id(String.format(DATE_TIME, rowNumber+1))), dateTime);
-
+        for (int i = 0; i < fields.length; i++) {
+            ProjectUtils.fill(getWait(), row.findElement(By.id(String.format(fields[i], rowNumber+1))), data[i]);
+        }
         Select userSelect = new Select(row.findElement(By.xpath(String.format(DROPDOWN, rowNumber+1))));
         userSelect.selectByVisibleText(user);
     }
