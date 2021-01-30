@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import model.DefaultEmbeddedPage;
 import model.entity.edit.DefaultEditPage;
 import model.entity.table.DefaultPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.BaseTest;
