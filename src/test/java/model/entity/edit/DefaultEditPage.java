@@ -41,27 +41,6 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
     @FindBy(xpath = "//button[@data-table_id='11']")
     private WebElement createEmbedD;
 
-    @FindBy(xpath = "//td/textarea[@id='t-11-r-1-string']")
-    private WebElement fieldEmbedDString;
-
-    @FindBy(xpath = "//td/textarea[@id='t-11-r-1-text']")
-    private WebElement fieldEmbedDText;
-
-    @FindBy(xpath = "//td/textarea[@id='t-11-r-1-int']")
-    private WebElement fieldEmbedDInt;
-
-    @FindBy(xpath = "//td/textarea[@id='t-11-r-1-decimal']")
-    private WebElement fieldEmbedDDecimal;
-
-    @FindBy(id = "t-11-r-1-date")
-    private WebElement fieldEmbedDDate;
-
-    @FindBy(id = "t-11-r-1-datetime")
-    private WebElement fieldEmbedDDateTime;
-
-    @FindBy(xpath = "//select[@id='t-11-r-1-user']/option[@value='0']")
-    private WebElement fieldEmbedDUser;
-
     private DefaultEmbeddedPage embededTable;
 
     private void sendKeys(WebElement element, String newValue){
@@ -83,18 +62,6 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
     @Override
     public DefaultPage clickSaveButton() {
         ProjectUtils.click(getDriver(), saveButton);
-        return createPage();
-    }
-
-    public DefaultPage clickSaveButton(boolean thisWayIsNotWorking) {
-        // this is the way it works
-        getActions()
-                .moveToElement(saveDraftButton)
-                .moveToElement(cancelButton)
-                .moveToElement(saveButton)
-                .click()
-                .build()
-                .perform();
         return createPage();
     }
 
