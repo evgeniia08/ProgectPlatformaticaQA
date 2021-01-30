@@ -59,7 +59,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
     @FindBy(xpath = "//select[@id='t-11-r-1-user']/option[@value='0']")
     private WebElement fieldEmbedDUser;
 
-    private DefaultEmbededPage embededTable;
+    private DefaultEmbeddedPage embededTable;
 
     private void sendKeys(WebElement element, String newValue){
         element.clear();
@@ -74,7 +74,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
 
     public DefaultEditPage(WebDriver driver) {
         super(driver);
-        embededTable = new DefaultEmbededPage(driver);
+        embededTable = new DefaultEmbeddedPage(driver);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage>{
         return result;
     }
 
-    public DefaultEmbededPage getEmbededTable() {
+    public DefaultEmbeddedPage getEmbededTable() {
         return embededTable;
     }
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import model.*;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.BaseTest;
@@ -44,7 +43,7 @@ public class EntityDefaultTest extends BaseTest {
 
     private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
     private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
-    private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
+    //private static final By BY_SAVE_BUTTON = By.xpath("//button[.='Save']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -56,7 +55,7 @@ public class EntityDefaultTest extends BaseTest {
             "01/01/1970 00:00:00",
             "USER 1 DEMO");
 
-    private final FieldValues defaultEmbeDValues = new FieldValues(
+    private final FieldValues defaultEmbeddedValues = new FieldValues(
             "1",
             "Default String",
             "Default text",
@@ -76,11 +75,12 @@ public class EntityDefaultTest extends BaseTest {
             "01/01/2021 12:34:56",
             "user115@tester.com");
 
-    private final FieldValues changedEmbedDValues = new FieldValues(
+    private final FieldValues changedEmbeddedValues = new FieldValues(
             "1",
             "Changed EmbedD String",
             "Changed EmbedD Text",
             String.valueOf((int) (Math.random() * 100)),
+
             "55.55",   //String.valueOf((int) (Math.random()*20000) / 100.0 after a bug will be fixed),
             "12/12/2020",
             "12/12/2020 00:22:22",
@@ -108,14 +108,14 @@ public class EntityDefaultTest extends BaseTest {
                    changedDefaultValues.fieldText, changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal,
                    changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime};
 
-    private final String[] CHANGED_EMBEDD_VALUES = {changedEmbedDValues.lineNumber, changedEmbedDValues.fieldString,
-            changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
-            changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, null, null, changedEmbedDValues.fieldUser};
+    private final String[] CHANGED_EMBEDD_VALUES = {changedEmbeddedValues.lineNumber, changedEmbeddedValues.fieldString,
+            changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
+            changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, null, null, changedEmbeddedValues.fieldUser};
 
     private final List<String> DEFAULT_EMBEDED_VALUES =
-            new ArrayList<>(Arrays.asList(defaultEmbeDValues.lineNumber, defaultEmbeDValues.fieldString,
-            defaultEmbeDValues.fieldText, defaultEmbeDValues.fieldInt, defaultEmbeDValues.fieldDecimal,
-            defaultEmbeDValues.fieldDate, defaultEmbeDValues.fieldDateTime, defaultEmbeDValues.fieldUser));
+            new ArrayList<>(Arrays.asList(defaultEmbeddedValues.lineNumber, defaultEmbeddedValues.fieldString,
+            defaultEmbeddedValues.fieldText, defaultEmbeddedValues.fieldInt, defaultEmbeddedValues.fieldDecimal,
+            defaultEmbeddedValues.fieldDate, defaultEmbeddedValues.fieldDateTime, defaultEmbeddedValues.fieldUser));
 
     private void selectFromRecordMenu (WebDriver driver, By byFunction) {
 
@@ -149,16 +149,16 @@ public class EntityDefaultTest extends BaseTest {
         defaultEditPage.sendKeys(changedDefaultValues.fieldString, changedDefaultValues.fieldText, changedDefaultValues.fieldInt,
                 changedDefaultValues.fieldDecimal, changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime, changedDefaultValues.fieldUser);
 
-        DefaultEmbededPage embededTable = defaultEditPage
+        DefaultEmbeddedPage embeddedTable = defaultEditPage
                 .getEmbededTable()
                 .clickNewEmbededRow();
 
-        Assert.assertEquals(embededTable.getLineNumber(0), changedEmbedDValues.lineNumber);
-        Assert.assertEquals(embededTable.getRow(0), DEFAULT_EMBEDED_VALUES);
+        Assert.assertEquals(embeddedTable.getLineNumber(0), changedEmbeddedValues.lineNumber);
+        Assert.assertEquals(embeddedTable.getRow(0), DEFAULT_EMBEDED_VALUES);
 
-        embededTable.sendKeys(0, changedEmbedDValues.fieldString,
-                changedEmbedDValues.fieldText, changedEmbedDValues.fieldInt, changedEmbedDValues.fieldDecimal,
-                changedEmbedDValues.fieldDate, changedEmbedDValues.fieldDateTime, changedEmbedDValues.fieldUser);
+        embeddedTable.sendKeys(0, changedEmbeddedValues.fieldString,
+                changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
+                changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, changedEmbeddedValues.fieldUser);
 
         defaultEditPage.clickSaveButton();
 //        WebElement saveBtn = driver.findElement(BY_SAVE_BUTTON);
@@ -177,14 +177,16 @@ public class EntityDefaultTest extends BaseTest {
     @Test (dependsOnMethods = "checkDefaultValuesAndUpdate")
     public void deleteRecord() {
 
-        MainPage mainPage  = new MainPage(getDriver());
-        DefaultPage defaultPage = mainPage.clickMenuDefault();
+    //    MainPage mainPage  = new MainPage(getDriver());
+        DefaultPage defaultPage = new DefaultPage(getDriver())
+                .clickMenuDefault()
+                .deleteRow();
 
-        defaultPage.deleteRow();
+      //  defaultPage.deleteRow();
 
         Assert.assertEquals(defaultPage.getRowCount(), 0);
 
-        RecycleBinPage recycleBinPage = mainPage.clickRecycleBin();
+        RecycleBinPage recycleBinPage = defaultPage.clickRecycleBin();
 
         Assert.assertEquals(recycleBinPage.getRowCount(), 1);
         Assert.assertEquals(recycleBinPage.getCellValue(0, 1), changedDefaultValues.fieldString);
@@ -196,8 +198,8 @@ public class EntityDefaultTest extends BaseTest {
     @ Test (dependsOnMethods = "deleteRecord")
     public void editExistingRecord() {
 
-        MainPage mainPage = new MainPage(getDriver());
-        DefaultPage defaultPage = mainPage
+    //    MainPage mainPage = new MainPage(getDriver());
+        DefaultPage defaultPage = new DefaultPage(getDriver())
                 .clickMenuDefault()
                 .clickNewFolder()
                 .clickSaveButton();
@@ -209,7 +211,6 @@ public class EntityDefaultTest extends BaseTest {
 
         defaultPage = defaultEditPage.clickSaveButton();
         Assert.assertEquals(defaultPage.getRowCount(), 1);
-
         Assert.assertEquals(defaultPage.getRow(0, "//td"), NEW_VALUES);
     }
 }

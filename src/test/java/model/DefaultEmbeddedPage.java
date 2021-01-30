@@ -4,12 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultEmbededPage extends BaseEmbededPage<DefaultEmbededPage>{
+public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
 
     private static final String DATA_ROW = "data-row";
     private static final By BY_XPATH_TDS = By.tagName("td");
@@ -28,7 +27,7 @@ public class DefaultEmbededPage extends BaseEmbededPage<DefaultEmbededPage>{
         element.sendKeys("\t");
     }
 
-    public DefaultEmbededPage(WebDriver driver) {
+    public DefaultEmbeddedPage(WebDriver driver) {
         super(driver);
     }
 
