@@ -102,17 +102,15 @@ public class EntityPlaceholderInputTest extends BaseTest {
         MainPage mainPage = new MainPage(driver);
         PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder().goPlaceholderEdit1Page();
 
-        //Get and save default placeholder values
-        String strValue = placeholderEdit1Page.getStrValue();
-        String txtValue = placeholderEdit1Page.getTxtValue();
-        String intValue = placeholderEdit1Page.getIntValue();
-        String decValue = placeholderEdit1Page.getDecValue();
+        //Get an array of default placeholder values
+        String[] arrayOfDefaultValues = {placeholderEdit1Page.getStrValue(), placeholderEdit1Page.getTxtValue(),
+                                         placeholderEdit1Page.getIntValue(), placeholderEdit1Page.getDecValue()};
 
-        placeholderEdit1Page.fillFields();
+        PlaceholderPage placeholderPage = placeholderEdit1Page.fillFields().clickSaveButton();
 
-        PlaceholderPage placeholderPage = placeholderEdit1Page.clickSaveButton();
-
-        placeholderPage.verify(strValue, txtValue, intValue, decValue);
+        for (int i = 0; i < arrayOfDefaultValues.length; i++) {
+            Assert.assertEquals(placeholderPage.newRecordElements().get(i).getText(), arrayOfDefaultValues[i]);
+        }
 
         placeholderPage.deleteRecord();
     }

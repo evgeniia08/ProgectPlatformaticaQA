@@ -10,6 +10,9 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import runner.ProjectUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class PlaceholderPage extends BasePage {
 
     @FindBy(xpath = "//i[contains(text(),'create_new_folder')]")
@@ -48,11 +51,21 @@ public final class PlaceholderPage extends BasePage {
         return new PlaceholderEdit1Page(getDriver());
     }
 
-    public void verify (String stringValue, String textValue, String integerValue, String decimalValue) {
+    public PlaceholderPage verify (String stringValue, String textValue, String integerValue, String decimalValue) {
         Assert.assertEquals(el1.getText(), stringValue);
         Assert.assertEquals(el2.getText(), textValue);
         Assert.assertEquals(el3.getText(), integerValue);
         Assert.assertEquals(el4.getText(), decimalValue);
+        return this;
+    }
+
+    public List<WebElement> newRecordElements() {
+        List<WebElement> listOfElements = new ArrayList<>();
+        listOfElements.add(el1);
+        listOfElements.add(el2);
+        listOfElements.add(el3);
+        listOfElements.add(el4);
+        return listOfElements;
     }
 
     public void deleteRecord (){

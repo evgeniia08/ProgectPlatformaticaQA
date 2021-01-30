@@ -44,11 +44,12 @@ public class PlaceholderEdit1Page extends BasePage {
         return decValue.getAttribute("placeholder");
     }
 
-    public void fillFields (){
-        ProjectUtils.sendKeys(strValue, getStrValue());
-        ProjectUtils.sendKeys(txtValue, getTxtValue());
-        ProjectUtils.sendKeys(intValue, getIntValue());
-        ProjectUtils.sendKeys(decValue, getDecValue());
+    public PlaceholderEdit1Page fillFields (){
+        ProjectUtils.fill(getWait(), strValue, getStrValue());
+        ProjectUtils.fill(getWait(), txtValue, getTxtValue());
+        ProjectUtils.fill(getWait(), intValue, getIntValue());
+        ProjectUtils.fill(getWait(), decValue, getDecValue());
+        return this;
     }
 
     public PlaceholderPage clickSaveButton (){
