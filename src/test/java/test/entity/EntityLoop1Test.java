@@ -17,8 +17,8 @@ public class EntityLoop1Test extends BaseTest {
 
     private static final By ACTIONS_BUTTON = By.xpath("//tr[@data-index='0']/td/div/button");
     private static final By LOOP1_ENTITY = By.xpath("//p[contains(text(),'Loop 1')]");
-    private static final int NUMBER_1 = 1;
-    private static final int NUMBER_2 = 0;
+    private static final String NUMBER_1 = "1";
+    private static final String NUMBER_2 = "0";
 
     private void waitUntilEnd(WebElement element, String value) {
         do {
@@ -70,7 +70,7 @@ public class EntityLoop1Test extends BaseTest {
 
     @Ignore("The test is good, but too long. Let it be ignored until we switch to parallel execution")
     @Test
-    public void newLoop1() throws InterruptedException {
+    public void newLoop1() {
         WebDriver driver = getDriver();
         ProjectUtils.click(driver, driver.findElement(LOOP1_ENTITY));
 
@@ -79,7 +79,7 @@ public class EntityLoop1Test extends BaseTest {
         WebElement f1_element = driver.findElement(By.xpath("//div[@id='_field_container-f1']/child::span/child::input"));
         WebElement f3_element = driver.findElement(By.xpath("//div[@id='_field_container-f3']/child::span/child::input"));
 
-        ProjectUtils.inputKeys(driver, f1_element, NUMBER_1);
+        ProjectUtils.fill(getWebDriverWait(), f1_element, NUMBER_1);
         waitUntilEnd(f3_element, "1002");
         ProjectUtils.click(driver, driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']")));
         Assert.assertEquals(getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -96,7 +96,7 @@ public class EntityLoop1Test extends BaseTest {
 
     @Ignore("The test is good, but too long. Let it be ignored until we switch to parallel execution")
     @Test (dependsOnMethods = "viewLoop1")
-    public void editLoop1() throws InterruptedException {
+    public void editLoop1() {
         WebDriver driver = getDriver();
         ProjectUtils.click(driver, driver.findElement(LOOP1_ENTITY));
 
@@ -105,7 +105,7 @@ public class EntityLoop1Test extends BaseTest {
         WebElement f1_edit = driver.findElement(By.xpath("//div[@id='_field_container-f1']/child::span/child::input"));
         WebElement f3_edit = driver.findElement(By.xpath("//div[@id='_field_container-f3']/child::span/child::input"));
         getWebDriverWait().until(ExpectedConditions.visibilityOf(f1_edit)).clear();
-        ProjectUtils.inputKeys(driver, f1_edit, NUMBER_2);
+        ProjectUtils.fill(getWebDriverWait(), f1_edit, NUMBER_2);
 
         waitUntilEnd(f3_edit, "1001");
         ProjectUtils.click(driver, driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']")));

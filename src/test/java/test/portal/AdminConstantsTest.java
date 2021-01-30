@@ -73,7 +73,7 @@ public class AdminConstantsTest extends BaseTest {
             }
             WebElement app_name = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                     (By.xpath("//input[@id='name']")));
-            ProjectUtils.inputKeys(driver, app_name, entity_values[0]);
+            ProjectUtils.fill(getWebDriverWait(), app_name, entity_values[0]);
             getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                     (By.xpath("//button[@id='pa-entity-form-save-btn']"))).click();
         } while (isUnableCreateApp());

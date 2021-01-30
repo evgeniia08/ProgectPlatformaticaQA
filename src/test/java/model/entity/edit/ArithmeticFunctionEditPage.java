@@ -41,20 +41,18 @@ public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFun
     }
 
     public ArithmeticFunctionEditPage inputInitialValue(int value1, int value2) {
-
-        F1.clear();
-        ProjectUtils.sendKeys(F1, String.valueOf(value1));
-        F2.clear();
-        ProjectUtils.sendKeys(F2, String.valueOf(value2));
-        getWait().until(ExpectedConditions.attributeToBeNotEmpty(div, "value"));
+        String divInitialValue = div.getAttribute("value");
+        ProjectUtils.fill(getWait(), F1, String.valueOf(value1));
+        ProjectUtils.fill(getWait(), F2, String.valueOf(value2));
+        getWait().until(d -> !div.getAttribute("value").equals(divInitialValue));
 
         return this;
     }
 
     public ArithmeticFunctionEditPage inputInitialValue(String value1, String value2) {
 
-        ProjectUtils.sendKeys(F1, String.valueOf(value1));
-        ProjectUtils.sendKeys(F2, String.valueOf(value2));
+        ProjectUtils.fill(getWait(), F1, String.valueOf(value1));
+        ProjectUtils.fill(getWait(), F2, String.valueOf(value2));
 
         return this;
     }

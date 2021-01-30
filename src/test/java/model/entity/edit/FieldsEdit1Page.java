@@ -26,13 +26,9 @@ public class FieldsEdit1Page extends BasePage {
     }
 
     public FieldsEdit1Page sendKeys(String title, String comments, String int_){
-        inputTitle.clear();
-        inputComments.clear();
-        inputInt.clear();
-
-        ProjectUtils.sendKeys(inputTitle, title);
-        ProjectUtils.sendKeys(inputComments, comments);
-        ProjectUtils.sendKeys(inputInt, int_);
+        ProjectUtils.fill(getWait(), inputTitle, title);
+        ProjectUtils.fill(getWait(), inputComments, comments);
+        ProjectUtils.fill(getWait(), inputInt, int_);
 
         return new FieldsEdit1Page(getDriver());
     }

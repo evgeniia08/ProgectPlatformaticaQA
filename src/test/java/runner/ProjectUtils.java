@@ -60,35 +60,11 @@ public abstract class ProjectUtils {
         wait.until(d -> element.getAttribute("value").equals(text));
     }
 
-    public static void sendKeys(WebElement element, String keys) {
-        for (int i = 0; i < keys.length(); i++) {
-            element.sendKeys(keys.substring(i, i + 1));
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ignore) {
-            }
-        }
-    }
-
-    public static void sendKeys(WebElement element, int keys) throws InterruptedException {
-        sendKeys(element, String.valueOf(keys));
-    }
-
-    public static void sendKeys(WebElement element, double keys) throws InterruptedException {
-        sendKeys(element, String.valueOf(keys));
-    }
-
-    public static void inputKeys(WebDriver driver, WebElement element, String keys) throws InterruptedException {
+    public static void inputKeys(WebDriver driver, WebElement element, String keys) {
         if (!"input".equals(element.getTagName())) {
             throw new RuntimeException(element + " is not input");
         }
-
-        ProjectUtils.sendKeys(element, keys);
-        new WebDriverWait(driver, 10).until(ExpectedConditions.attributeContains(element, "value", keys));
-    }
-
-    public static void inputKeys(WebDriver driver, WebElement element, int keys) throws InterruptedException {
-        inputKeys(driver, element, String.valueOf(keys));
+        ProjectUtils.fill(new WebDriverWait(driver, 10), element, keys);
     }
 
     public static String createUUID() {
