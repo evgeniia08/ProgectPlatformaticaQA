@@ -1,3 +1,5 @@
+package test.entity;
+
 import model.DefaultEmbeddedPage;
 import model.entity.edit.DefaultEditPage;
 import model.entity.table.DefaultPage;

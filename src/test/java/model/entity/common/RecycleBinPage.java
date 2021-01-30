@@ -14,6 +14,9 @@ public final class RecycleBinPage extends MainPage {
     @FindBy(css = "table tbody > tr")
     private List<WebElement> rows;
 
+    @FindBy(xpath = "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]")
+    private WebElement notification;
+
     public RecycleBinPage(WebDriver driver) {
         super(driver);
     }
@@ -44,5 +47,9 @@ public final class RecycleBinPage extends MainPage {
 
     public void clickDeletePermanently(int rowNumber){
         rows.get(rowNumber).findElement(By.xpath("//a[contains (text(), 'delete permanently')]")).click();
+    }
+
+    public String getNotification(){
+        return notification.getText();
     }
 }
