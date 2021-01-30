@@ -66,19 +66,19 @@ public class EntityPlaceholderInputTest extends BaseTest {
 
         WebElement stringValue = driver.findElement(By.xpath("//input[@name='entity_form_data[string]']"));
         String string_ph = stringValue.getAttribute("placeholder");
-        stringValue.sendKeys(string_ph);
+        ProjectUtils.fill(getWebDriverWait(), stringValue, string_ph);
 
         WebElement textValue = driver.findElement(By.xpath("//textarea[@name='entity_form_data[text]']"));
         String text_ph = textValue.getAttribute("placeholder");
-        textValue.sendKeys(text_ph);
+        ProjectUtils.fill(getWebDriverWait(), textValue, text_ph);
 
         WebElement intValue = driver.findElement(By.xpath("//input[@name='entity_form_data[int]']"));
         String int_ph = intValue.getAttribute("placeholder");
-        intValue.sendKeys(int_ph);
+        ProjectUtils.fill(getWebDriverWait(), intValue, int_ph);
 
         WebElement decimalValue = driver.findElement(By.xpath("//input[@name='entity_form_data[decimal]']"));
         String decimal_ph = decimalValue.getAttribute("placeholder");
-        decimalValue.sendKeys(decimal_ph);
+        ProjectUtils.fill(getWebDriverWait(), decimalValue, decimal_ph);
 
         WebElement saveButton = driver.findElement(By.xpath("//div/button[@id='pa-entity-form-save-btn']"));
         ProjectUtils.click(driver, saveButton);
