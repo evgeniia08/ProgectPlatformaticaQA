@@ -95,7 +95,7 @@ public class EntityPlaceholderInputTest extends BaseTest {
     }
 
     @Test
-    public void newRecordPV_POM(){
+    public void PomNewRecordPV(){
 
         WebDriver driver = getDriver();
 
