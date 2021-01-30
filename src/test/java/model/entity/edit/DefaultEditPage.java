@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import runner.ProjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,11 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
 
     @Override
     public DefaultPage clickSaveButton() {
+        ProjectUtils.click(getDriver(), saveButton);
+        return createPage();
+    }
+
+    public DefaultPage clickSaveButton(boolean thisWayIsNotWorking) {
         // this is the way it works
         getActions()
                 .moveToElement(saveDraftButton)
