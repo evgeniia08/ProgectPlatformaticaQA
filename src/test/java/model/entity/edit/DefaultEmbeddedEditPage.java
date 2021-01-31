@@ -13,14 +13,12 @@ import java.util.List;
 public class DefaultEmbeddedEditPage extends BaseEmbeddedPage<DefaultEmbeddedEditPage> {
 
     private static final String DATA_ROW = "data-row";
-    private static final By BY_XPATH_TDS = By.tagName("td");
     private static final String STRING    = "t-11-r-%d-string";
     private static final String TEXT      = "t-11-r-%d-text";
     private static final String INT       = "t-11-r-%d-int";
     private static final String DECIMAL   = "t-11-r-%d-decimal";
     private static final String DATE      = "t-11-r-%d-date";
     private static final String DATE_TIME = "t-11-r-%d-datetime";
-    private static final String USER      = "//select[@id='t-11-r-%d-user']/option[@value='0']";
     private static final String DROPDOWN  = "//select[@id='t-11-r-%d-user']";
 
     public DefaultEmbeddedEditPage(WebDriver driver) {
@@ -30,7 +28,7 @@ public class DefaultEmbeddedEditPage extends BaseEmbeddedPage<DefaultEmbeddedEdi
     @Override
     public List<String> getRow(int rowNumber) {
         List<String> result = new ArrayList<>();
-        List<WebElement> cells = getRows().get(rowNumber).findElements(BY_XPATH_TDS);
+        List<WebElement> cells = getRows().get(rowNumber).findElements(BY_TD);
 
         result.add(cells.get(1).findElement(By.tagName("input")).getAttribute(DATA_ROW));
         for (int i = 2; i < 8; i++ ) {

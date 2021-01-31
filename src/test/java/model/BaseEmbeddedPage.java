@@ -14,8 +14,8 @@ public abstract class BaseEmbeddedPage<TablePage> extends BasePage {
     protected static final String TBODY_XPATH = "//table[@class='pa-entity-table']/tbody";
     protected static final String DATA_ROW = "data-row";
 
-    protected static final By BY_XPATH_TDS = By.tagName("td");
-    protected static final By BY_XPATH_DELETE_X = By.xpath("//td[@class='pa-row-delete-btn-col']/div/i");
+    protected static final By BY_TD = By.tagName("td");
+    protected static final By BY_DELETE_X = By.xpath("//td[@class='pa-row-delete-btn-col']/div/i");
 
     @FindBy (xpath = TBODY_XPATH)
     private WebElement body;
@@ -49,7 +49,7 @@ public abstract class BaseEmbeddedPage<TablePage> extends BasePage {
 
     public List<String> getRow(int rowNumber) {
         List<String> result = new ArrayList<>();
-        List<WebElement> cells = getRows().get(rowNumber).findElements(BY_XPATH_TDS);
+        List<WebElement> cells = getRows().get(rowNumber).findElements(BY_TD);
 
         result.add(cells.get(1).findElement(By.tagName("input")).getAttribute(DATA_ROW));
         for (int i = 2; i < cells.size()-2; i++ ) {
@@ -59,7 +59,7 @@ public abstract class BaseEmbeddedPage<TablePage> extends BasePage {
     }
 
     public TablePage deleteRow(int rowNumber) {
-        trs.get(rowNumber).findElement(BY_XPATH_DELETE_X).click();
+        trs.get(rowNumber).findElement(BY_DELETE_X).click();
         return (TablePage) this;
     }
 
