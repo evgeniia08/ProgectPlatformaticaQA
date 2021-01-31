@@ -2,6 +2,7 @@ package model.entity.common;
 
 import model.*;
 import model.entity.table.*;
+import model.portal.AppsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -78,6 +79,9 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//p[contains(text(),'Footers')]")
     private WebElement menuFooters;
+
+    @FindBy(xpath = "//p[contains(text(),'Apps')]")
+    private WebElement menuApps;
 
 
     public MainPage(WebDriver driver) {
@@ -198,5 +202,10 @@ public class MainPage extends BasePage {
     public FootersPage clickMenuFooters() {
         clickMenu(menuFooters);
         return new FootersPage(getDriver());
+    }
+
+    public AppsPage clickMenuApps() {
+        clickMenu(menuApps);
+        return new AppsPage(getDriver());
     }
 }
