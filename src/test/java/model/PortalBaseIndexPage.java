@@ -1,4 +1,4 @@
-package model.portal;
+package model;
 
 import model.BaseIndexPage;
 import org.openqa.selenium.WebDriver;
