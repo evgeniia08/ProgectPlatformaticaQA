@@ -19,9 +19,6 @@ public class EntityTagTest extends BaseTest {
     public void editTest() {
 
         WebDriver driver = getDriver();
-        driver.get("https://ref.eteam.work");
-
-        ProjectUtils.loginProcedure(driver);
 
         WebElement sidebar = driver.findElement(By.xpath("//div[contains(@class, 'sidebar-wrapper')]"));
         Actions builder = new Actions(driver);

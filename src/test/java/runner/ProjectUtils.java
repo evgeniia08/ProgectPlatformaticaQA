@@ -3,35 +3,10 @@ package runner;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import runner.type.ProfileType;
 
 import java.util.UUID;
 
 public abstract class ProjectUtils {
-
-    @Deprecated
-    public static WebDriver loginProcedure(WebDriver driver) {
-        return driver;
-    }
-
-    @Deprecated
-    public static WebDriver loginProcedure(WebDriver driver, ProfileType profileType) {
-        return driver;
-    }
-
-    @Deprecated
-    public static void reset(WebDriver driver) {
-        ProfileType.DEFAULT.reset(driver);
-    }
-
-    @Deprecated
-    public static void login(WebDriver driver, ProfileType profileType) {
-        profileType.login(driver);
-    }
-
-    @Deprecated
-    public static void login(WebDriver driver, String userName, String pas) {
-    }
 
     public static void click(WebDriverWait wait, WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
