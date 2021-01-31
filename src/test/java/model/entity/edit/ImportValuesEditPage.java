@@ -20,7 +20,7 @@ public class ImportValuesEditPage extends BasePage {
     }
 
     public ImportValuesEditPage sendKeys(String string) {
-        ProjectUtils.sendKeys(inputString, string);
+        ProjectUtils.fill(getWait(), inputString, string);
 
         return this;
     }

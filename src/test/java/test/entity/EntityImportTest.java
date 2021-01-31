@@ -12,6 +12,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -72,11 +73,12 @@ public class EntityImportTest extends BaseTest {
         doImportButton.click();
 
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
+        wait.until(TestUtils.movingIsFinished(selectRecord));
         wait.until(ExpectedConditions.elementToBeClickable(selectRecord)).click();
 
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
-        saveButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         List<WebElement> importedRow = driver.findElements(BY_IMPORTED_ROW);
         Assert.assertEquals(importedRow.size(), 1);
@@ -111,12 +113,13 @@ public class EntityImportTest extends BaseTest {
         doImportButton.click();
 
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
+        wait.until(TestUtils.movingIsFinished(selectRecord));
         wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
 
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
-        saveButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
 
         List<WebElement> importedRow = driver.findElements(BY_IMPORTED_ROW);
         Assert.assertEquals(importedRow.size(), 1);

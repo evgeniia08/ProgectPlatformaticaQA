@@ -1,5 +1,6 @@
 package model.entity.common;
 
+import com.beust.jcommander.Strings;
 import model.BaseTablePage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
@@ -13,6 +14,9 @@ public class BoardPage extends BaseTablePage {
 
     @FindBy(xpath = "//div[@class = 'kanban-item']/div[2]")
     private WebElement boardRow;
+
+    @FindBy(css = "div[data-id=Pending] main.kanban-drag")
+    private WebElement kanbanPendingContainer;
 
     @FindBy(xpath = "//div[@data-id='Pending']//div[@class='kanban-item']")
     private List<WebElement> pendingCardItems;
@@ -53,6 +57,9 @@ public class BoardPage extends BaseTablePage {
     }
 
     public int getPendingItemsCount() {
+        if (Strings.isStringEmpty(kanbanPendingContainer.getText())) {
+            return 0;
+        }
         return pendingCardItems.size();
     }
 

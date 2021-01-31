@@ -31,7 +31,7 @@ public class Chain1EditPage extends BaseEditPage<Chain1Page> {
 
 
     public Chain1EditPage inputInitialValue() {
-        ProjectUtils.sendKeys(f1, "1");
+        ProjectUtils.fill(getWait(), f1, "1");
         getWait().until(ExpectedConditions.attributeToBeNotEmpty(f10, "value"));
         return this;
     }
