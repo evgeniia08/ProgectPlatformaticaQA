@@ -3,12 +3,14 @@ package test.entity;
 import model.entity.common.Main1Page;
 import model.entity.table.Fields1Page;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
 import runner.type.RunType;
 import java.util.UUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityFields1Test extends BaseTest {
 
