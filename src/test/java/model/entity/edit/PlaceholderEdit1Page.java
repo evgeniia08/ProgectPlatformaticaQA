@@ -45,10 +45,10 @@ public class PlaceholderEdit1Page extends BasePage {
     }
 
     public void fillFields (){
-        ProjectUtils.sendKeys(strValue, getStrValue());
-        ProjectUtils.sendKeys(txtValue, getTxtValue());
-        ProjectUtils.sendKeys(intValue, getIntValue());
-        ProjectUtils.sendKeys(decValue, getDecValue());
+        ProjectUtils.fill(getWait(), strValue, getStrValue());
+        ProjectUtils.fill(getWait(), txtValue, getTxtValue());
+        ProjectUtils.fill(getWait(), intValue, getIntValue());
+        ProjectUtils.fill(getWait(), decValue, getDecValue());
     }
 
     public PlaceholderPage clickSaveButton (){

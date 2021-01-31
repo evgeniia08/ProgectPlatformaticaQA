@@ -94,8 +94,8 @@ public class AdminEntityTest extends BaseTest {
                 (By.xpath("//h3[contains(text(),'Fields')]")));
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
-        ProjectUtils.inputKeys(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//input[@id='pa-adm-new-fields-label']"))), label);
+        ProjectUtils.fill(getWebDriverWait(), getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
+                (By.xpath("//input[@id='pa-adm-new-fields-label']"))), Integer.toString(label));
         driver.findElement(By.xpath("//div[@class='filter-option-inner-inner']")).click();
         ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath(String.format("//span[text()='%s']/preceding-sibling::span/..", type)))));
