@@ -6,7 +6,6 @@ import model.*;
 import model.entity.common.BoardPage;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
-import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import org.testng.Assert;
@@ -176,13 +175,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = {"deleteRecord"})
     public void recordDeletionRecBin() {
 
-        RecycleBinPage recycleBinPage = new MainPage(getDriver())
-                .clickMenuBoard()
-                .clickRecycleBin();
-                recycleBinPage.clickDeletePermanently(0);
-
-        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
-        Assert.assertEquals(recycleBinPage.getNotification(), "Good job with housekeeping! Recycle bin is currently empty!");
+        Assert.assertEquals(new MainPage(getDriver()).clickRecycleBin().clickDeletePermanently(0).getRowCount(), 0);
     }
 
     @Test(dependsOnMethods = {"recordDeletionRecBin"})
