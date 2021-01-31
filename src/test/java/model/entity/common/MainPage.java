@@ -95,7 +95,7 @@ public class MainPage extends BasePage {
     }
 
     public MainPage resetUserData() {
-        ProjectUtils.click(getWait(), userProfileButton);
+        getWait().until(ExpectedConditions.visibilityOf(userProfileButton));
         ProjectUtils.click(getWait(), resetButton);
         return this;
     }
