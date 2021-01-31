@@ -43,11 +43,11 @@ public final class ParentEditPage extends BaseEditPage<ParentPage> {
     }
 
     public ParentEditPage sendKeys(String STRING, String COMMENT, String INT_, String DECIMAL, String DATE) {
-        ProjectUtils.sendKeys(inputTitle, STRING);
-        ProjectUtils.sendKeys(inputComments, COMMENT);
-        ProjectUtils.sendKeys(inputInt, INT_);
-        ProjectUtils.sendKeys(inputDecimal, DECIMAL);
-        ProjectUtils.sendKeys(inputDate, DATE);
+        ProjectUtils.fill(getWait(), inputTitle, STRING);
+        ProjectUtils.fill(getWait(), inputComments, COMMENT);
+        ProjectUtils.fill(getWait(), inputInt, INT_);
+        ProjectUtils.fill(getWait(), inputDecimal, DECIMAL);
+        ProjectUtils.fill(getWait(), inputDate, DATE);
 
         return this;
     }
@@ -63,22 +63,5 @@ public final class ParentEditPage extends BaseEditPage<ParentPage> {
         ProjectUtils.click(getDriver(), buttonSave);
 
         return new ParentPage(getDriver());
-    }
-
-    public ParentEditPage sendKeysForEdit(String STRING, String COMMENTS, String INT_, String DECIMAL, String DATE){
-        inputTitle.clear();
-        inputComments.clear();
-        inputInt.clear();
-        inputDecimal.clear();
-        inputDate.clear();
-        inputDateTime.clear();
-
-        ProjectUtils.sendKeys(inputTitle, STRING);
-        ProjectUtils.sendKeys(inputComments, COMMENTS);
-        ProjectUtils.sendKeys(inputInt, INT_);
-        ProjectUtils.sendKeys(inputDecimal, DECIMAL);
-        ProjectUtils.sendKeys(inputDate, DATE);
-
-        return new ParentEditPage(getDriver());
     }
 }
