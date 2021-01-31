@@ -65,4 +65,24 @@ public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFun
 
         return Arrays.asList(actual);
     }
+
+    public ArithmeticFunctionEditPage waitSumToBe(String value) {
+        getWait().until(f -> sum.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitSubToBe(String value) {
+        getWait().until(f -> sub.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitMulToBe(String value) {
+        getWait().until(f -> mul.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitDivToBe(String value) {
+        getWait().until(f -> div.getAttribute("value").equals(value));
+        return this;
+    }
 }

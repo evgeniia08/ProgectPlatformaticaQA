@@ -13,6 +13,7 @@ import runner.type.RunType;
 import test.data.AppConstant;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Run(run = RunType.Multiple)
 public class EntityArithmeticFunctionTest extends BaseTest {
@@ -34,14 +35,20 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test
     public void createNewRecordTest() {
 
+        List<String> expectedData = Arrays.asList(expectedData(F1, F2));
+
         ArithmeticFunctionPage arithmeticFunctionPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .clickNewFolder()
                 .inputInitialValue(F1, F2)
+                .waitSumToBe(expectedData.get(2))
+                .waitSubToBe(expectedData.get(3))
+                .waitMulToBe(expectedData.get(4))
+                .waitDivToBe(expectedData.get(5))
                 .clickSaveButton();
 
         Assert.assertEquals(arithmeticFunctionPage.getRowCount() , 1);
-        Assert.assertEquals(arithmeticFunctionPage.getRow(0), Arrays.asList(expectedData(F1, F2)));
+        Assert.assertEquals(arithmeticFunctionPage.getRow(0), expectedData);
         Assert.assertEquals(arithmeticFunctionPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
@@ -58,12 +65,18 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test(dependsOnMethods = "viewRecordTest")
     public void editRecordTest() {
 
+        List<String> expectedData = Arrays.asList(expectedData(F3, F4));
+
         ArithmeticFunctionEditPage arithmeticFunctionEditPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .editRow()
-                .inputInitialValue(F3, F4);
+                .inputInitialValue(F3, F4)
+                .waitSumToBe(expectedData.get(2))
+                .waitSubToBe(expectedData.get(3))
+                .waitMulToBe(expectedData.get(4))
+                .waitDivToBe(expectedData.get(5));
 
-        Assert.assertEquals(arithmeticFunctionEditPage.getValues(), Arrays.asList(expectedData(F3, F4)));
+        Assert.assertEquals(arithmeticFunctionEditPage.getValues(), expectedData);
     }
 
     @Test(dependsOnMethods = "editRecordTest")
