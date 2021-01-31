@@ -24,9 +24,9 @@ public class EntityFields1Test extends BaseTest {
 
         Fields1Page fieldsPage1 = new Main1Page(getDriver())
                 .clickFields()
-                .clickCreateNewFolder()
+                .clickNewFolder()
                 .sendKeys(TITLE,COMMENT, INT_)
-                .clickSaveBtn();
+                .clickSaveButton();
 
         Assert.assertEquals(fieldsPage1.getRowCount(), 1);
         Assert.assertEquals(fieldsPage1.getTitleText(), TITLE);
@@ -39,9 +39,9 @@ public class EntityFields1Test extends BaseTest {
 
         Fields1Page fields1Page = new Main1Page(getDriver())
                 .clickFields()
-                .clickEditRecord()
+                .editRow()
                 .sendKeys(NEW_TITLE, NEW_COMMENT, NEW_INT_)
-                .clickSaveBtn();
+                .clickSaveButton();
 
         Assert.assertEquals(fields1Page.getRowCount(), 1);
         Assert.assertEquals(fields1Page.getTitleText(), NEW_TITLE);
@@ -54,7 +54,7 @@ public class EntityFields1Test extends BaseTest {
 
         Fields1Page fields1Page = new Main1Page(getDriver())
                 .clickFields()
-                .clickDeleteRecord();
+                .deleteRow();
 
         Assert.assertEquals(fields1Page.getRowCount(), 0);
     }
