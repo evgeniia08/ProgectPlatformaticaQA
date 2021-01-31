@@ -200,10 +200,7 @@ public class EntityPlaceholderTest extends BaseTest {
         driver.findElement(By.xpath("//i[text() = 'menu']/..")).click();
         ProjectUtils.click(driver, driver.findElement(By.xpath("//a[contains(text(),'delete')]")));
 
-        new WebDriverWait(driver, 3).until(ExpectedConditions.
-                invisibilityOfElementLocated(By.xpath("//div[contains(text(),'" + TITLE + "')]")));
-        List<WebElement> listOfElements = driver.findElements(By.xpath("//tbody/tr/.."));
-        Assert.assertEquals(listOfElements.size(), 0);
+        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@class, 'card-body')]")).getText(), "");
 
         driver.findElement(By.xpath("//i[contains(text(),'delete_outline')]/..")).click();
         Assert.assertEquals(driver.findElement(By.xpath("//b[contains(text(),'" + TITLE + "')]")).getText(), TITLE);
@@ -241,9 +238,7 @@ public class EntityPlaceholderTest extends BaseTest {
         wait.until(ExpectedConditions.elementToBeClickable(humburgerMenu));
         humburgerMenu.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[contains(@href, \"edit\")]")));
-        WebElement editButton = driver.findElement(By.xpath("//li//a[contains(@href, \"edit\")]"));
-        wait.until(ExpectedConditions.elementToBeClickable(editButton));
-        editButton.click();
+        ProjectUtils.click(driver, driver.findElement(By.xpath("//li//a[contains(@href, \"edit\")]")));
         WebElement fieldString = driver.findElement(By.xpath("(//span/input)[1]"));
         ProjectUtils.fill(getWebDriverWait(), fieldString, NEW_TITLE);
         WebElement textString = driver.findElement(By.xpath("//span/textarea"));
