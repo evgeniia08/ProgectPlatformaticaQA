@@ -1,13 +1,11 @@
 package test.entity;
 
-import model.DefaultEmbeddedPage;
+import model.entity.edit.DefaultEmbeddedEditPage;
 import model.entity.edit.DefaultEditPage;
 import model.entity.table.DefaultPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.entity.view.DefaultViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -20,10 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Run(run = RunType.Multiple)
-
 public class EntityDefaultTest extends BaseTest {
 
-    private class FieldValues {
+    private static class FieldValues {
         String lineNumber;
         String fieldString;
         String fieldText;
@@ -45,9 +42,6 @@ public class EntityDefaultTest extends BaseTest {
             this.fieldUser = fieldUser;
         }
     }
-
-    private static final By BY_RECORD_HAMBURGER_MENU = By.xpath("//button[contains(@data-toggle, 'dropdown')] ");
-    private static final By BY_VIEW = By.xpath("//a[text() = 'view']");
 
     private final FieldValues defaultValues = new FieldValues(
             null,
@@ -107,32 +101,23 @@ public class EntityDefaultTest extends BaseTest {
                   newValues.fieldInt, newValues.fieldDecimal,
                   newValues.fieldDate, newValues.fieldDateTime, "", "", newValues.fieldUser, "menu"));
 
-    private final String[] CHANGED_DEFAULT_VALUES = {changedDefaultValues.fieldString,
-                   changedDefaultValues.fieldText, changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal,
-                   changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime};
+    private final List<String> CHANGED_DEFAULT_VALUES =
+                    new ArrayList<>(Arrays.asList(changedDefaultValues.fieldString, changedDefaultValues.fieldText,
+                    changedDefaultValues.fieldInt, changedDefaultValues.fieldDecimal, changedDefaultValues.fieldDate,
+                    changedDefaultValues.fieldDateTime));
 
-    private final String[] CHANGED_EMBEDD_VALUES = {changedEmbeddedValues.lineNumber, changedEmbeddedValues.fieldString,
-            changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
-            changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, null, null, changedEmbeddedValues.fieldUser};
+    private final List<String> CHANGED_EMBEDDED_VALUES = new ArrayList<>(Arrays.asList(
+            changedEmbeddedValues.lineNumber, changedEmbeddedValues.fieldString, changedEmbeddedValues.fieldText,
+            changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal, changedEmbeddedValues.fieldDate,
+            changedEmbeddedValues.fieldDateTime, "", "", changedEmbeddedValues.fieldUser));
 
-    private final List<String> DEFAULT_EMBEDED_VALUES =
+    private final List<String> DEFAULT_EMBEDDED_VALUES =
             new ArrayList<>(Arrays.asList(defaultEmbeddedValues.lineNumber, defaultEmbeddedValues.fieldString,
             defaultEmbeddedValues.fieldText, defaultEmbeddedValues.fieldInt, defaultEmbeddedValues.fieldDecimal,
             defaultEmbeddedValues.fieldDate, defaultEmbeddedValues.fieldDateTime, defaultEmbeddedValues.fieldUser));
 
-    private void assertRecordValues(WebDriver driver, String xpath, String[] changed_default_values) {
-        List<WebElement> rows = driver.findElements(By.xpath(xpath));
-        for (int i = 0; i < changed_default_values.length; i++) {
-            if (changed_default_values[i] != null) {
-                Assert.assertEquals(rows.get(i).getText(), changed_default_values[i]);
-            }
-        }
-    }
-
     @Test
     public void checkDefaultValuesAndUpdate() {
-
-        WebDriver driver = getDriver();
 
         MainPage mainPage = new MainPage(getDriver());
         DefaultEditPage defaultEditPage = mainPage
@@ -144,28 +129,26 @@ public class EntityDefaultTest extends BaseTest {
         defaultEditPage.sendKeys(changedDefaultValues.fieldString, changedDefaultValues.fieldText, changedDefaultValues.fieldInt,
                 changedDefaultValues.fieldDecimal, changedDefaultValues.fieldDate, changedDefaultValues.fieldDateTime, changedDefaultValues.fieldUser);
 
-        DefaultEmbeddedPage embeddedTable = defaultEditPage
+        DefaultEmbeddedEditPage embeddedTable = defaultEditPage
                 .getEmbededTable()
-                .clickNewEmbededRow();
+                .clickNewEmbeddedRow();
 
         Assert.assertEquals(embeddedTable.getLineNumber(0), changedEmbeddedValues.lineNumber);
-        Assert.assertEquals(embeddedTable.getRow(0), DEFAULT_EMBEDED_VALUES);
+        Assert.assertEquals(embeddedTable.getRow(0), DEFAULT_EMBEDDED_VALUES);
 
         embeddedTable.sendKeys(0, changedEmbeddedValues.fieldString,
                 changedEmbeddedValues.fieldText, changedEmbeddedValues.fieldInt, changedEmbeddedValues.fieldDecimal,
                 changedEmbeddedValues.fieldDate, changedEmbeddedValues.fieldDateTime, changedEmbeddedValues.fieldUser);
 
         DefaultPage defaultPage = defaultEditPage.clickSaveButton();
-
         Assert.assertEquals(defaultPage.getRowCount(), 1);
+
         defaultPage.viewRow(0);
+        DefaultViewPage viewPage = new DefaultViewPage(getDriver());
 
-        assertRecordValues(driver, "//span[@class='pa-view-field']", CHANGED_DEFAULT_VALUES);
-
-        WebElement fieldUser = driver.findElement(By.xpath("//div[@class='form-group']/p"));
-        Assert.assertEquals(fieldUser.getText(), changedDefaultValues.fieldUser);
-
-        assertRecordValues(driver, "//table/tbody/tr/td", CHANGED_EMBEDD_VALUES);
+        Assert.assertEquals(viewPage.getValues(), CHANGED_DEFAULT_VALUES);
+        Assert.assertEquals(viewPage.getUser(), changedDefaultValues.fieldUser);
+        Assert.assertEquals(viewPage.getEmbeddedRow(0), CHANGED_EMBEDDED_VALUES);
     }
 
     @Test(dependsOnMethods = "checkDefaultValuesAndUpdate")

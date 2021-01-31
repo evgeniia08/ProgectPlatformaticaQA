@@ -1,7 +1,6 @@
 package model.entity.edit;
 
 import model.BaseEditPage;
-import model.DefaultEmbeddedPage;
 import model.entity.table.DefaultPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -38,10 +37,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
     @FindBy(xpath = "//select[@id = 'user']")
     private WebElement buttonUser;
 
-    @FindBy(xpath = "//button[@data-table_id='11']")
-    private WebElement createEmbedD;
-
-    private DefaultEmbeddedPage embededTable;
+    private DefaultEmbeddedEditPage embededTable;
 
     private void sendKeys(WebElement element, String newValue){
         element.clear();
@@ -56,7 +52,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
 
     public DefaultEditPage(WebDriver driver) {
         super(driver);
-        embededTable = new DefaultEmbeddedPage(driver);
+        embededTable = new DefaultEmbeddedEditPage(driver);
     }
 
     @Override
@@ -91,7 +87,7 @@ public class DefaultEditPage extends BaseEditPage<DefaultPage> {
         return result;
     }
 
-    public DefaultEmbeddedPage getEmbededTable() {
+    public DefaultEmbeddedEditPage getEmbededTable() {
         return embededTable;
     }
 }

@@ -1,5 +1,6 @@
-package model;
+package model.entity.edit;
 
+import model.BaseEmbeddedPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import runner.ProjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
+public class DefaultEmbeddedEditPage extends BaseEmbeddedPage<DefaultEmbeddedEditPage> {
 
     private static final String DATA_ROW = "data-row";
     private static final By BY_XPATH_TDS = By.tagName("td");
@@ -22,7 +23,7 @@ public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
     private static final String USER      = "//select[@id='t-11-r-%d-user']/option[@value='0']";
     private static final String DROPDOWN  = "//select[@id='t-11-r-%d-user']";
 
-    public DefaultEmbeddedPage(WebDriver driver) {
+    public DefaultEmbeddedEditPage(WebDriver driver) {
         super(driver);
     }
 
@@ -43,12 +44,16 @@ public class DefaultEmbeddedPage extends BaseEmbededPage<DefaultEmbeddedPage>{
 
     public void sendKeys(int rowNumber, String string_, String text, String int_,
                          String decimal, String date, String dateTime, String user) {
+
         String[] fields = {STRING, TEXT, INT, DECIMAL, DATE, DATE_TIME};
         String[] data = {string_, text, int_, decimal, date, dateTime};
+
         WebElement row = getRows().get(rowNumber);
+
         for (int i = 0; i < fields.length; i++) {
-            ProjectUtils.fill(getWait(), row.findElement(By.id(String.format(fields[i], rowNumber+1))), data[i]);
+           ProjectUtils.fill(getWait(), row.findElement(By.id(String.format(fields[i], rowNumber+1))), data[i]);
         }
+
         Select userSelect = new Select(row.findElement(By.xpath(String.format(DROPDOWN, rowNumber+1))));
         userSelect.selectByVisibleText(user);
     }
