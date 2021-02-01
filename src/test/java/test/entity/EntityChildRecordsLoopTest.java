@@ -30,7 +30,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
                 .createNewChildLoopEmptyRecord(NUMBERS_OF_LINES)
                 .startSendKeys(START_BALANCE);
 
-        Assert.assertTrue(ChildRecordsLoopEditPage.checkEndBalance().equals(START_BALANCE));
+        getWebDriverWait().until(d -> ChildRecordsLoopEditPage.checkEndBalance().equals(START_BALANCE));
 
         sumNumber += Integer.parseInt(START_BALANCE);
 
