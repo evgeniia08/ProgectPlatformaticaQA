@@ -7,8 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import runner.TestUtils;
 
-import java.util.List;
-
 public class ContactPage extends PortalBaseTablePage<ContactPage, ContactEditPage, ContactViewPage> {
 
     private static final By ROW_MENU_EDIT = By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='edit']");
@@ -31,9 +29,5 @@ public class ContactPage extends PortalBaseTablePage<ContactPage, ContactEditPag
         clickRowMenuButton(rowNumber);
         getWait().until(TestUtils.movingIsFinished(ROW_MENU_EDIT)).click();
         return createPortalEditPage();
-    }
-
-    public List<String> getRowData(int rowNumber) {
-        return getWholeRowData(rowNumber).subList(1, 7);
     }
 }

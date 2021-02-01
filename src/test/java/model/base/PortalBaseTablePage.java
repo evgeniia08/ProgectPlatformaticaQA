@@ -58,9 +58,13 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
         return getRows().get(rowNumber).findElement(By.cssSelector("td > i")).getAttribute("class");
     }
 
-    public List<String> getWholeRowData(int rowNumber) {
+    public List<String> getEntireRowData(int rowNumber) {
         return rows.get(rowNumber).findElements(By.tagName("td")).stream()
                 .map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public List<String> getRowData(int rowNumber) {
+        return getEntireRowData(rowNumber).subList(1, 7);
     }
 
     protected void clickRowMenuButton(int rowNumber) {
