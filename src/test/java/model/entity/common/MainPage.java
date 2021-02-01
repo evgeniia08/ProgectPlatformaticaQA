@@ -2,6 +2,7 @@ package model.entity.common;
 
 import model.*;
 import model.entity.table.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -78,6 +79,9 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//p[contains(text(),'Footers')]")
     private WebElement menuFooters;
+
+    @FindBy(xpath = "//p[contains (text(), 'Child records loop')]/parent::a")
+    private WebElement childRecordsLoop;
 
 
     public MainPage(WebDriver driver) {
@@ -198,5 +202,10 @@ public class MainPage extends BasePage {
     public FootersPage clickMenuFooters() {
         clickMenu(menuFooters);
         return new FootersPage(getDriver());
+    }
+
+    public ChildRecordsLoopPage clickMenuChildRecordsLoop() {
+        clickMenu(childRecordsLoop);
+        return new ChildRecordsLoopPage(getDriver());
     }
 }
