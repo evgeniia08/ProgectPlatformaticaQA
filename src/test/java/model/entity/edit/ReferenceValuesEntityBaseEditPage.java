@@ -1,0 +1,53 @@
+package model.entity.edit;
+
+import model.base.EntityBaseEditPage;
+import model.entity.table.ReferenceValuesPageEntityBase;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import static runner.ProjectUtils.fill;
+
+public class ReferenceValuesEntityBaseEditPage extends EntityBaseEditPage<ReferenceValuesPageEntityBase> {
+
+    @FindBy(id = "label")
+    private WebElement inputLabel;
+
+    @FindBy(id = "filter_1")
+    private WebElement inputFilter_1;
+
+    @FindBy(id = "filter_2")
+    private WebElement inputFilter_2;
+
+    public ReferenceValuesEntityBaseEditPage(WebDriver driver) {
+        super(driver);
+    }
+
+    @Override
+    public ReferenceValuesPageEntityBase createPage() {
+        return new ReferenceValuesPageEntityBase(getDriver());
+    }
+
+    public ReferenceValuesEntityBaseEditPage fillLabel(String text) {
+        fill(getWait(), inputLabel, text);
+        return this;
+    }
+
+    public ReferenceValuesEntityBaseEditPage fillFilter_1(String text) {
+        fill(getWait(), inputFilter_1, text);
+        return this;
+    }
+
+    public ReferenceValuesEntityBaseEditPage fillFilter_2(String text) {
+        fill(getWait(), inputFilter_2, text);
+        return this;
+    }
+
+    public ReferenceValuesEntityBaseEditPage fillData(String label, String filter_1, String filter_2) {
+        fillLabel(label);
+        fillFilter_1(filter_1);
+        fillFilter_2(filter_2);
+        return this;
+    }
+}
+

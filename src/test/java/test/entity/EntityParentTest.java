@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.entity.table.ParentPage;
+import model.entity.table.ParentPageEntityBase;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -32,7 +32,7 @@ public class EntityParentTest extends BaseTest {
     @Test
     public void createParent() {
 
-        ParentPage parentPage = new MainPage(getDriver())
+        ParentPageEntityBase parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .clickNewFolder()
                 .sendKeys(STRING, COMMENT, INT_, DECIMAL, DATE)
@@ -51,7 +51,7 @@ public class EntityParentTest extends BaseTest {
     @Test(dependsOnMethods = {"createParent"})
     public void editParent() {
 
-        ParentPage parentPage = new MainPage(getDriver())
+        ParentPageEntityBase parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .editRow()
                 .sendKeys(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE)
@@ -68,7 +68,7 @@ public class EntityParentTest extends BaseTest {
     @Test(dependsOnMethods = {"createParent, editParent"})
     public void deleteParent() {
 
-        ParentPage parentPage = new MainPage(getDriver())
+        ParentPageEntityBase parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .deleteRow();
 

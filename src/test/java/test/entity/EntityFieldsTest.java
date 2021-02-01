@@ -9,8 +9,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
-import model.entity.edit.FieldsEditPage;
-import model.entity.table.FieldsPage;
+import model.entity.edit.FieldsEntityBaseEditPage;
+import model.entity.table.FieldsPageEntityBase;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -50,7 +50,7 @@ public class EntityFieldsTest extends BaseTest {
         currentUser = new MainPage(getDriver()).getCurrentUser();
         final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, INT, DECIMAL, DATE, DATE_TIME, "", currentUser, "");
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
+        FieldsPageEntityBase fieldsPage = new FieldsPageEntityBase(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillTitle(TITLE)
@@ -72,7 +72,7 @@ public class EntityFieldsTest extends BaseTest {
 
         final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0", "", "", "", currentUser, "");
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
+        FieldsPageEntityBase fieldsPage = new FieldsPageEntityBase(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillTitle(TITLE)
@@ -91,10 +91,10 @@ public class EntityFieldsTest extends BaseTest {
         String[] expectedValues = {NEW_TITLE, NEW_COMMENTS, NEW_INT, NEW_DECIMAL, NEW_DATE, NEW_DATE_TIME, "", randomUser, ""};
 
         MainPage mainPage = new MainPage(getDriver());
-        FieldsEditPage fieldsEditsPage = mainPage.clickMenuFields().editRow(0);
+        FieldsEntityBaseEditPage fieldsEditsPage = mainPage.clickMenuFields().editRow(0);
 
         randomUser = expectedValues[7] = fieldsEditsPage.getRandomUser();
-        FieldsPage fieldsPage = fieldsEditsPage
+        FieldsPageEntityBase fieldsPage = fieldsEditsPage
                 .fillTitle(NEW_TITLE)
                 .fillComments(NEW_COMMENTS)
                 .fillInt(NEW_INT)
@@ -112,7 +112,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "editRecordTest")
     public void deleteRecordTest() {
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver());
+        FieldsPageEntityBase fieldsPage = new FieldsPageEntityBase(getDriver());
         final String recordTitle = fieldsPage.clickMenuFields().getTitle(0);
         fieldsPage.deleteRow(0);
 
@@ -127,7 +127,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "createDraftTest")
     public void deleteDraftTest() {
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver());
+        FieldsPageEntityBase fieldsPage = new FieldsPageEntityBase(getDriver());
         final String entityTitle = fieldsPage.clickMenuFields().getTitle(0);
         fieldsPage.deleteRow(0);
 
@@ -142,7 +142,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test
     public void invalidIntEntryCreateTest() {
 
-        ErrorPage errorPage = new FieldsPage(getDriver())
+        ErrorPage errorPage = new FieldsPageEntityBase(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillInt(INVALID_ENTRY)
@@ -154,7 +154,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test
     public void invalidDecimalEntryCreateTest() {
 
-        ErrorPage errorPage = new FieldsPage(getDriver())
+        ErrorPage errorPage = new FieldsPageEntityBase(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillDecimal(INVALID_ENTRY)
@@ -167,7 +167,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "deleteDraftTest")
     public void entityDecimalEndsZeroTest() {
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
+        FieldsPageEntityBase fieldsPage = new FieldsPageEntityBase(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillDecimal(DECIMAL_ENDS_ZERO)

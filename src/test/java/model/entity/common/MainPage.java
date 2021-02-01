@@ -1,6 +1,6 @@
 package model.entity.common;
 
-import model.*;
+import model.base.BaseIndexPage;
 import model.entity.table.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -73,34 +73,34 @@ public class MainPage extends BaseIndexPage {
         super(driver);
     }
 
-    public FieldsPage clickMenuFields() {
+    public FieldsPageEntityBase clickMenuFields() {
         clickMenu(menuFields);
-        return new FieldsPage(getDriver());
+        return new FieldsPageEntityBase(getDriver());
     }
 
-    public ImportValuesPage clickMenuImportValues() {
+    public ImportValuesPageEntityBase clickMenuImportValues() {
         clickMenu(menuImportValues);
-        return new ImportValuesPage(getDriver());
+        return new ImportValuesPageEntityBase(getDriver());
     }
   
-    public Chain2Page clickMenuEventsChain2() {
+    public Chain2PageEntityBase clickMenuEventsChain2() {
         clickMenu(menuEventsChain2);
-        return new Chain2Page(getDriver());
+        return new Chain2PageEntityBase(getDriver());
     }
 
-    public ExportPage clickMenuExport() {
+    public ExportPageEntityBase clickMenuExport() {
         clickMenu(menuExport);
-        return new ExportPage(getDriver());
+        return new ExportPageEntityBase(getDriver());
     }
 
-    public Chain1Page clickMenuEventsChain1() {
+    public Chain1PageEntityBase clickMenuEventsChain1() {
         clickMenu(menuEventsChain1);
-        return new Chain1Page(getDriver());
+        return new Chain1PageEntityBase(getDriver());
     }
 
-    public AssignPage clickMenuAssign() {
+    public AssignPageEntityBase clickMenuAssign() {
         clickMenu(menuAssign);
-        return new AssignPage(getDriver());
+        return new AssignPageEntityBase(getDriver());
     }
 
     public MyAssignmentsPage clickMenuMyAssignments() {
@@ -108,9 +108,9 @@ public class MainPage extends BaseIndexPage {
         return new MyAssignmentsPage(getDriver());
     }
 
-    public DefaultPage clickMenuDefault() {
+    public DefaultPageEntityBase clickMenuDefault() {
         clickMenu(menuDefault);
-        return new DefaultPage(getDriver());
+        return new DefaultPageEntityBase(getDriver());
     }
 
     public PlaceholderPage clickMenuPlaceholder() {
@@ -118,53 +118,53 @@ public class MainPage extends BaseIndexPage {
         return new PlaceholderPage(getDriver());
     }
 
-    public BoardPage clickMenuBoard() {
+    public BoardPageEntityBase clickMenuBoard() {
         clickMenu(menuBoard);
-        return new BoardPage(getDriver());
+        return new BoardPageEntityBase(getDriver());
     }
 
-    public PlatformFuncPage clickMenuPlatformFunctions() {
+    public PlatformFuncPageEntityBase clickMenuPlatformFunctions() {
         clickMenu(menuPlatformFunctions);
-        return new PlatformFuncPage(getDriver());
+        return new PlatformFuncPageEntityBase(getDriver());
     }
 
-    public ArithmeticFunctionPage clickMenuArithmeticFunction() {
+    public ArithmeticFunctionPageEntityBase clickMenuArithmeticFunction() {
         clickMenu(menuArithmeticFunction);
-        return new ArithmeticFunctionPage(getDriver());
+        return new ArithmeticFunctionPageEntityBase(getDriver());
     }
 
-    public InitPage clickMenuInit() {
+    public InitPageEntityBase clickMenuInit() {
         clickMenu(init);
-        return new InitPage(getDriver());
+        return new InitPageEntityBase(getDriver());
     }
 
-    public ChevronPage clickMenuChevron() {
+    public ChevronPageEntityBase clickMenuChevron() {
         clickMenu(menuChevron);
-        return new ChevronPage(getDriver());
+        return new ChevronPageEntityBase(getDriver());
     }
 
-    public ArithmeticInlinePage clickMenuArithmeticInline() {
+    public ArithmeticInlinePageEntityBase clickMenuArithmeticInline() {
         clickMenu(menuArithmeticInline);
-        return new ArithmeticInlinePage(getDriver());
+        return new ArithmeticInlinePageEntityBase(getDriver());
     }
 
-    public ReferenceValuesPage clickMenuReferenceValues() {
+    public ReferenceValuesPageEntityBase clickMenuReferenceValues() {
         clickMenu(menuReferenceValues);
-        return new ReferenceValuesPage(getDriver());
+        return new ReferenceValuesPageEntityBase(getDriver());
     }
 
-    public CalendarPage clickMenuCalendar() {
+    public CalendarPageEntityBase clickMenuCalendar() {
         clickMenu(menuCalendar);
-        return new CalendarPage(getDriver());
+        return new CalendarPageEntityBase(getDriver());
     }
 
-    public ParentPage clickMenuParent() {
+    public ParentPageEntityBase clickMenuParent() {
         clickMenu(menuParent);
-        return new ParentPage(getDriver());
+        return new ParentPageEntityBase(getDriver());
     }
 
-    public FootersPage clickMenuFooters() {
+    public FootersPageEntityBase clickMenuFooters() {
         clickMenu(menuFooters);
-        return new FootersPage(getDriver());
+        return new FootersPageEntityBase(getDriver());
     }
 }

@@ -2,7 +2,7 @@ package test.entity;
 
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
-import model.entity.table.Chain2Page;
+import model.entity.table.Chain2PageEntityBase;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -30,7 +30,7 @@ public class EntityEventsChain2Test extends BaseTest {
     public void createNewRecord() {
         final String f1Value = "1";
 
-        Chain2Page chain2Page = new MainPage(getDriver())
+        Chain2PageEntityBase chain2Page = new MainPage(getDriver())
                 .clickMenuEventsChain2()
                 .clickNewFolder()
                 .inputF1Value(f1Value)
@@ -61,7 +61,7 @@ public class EntityEventsChain2Test extends BaseTest {
     public void editRecord() {
         final String newF1 = "0";
 
-        Chain2Page chain2Page = new MainPage(getDriver())
+        Chain2PageEntityBase chain2Page = new MainPage(getDriver())
                 .clickMenuEventsChain2()
                 .editRow()
                 .editF1Value(newF1, EXPECTED_VALUES_F1_0)
@@ -83,7 +83,7 @@ public class EntityEventsChain2Test extends BaseTest {
 
         Assert.assertEquals(errorPage.getErrorMessage(), "error saving entity");
 
-        Chain2Page chain2Page = Chain2Page.getPage(getDriver());
+        Chain2PageEntityBase chain2Page = Chain2PageEntityBase.getPage(getDriver());
         Assert.assertEquals(chain2Page.getRowCount(), 1);
         Assert.assertEquals(chain2Page.getRow(0), EXPECTED_VALUES_F1_0);
     }
@@ -91,7 +91,7 @@ public class EntityEventsChain2Test extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = {"editRecordInvalidValues"})
     public void deleteRecord() {
-        Chain2Page chain2Page = new MainPage(getDriver())
+        Chain2PageEntityBase chain2Page = new MainPage(getDriver())
                 .clickMenuEventsChain2()
                 .deleteRow();
 

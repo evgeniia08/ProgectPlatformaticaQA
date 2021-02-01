@@ -1,10 +1,10 @@
 package test.entity;
 
-import model.*;
+import model.base.EntityBaseViewPage;
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
-import model.entity.edit.ArithmeticFunctionEditPage;
-import model.entity.table.ArithmeticFunctionPage;
+import model.entity.edit.ArithmeticFunctionEntityBaseEditPage;
+import model.entity.table.ArithmeticFunctionPageEntityBase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -37,7 +37,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
 
         List<String> expectedData = Arrays.asList(expectedData(F1, F2));
 
-        ArithmeticFunctionPage arithmeticFunctionPage = new MainPage(getDriver())
+        ArithmeticFunctionPageEntityBase arithmeticFunctionPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .clickNewFolder()
                 .inputInitialValue(F1, F2)
@@ -55,7 +55,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test(dependsOnMethods = "createNewRecordTest")
     public void viewRecordTest() {
 
-        BaseViewPage arithmeticFunctionViewPage = new MainPage(getDriver())
+        EntityBaseViewPage arithmeticFunctionViewPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .viewRow();
 
@@ -67,7 +67,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
 
         List<String> expectedData = Arrays.asList(expectedData(F3, F4));
 
-        ArithmeticFunctionEditPage arithmeticFunctionEditPage = new MainPage(getDriver())
+        ArithmeticFunctionEntityBaseEditPage arithmeticFunctionEditPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .editRow()
                 .inputInitialValue(F3, F4)
@@ -94,7 +94,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test(dependsOnMethods = "createNewRecordNegativeStringTest")
     public void deleteRecordTest() {
 
-        ArithmeticFunctionPage arithmeticFunctionPage = new MainPage(getDriver())
+        ArithmeticFunctionPageEntityBase arithmeticFunctionPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .deleteRow();
 

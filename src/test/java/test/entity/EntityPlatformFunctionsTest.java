@@ -1,8 +1,8 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.edit.PlatformFuncEditPage;
-import model.entity.table.PlatformFuncPage;
+import model.entity.edit.PlatformFuncEntityBaseEditPage;
+import model.entity.table.PlatformFuncPageEntityBase;
 import model.entity.common.RecycleBinPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
@@ -38,7 +38,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(POSITIVE_INT, TEST_TEXT, DEFAULT_CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(POSITIVE_INT, TEST_TEXT)
@@ -54,7 +54,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(POSITIVE_INT_2, TEST_TEXT_10, CUSTOM_CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .editRow()
                 .fillValues(POSITIVE_INT_2, TEST_TEXT_10, CUSTOM_CONSTANT)
@@ -67,7 +67,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
     @Test(dependsOnMethods = "editRecordTest")
     public void deleteRecordTest() {
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .deleteRow();
 
@@ -95,7 +95,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         List<String> secondRecordExpectedValues = Arrays.asList(RECORD_2_LAST_INT, RECORD_2_LAST_STRING, DEFAULT_CONSTANT);
         List<String> thirdRecordExpectedValues = Arrays.asList(RECORD_3_LAST_INT, RECORD_3_LAST_STRING, DEFAULT_CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(RECORD_1_LAST_INT, RECORD_1_LAST_STRING)
@@ -104,7 +104,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
         Assert.assertEquals(platformFuncPage.getRowCount(), 1);
         Assert.assertEquals(platformFuncPage.getRow(0), firstRecordExpectedValues);
 
-        PlatformFuncEditPage platformFuncEditPage = platformFuncPage.clickNewFolder();
+        PlatformFuncEntityBaseEditPage platformFuncEditPage = platformFuncPage.clickNewFolder();
 
         Assert.assertEquals(platformFuncEditPage.getLastInt(), RECORD_2_LAST_INT);
         Assert.assertEquals(platformFuncEditPage.getLastString(), RECORD_2_LAST_STRING);
@@ -133,12 +133,12 @@ public class EntityPlatformFunctionsTest extends BaseTest {
     @Test(dependsOnMethods = "entityMainLogicTest")
     public void createCancelTest() {
 
-        PlatformFuncEditPage platformFuncEditPage = new MainPage(getDriver())
+        PlatformFuncEntityBaseEditPage platformFuncEditPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder();
         final String LAST_INT = platformFuncEditPage.getLastInt();
 
-        PlatformFuncPage platformFuncPage = platformFuncEditPage.clickCancelButton();
+        PlatformFuncPageEntityBase platformFuncPage = platformFuncEditPage.clickCancelButton();
         Assert.assertEquals(platformFuncPage.getRowCount(), 0);
         Assert.assertEquals(platformFuncPage.clickNewFolder().getLastInt(), LAST_INT);
     }
@@ -148,7 +148,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(POSITIVE_INT, TEST_TEXT, CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(POSITIVE_INT, TEST_TEXT)
@@ -195,7 +195,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(MAX_INT, TEST_TEXT, CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(MAX_INT, TEST_TEXT)
@@ -214,7 +214,7 @@ public class EntityPlatformFunctionsTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(MIN_INT, TEST_TEXT, CONSTANT);
 
-        PlatformFuncPage platformFuncPage = new MainPage(getDriver())
+        PlatformFuncPageEntityBase platformFuncPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(MIN_INT, TEST_TEXT)

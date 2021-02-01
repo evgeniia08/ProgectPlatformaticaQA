@@ -3,7 +3,7 @@ package test.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import model.entity.table.CalendarPage;
+import model.entity.table.CalendarPageEntityBase;
 import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,7 +32,7 @@ public class EntityCalendarTest extends BaseTest {
     @Test
     public void newCalendar() {
 
-        CalendarPage calendarPage = new MainPage(getDriver())
+        CalendarPageEntityBase calendarPage = new MainPage(getDriver())
                 .clickMenuCalendar()
                 .clickNewFolder()
                 .sendKeys(STRING, NUMBER, NUMBER1, DATE)

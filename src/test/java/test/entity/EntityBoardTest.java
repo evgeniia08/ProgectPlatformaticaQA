@@ -1,13 +1,12 @@
 package test.entity;
 
-import model.*;
 
-
-import model.entity.common.BoardPage;
+import model.base.EntityBaseViewPage;
+import model.entity.common.BoardPageEntityBase;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
-import model.entity.edit.BoardEditPage;
-import model.entity.table.BoardListPage;
+import model.entity.edit.BoardEntityBaseEditPage;
+import model.entity.table.BoardListPageEntityBase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -38,14 +37,14 @@ public class EntityBoardTest extends BaseTest {
     @Test
     public void inputValidationTest() {
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickNewFolder()
                 .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)
                 .clickSaveDraftButton()
                 .clickListButton();
 
-        time = new BoardEditPage(getDriver()).getCreatedTime()[1];
+        time = new BoardEntityBaseEditPage(getDriver()).getCreatedTime()[1];
         dateForValidation = String.format("%1$s%4$s%3$s%4$s%2$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '/');
         dateTimeForValidation= String.format("%1$s %2$s", dateForValidation, time);
         List<String> expectedValues = Arrays.asList(PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation,"",  APP_USER);
@@ -57,7 +56,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = "inputValidationTest")
     public void kanbanValidationRecord() {
 
-        BoardPage boardPage = new MainPage(getDriver())
+        BoardPageEntityBase boardPage = new MainPage(getDriver())
                 .clickMenuBoard();
 
         dateForValidation = String.format("%2$s%4$s%3$s%4$s%1$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '-');
@@ -72,7 +71,7 @@ public class EntityBoardTest extends BaseTest {
 
 
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .moveFromPedingToOntrack()
                 .clickListButton();
@@ -91,7 +90,7 @@ public class EntityBoardTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(DONE, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation, "", APP_USER);
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .moveFromOntrackToDone()
                 .clickListButton();
@@ -105,7 +104,7 @@ public class EntityBoardTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(ON_TRACK, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation, "", APP_USER);
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .moveFromDoneToOnTrack()
                 .clickListButton();
@@ -119,7 +118,7 @@ public class EntityBoardTest extends BaseTest {
 
         List<String> expectedValues = Arrays.asList(PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation, "", APP_USER);
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .moveFromOnTrackToPending()
                 .clickListButton();
@@ -133,7 +132,7 @@ public class EntityBoardTest extends BaseTest {
 
         List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, "", APP_USER);
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickListButton()
                 .editRow()
@@ -151,20 +150,20 @@ public class EntityBoardTest extends BaseTest {
         List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, APP_USER);
         List<String> actualValues;
 
-        BaseViewPage baseViewPage = new MainPage(getDriver())
+        EntityBaseViewPage entityBaseViewPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickListButton()
                 .viewRow();
 
-        actualValues = baseViewPage.getValues();
-        actualValues.add(baseViewPage.getUser());
+        actualValues = entityBaseViewPage.getValues();
+        actualValues.add(entityBaseViewPage.getUser());
         Assert.assertEquals(actualValues, editedValues);
     }
 
     @Test(dependsOnMethods = {"viewRecord"})
     public void deleteRecord() {
 
-        BoardListPage boardListPage = new MainPage(getDriver())
+        BoardListPageEntityBase boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickListButton()
                 .deleteRow();
@@ -181,7 +180,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = {"recordDeletionRecBin"})
     public void cancelInputTest() {
 
-        BoardPage boardPage = new MainPage(getDriver())
+        BoardPageEntityBase boardPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickNewFolder()
                 .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)
