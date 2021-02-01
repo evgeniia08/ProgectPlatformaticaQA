@@ -1,7 +1,5 @@
 package model.entity.common;
 
-import com.beust.jcommander.Strings;
-import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,6 +18,9 @@ public final class RecycleBinPage extends MainPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]")
     private WebElement notification;
+
+   /* @FindBy(xpath = "//a[normalize-space()='restore as draft']")
+    private WebElement restoreAsDraft;*/
 
     public RecycleBinPage(WebDriver driver) {
         super(driver);
@@ -57,4 +58,8 @@ public final class RecycleBinPage extends MainPage {
     public String getNotification(){
         return notification.getText();
     }
+
+    /*public String clickRestoreAsDraft() {
+        return rows.get(0).findElement(By.tagName("td")).getText();
+    }*/
 }

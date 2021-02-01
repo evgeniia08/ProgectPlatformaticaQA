@@ -6,13 +6,23 @@ import model.*;
 import model.entity.common.BoardPage;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
+import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -34,6 +44,8 @@ public class EntityBoardTest extends BaseTest {
     private String dateTimeForValidation;
     private String time;
     CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
+    private RecycleBinPage boardListPage;
+    private static final String SAFEASDRAFT = "fa fa-pencil";
 
     @Test
     public void inputValidationTest() {
@@ -52,6 +64,8 @@ public class EntityBoardTest extends BaseTest {
 
         Assert.assertEquals(boardListPage.getRowCount(), 1);
         Assert.assertEquals(boardListPage.getRow(0), expectedValues);
+
+
     }
 
     @Test(dependsOnMethods = "inputValidationTest")
@@ -173,6 +187,42 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"deleteRecord"})
+    public void restoreAsDraftTest() {
+
+        WebDriver driver = getDriver();
+
+        WebElement tab = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
+        ProjectUtils.click(driver, tab);
+
+        WebElement recycleBin = driver.findElement(By.xpath("//li/a/i[text()='delete_outline']"));
+        ProjectUtils.click(driver, recycleBin);
+
+        WebElement restoreAsDraft = driver.findElement(By.xpath("//a[normalize-space()='restore as draft']"));
+        ProjectUtils.click(driver, restoreAsDraft);
+
+        WebElement emptyRecycleBin = driver.findElement(By.xpath(
+                "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]"));
+        Assert.assertNotNull(emptyRecycleBin);
+        System.out.println(emptyRecycleBin.getText());
+
+        WebElement tab1 = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
+        ProjectUtils.click(driver, tab1);
+
+        WebElement list = driver.findElement(By.xpath("//a[contains(@href, '31')]/i[text()='list']"));
+        ProjectUtils.click(driver, list);
+
+        List<WebElement> rows = driver.findElements(By.xpath("//tbody/tr"));
+        Assert.assertEquals(rows.get(0).findElement(By.xpath("//td[1]/i")).getAttribute("class"), AppConstant.DRAFT_ICON_CLASS);
+
+        }
+
+        /*BoardListPage boardListPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickRecycleBin()
+                .clickRestoreAsDraft();
+    }
+*/
+    @Test(dependsOnMethods = {"restoreAsDraftTest"})
     public void recordDeletionRecBin() {
 
         Assert.assertEquals(new MainPage(getDriver()).clickRecycleBin().clickDeletePermanently(0).getRowCount(), 0);
@@ -190,4 +240,3 @@ public class EntityBoardTest extends BaseTest {
         Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
 }
-
