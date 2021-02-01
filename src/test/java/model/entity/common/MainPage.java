@@ -74,97 +74,97 @@ public class MainPage extends BaseIndexPage {
     }
 
     public FieldsPage clickMenuFields() {
-        clickMenu(menuFields);
+        clickMainMenu(menuFields);
         return new FieldsPage(getDriver());
     }
 
     public ImportValuesPage clickMenuImportValues() {
-        clickMenu(menuImportValues);
+        clickMainMenu(menuImportValues);
         return new ImportValuesPage(getDriver());
     }
   
     public Chain2Page clickMenuEventsChain2() {
-        clickMenu(menuEventsChain2);
+        clickMainMenu(menuEventsChain2);
         return new Chain2Page(getDriver());
     }
 
     public ExportPage clickMenuExport() {
-        clickMenu(menuExport);
+        clickMainMenu(menuExport);
         return new ExportPage(getDriver());
     }
 
     public Chain1Page clickMenuEventsChain1() {
-        clickMenu(menuEventsChain1);
+        clickMainMenu(menuEventsChain1);
         return new Chain1Page(getDriver());
     }
 
     public AssignPage clickMenuAssign() {
-        clickMenu(menuAssign);
+        clickMainMenu(menuAssign);
         return new AssignPage(getDriver());
     }
 
     public MyAssignmentsPage clickMenuMyAssignments() {
-        clickMenu(menuMyAssignments);
+        clickMainMenu(menuMyAssignments);
         return new MyAssignmentsPage(getDriver());
     }
 
     public DefaultPage clickMenuDefault() {
-        clickMenu(menuDefault);
+        clickMainMenu(menuDefault);
         return new DefaultPage(getDriver());
     }
 
     public PlaceholderPage clickMenuPlaceholder() {
-        clickMenu(menuPlaceholder);
+        clickMainMenu(menuPlaceholder);
         return new PlaceholderPage(getDriver());
     }
 
     public BoardPageEntityBase clickMenuBoard() {
-        clickMenu(menuBoard);
+        clickMainMenu(menuBoard);
         return new BoardPageEntityBase(getDriver());
     }
 
     public PlatformFuncPage clickMenuPlatformFunctions() {
-        clickMenu(menuPlatformFunctions);
+        clickMainMenu(menuPlatformFunctions);
         return new PlatformFuncPage(getDriver());
     }
 
     public ArithmeticFunctionPage clickMenuArithmeticFunction() {
-        clickMenu(menuArithmeticFunction);
+        clickMainMenu(menuArithmeticFunction);
         return new ArithmeticFunctionPage(getDriver());
     }
 
     public InitPage clickMenuInit() {
-        clickMenu(init);
+        clickMainMenu(init);
         return new InitPage(getDriver());
     }
 
     public ChevronPage clickMenuChevron() {
-        clickMenu(menuChevron);
+        clickMainMenu(menuChevron);
         return new ChevronPage(getDriver());
     }
 
     public ArithmeticInlinePage clickMenuArithmeticInline() {
-        clickMenu(menuArithmeticInline);
+        clickMainMenu(menuArithmeticInline);
         return new ArithmeticInlinePage(getDriver());
     }
 
     public ReferenceValuesPage clickMenuReferenceValues() {
-        clickMenu(menuReferenceValues);
+        clickMainMenu(menuReferenceValues);
         return new ReferenceValuesPage(getDriver());
     }
 
     public CalendarPage clickMenuCalendar() {
-        clickMenu(menuCalendar);
+        clickMainMenu(menuCalendar);
         return new CalendarPage(getDriver());
     }
 
     public ParentPage clickMenuParent() {
-        clickMenu(menuParent);
+        clickMainMenu(menuParent);
         return new ParentPage(getDriver());
     }
 
     public FootersPage clickMenuFooters() {
-        clickMenu(menuFooters);
+        clickMainMenu(menuFooters);
         return new FootersPage(getDriver());
     }
 }

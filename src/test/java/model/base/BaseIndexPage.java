@@ -21,7 +21,7 @@ public abstract class BaseIndexPage extends BasePage {
         super(driver);
     }
 
-    protected void clickMenu(WebElement element) {
+    protected void clickMainMenu(WebElement element) {
         ProjectUtils.scroll(getDriver(), element);
         element.click();
     }

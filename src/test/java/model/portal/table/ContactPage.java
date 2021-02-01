@@ -5,11 +5,9 @@ import model.portal.edit.ContactEditPage;
 import model.portal.view.ContactViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import runner.TestUtils;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ContactPage extends PortalBaseTablePage<ContactPage, ContactEditPage, ContactViewPage> {
 
@@ -35,9 +33,7 @@ public class ContactPage extends PortalBaseTablePage<ContactPage, ContactEditPag
         return createPortalEditPage();
     }
 
-    @Override
     public List<String> getRowData(int rowNumber) {
-        return rows.get(rowNumber).findElements(By.tagName("td")).stream()
-                .map(WebElement::getText).collect(Collectors.toList()).subList(1, 7);
+        return getWholeRowData(rowNumber).subList(1, 7);
     }
 }
