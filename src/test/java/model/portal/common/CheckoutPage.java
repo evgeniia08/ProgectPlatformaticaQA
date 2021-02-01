@@ -10,7 +10,7 @@ public class CheckoutPage extends PortalBaseIndexPage {
     @FindBy(xpath="//h4[contains(text(), 'Balance')]")
     private WebElement userBalance;
 
-    @FindBy(xpath="//div[@class='card-body']//button/div")
+    @FindBy(xpath="//button[text()='Get with credit']")
     private WebElement getWithCreditButton;
 
     public CheckoutPage(WebDriver driver) {

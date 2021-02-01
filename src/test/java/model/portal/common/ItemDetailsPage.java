@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class ItemDetailsPage extends PortalBaseIndexPage {
 
-    @FindBy(xpath = "//div[@class='card-body']//button/div")
+    @FindBy(xpath = "//button[text()='Buy now']")
     private WebElement buyNowButton;
 
     public ItemDetailsPage(WebDriver driver) {
