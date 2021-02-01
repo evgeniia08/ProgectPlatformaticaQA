@@ -79,7 +79,7 @@ public enum ProfileType {
     }
 
     public void reset(WebDriver driver) {
-        ProjectUtils.click(driver, driver.findElement(By.id("navbarDropdownProfile")));
+        driver.findElement(By.id("navbarDropdownProfile"));
         ProjectUtils.click(driver, driver.findElement(By.xpath("//a[contains(text(), 'Reset')]")));
     }
 

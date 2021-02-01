@@ -68,8 +68,7 @@ public class EntityCalendarTest extends BaseTest {
 
         WebElement str =
                 getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='string']")));
-        str.clear();
-        ProjectUtils.sendKeys(str, "New Record");
+        ProjectUtils.fill(getWebDriverWait(), str, "New Record");
 
         WebElement text = driver.findElement(By.xpath("//textarea[@id='text']"));
         text.clear();

@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import test.data.AppConstant;
+
 import java.util.List;
 
 public final class RecycleBinPage extends MainPage {
@@ -24,7 +26,7 @@ public final class RecycleBinPage extends MainPage {
     }
 
     public int getRowCount() {
-        if (Strings.isStringEmpty(body.getText())) {
+        if (body.getText().equals(AppConstant.EMPTY_RECYCLE_BIN_TEXT)) {
             return 0;
         } else {
             return rows.size();
@@ -47,8 +49,9 @@ public final class RecycleBinPage extends MainPage {
         return rows.get(rowNumber).findElement(By.xpath(String.format("//td[1]/a/span[%d]/b", cellNumber))).getText();
     }
 
-    public void clickDeletePermanently(int rowNumber){
+    public RecycleBinPage clickDeletePermanently(int rowNumber){
         rows.get(rowNumber).findElement(By.xpath("//a[contains (text(), 'delete permanently')]")).click();
+        return this;
     }
 
     public String getNotification(){

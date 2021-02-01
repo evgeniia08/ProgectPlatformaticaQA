@@ -54,7 +54,7 @@ public class EntityParentTest extends BaseTest {
         ParentPage parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .editRow()
-                .sendKeysForEdit(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE)
+                .sendKeys(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE)
                 .clickDataTime()
                 .clickSaveButton();
 

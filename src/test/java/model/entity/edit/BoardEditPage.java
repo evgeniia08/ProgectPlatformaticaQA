@@ -11,8 +11,6 @@ import runner.ProjectUtils;
 
 public final class BoardEditPage extends BaseEditPage<BoardPage> {
 
-
-
     @FindBy(id = "string")
     private WebElement dropDownStatus;
 
@@ -51,17 +49,17 @@ public final class BoardEditPage extends BaseEditPage<BoardPage> {
     }
 
     public BoardEditPage fillText (String text) {
-        ProjectUtils.sendKeys(textInput, text);
+        ProjectUtils.fill(getWait(), textInput, text);
         return  this;
     }
 
     public BoardEditPage fillInt (String number)  {
-        ProjectUtils.sendKeys(intInput, number);
+        ProjectUtils.fill(getWait(), intInput, number);
         return this;
     }
 
     public BoardEditPage fillDecimal (String decimal)  {
-        ProjectUtils.sendKeys(decimalInput, decimal);
+        ProjectUtils.fill(getWait(), decimalInput, decimal);
         return this;
     }
 
@@ -73,7 +71,6 @@ public final class BoardEditPage extends BaseEditPage<BoardPage> {
     }
 
     public String[] getCreatedTime() {
-      //  String[] b;
         return  time.getText().split(" ");
     }
 
