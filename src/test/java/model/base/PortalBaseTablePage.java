@@ -15,7 +15,6 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     private static final String ROW_MENU_ = "//button[@data-toggle='dropdown']/../ul/li/a[text()='%s']";
 
     private static final By ROW_MENU_VIEW = By.xpath(String.format(ROW_MENU_, "view"));
-    private static final By ROW_MENU_EDIT = By.xpath(String.format(ROW_MENU_, "edit"));
     private static final By ROW_MENU_DELETE = By.xpath(String.format(ROW_MENU_, "delete"));
 
     @FindBy(xpath = "//i[text() = 'create_new_folder']")
@@ -25,7 +24,7 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     private WebElement body;
 
     @FindBy(xpath = "//table[@id='pa-all-entities-table']/tbody/tr")
-    private List<WebElement> rows;
+    protected List<WebElement> rows;
 
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
@@ -64,9 +63,23 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
                 .map(WebElement::getText).collect(Collectors.toList());
     }
 
-    private void clickRowMenu(int rowNumber, By menu) {
+    protected void clickRowMenuButton(int rowNumber) {
         rows.get(rowNumber).findElement(By.xpath("//button[@data-toggle]")).click();
+    }
+
+    private void clickRowMenu(int rowNumber, By menu) {
+        clickRowMenuButton(rowNumber);
         getWait().until(TestUtils.movingIsFinished(menu)).click();
+    }
+
+    public V viewRowDirectly(int rowNumber) {
+        for (WebElement cellElement : rows.get(rowNumber).findElements(By.xpath("//td[2]//div")).subList(1,6)) {
+            if (!Strings.isStringEmpty(cellElement.getText())) {
+                cellElement.click();
+                return createPortalViewPage();
+            }
+        }
+        throw new RuntimeException("Unable to view record/draft by clicking row directly on table page");
     }
 
     public V viewRow(int rowNumber) {
@@ -74,26 +87,9 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
         return createPortalViewPage();
     }
 
-    public V viewRow() {
-        return viewRow(getRows().size() - 1);
-    }
-
-    public E editRow(int rowNumber) {
-        clickRowMenu(rowNumber, ROW_MENU_EDIT);
-        return createPortalEditPage();
-    }
-
-    public E editRow() {
-        return editRow(getRows().size() - 1);
-    }
-
     public S deleteRow(int rowNumber) {
         clickRowMenu(rowNumber, ROW_MENU_DELETE);
         return (S)this;
-    }
-
-    public S deleteRow() {
-        return deleteRow(getRows().size() - 1);
     }
 
     public S clickListButton() {

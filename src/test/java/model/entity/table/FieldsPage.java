@@ -33,5 +33,4 @@ public final class FieldsPage extends EntityBaseTablePage<FieldsPage, FieldsEdit
     public String getDecimal(int rowNumber) {
         return getRow(rowNumber).get(3);
     }
-
 }

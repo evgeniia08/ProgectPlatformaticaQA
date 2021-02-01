@@ -3,8 +3,9 @@ package model.portal.view;
 import model.base.PortalBaseViewPage;
 import org.openqa.selenium.WebDriver;
 
-public class PortalAppsViewPage extends PortalBaseViewPage {
-    public PortalAppsViewPage(WebDriver driver) {
+public class TemplateViewPage extends PortalBaseViewPage {
+
+    public TemplateViewPage(WebDriver driver) {
         super(driver);
     }
 }
