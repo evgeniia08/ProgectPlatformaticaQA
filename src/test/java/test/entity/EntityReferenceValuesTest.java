@@ -1,8 +1,8 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.edit.ReferenceValuesEntityBaseEditPage;
-import model.entity.table.ReferenceValuesPageEntityBase;
+import model.entity.edit.ReferenceValuesEditPage;
+import model.entity.table.ReferenceValuesPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -40,7 +40,7 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test
     public void createRecordTest() {
 
-        ReferenceValuesPageEntityBase referenceValuesPage = new MainPage(getDriver())
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .clickNewFolder()
                 .fillData(RECORD_VALUES.get(0), RECORD_VALUES.get(1), RECORD_VALUES.get(2))
@@ -63,13 +63,13 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "viewRecordTest")
     public void editRecordTest() {
 
-        ReferenceValuesEntityBaseEditPage referenceValuesEditPage = new MainPage(getDriver())
+        ReferenceValuesEditPage referenceValuesEditPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .editRow(0);
 
         Assert.assertEquals(referenceValuesEditPage.getInputValues(), RECORD_VALUES);
 
-        ReferenceValuesPageEntityBase referenceValuesPage = referenceValuesEditPage
+        ReferenceValuesPage referenceValuesPage = referenceValuesEditPage
                 .fillData(RECORD_EDITED_VALUES.get(0), RECORD_EDITED_VALUES.get(1), RECORD_EDITED_VALUES.get(2))
                 .clickSaveButton();
 
@@ -98,7 +98,7 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "deleteRecordTest")
     public void createDraftTest() {
 
-        ReferenceValuesPageEntityBase referenceValuesPage = new MainPage(getDriver())
+        ReferenceValuesPage referenceValuesPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .clickNewFolder()
                 .fillData(DRAFT_VALUES.get(0), DRAFT_VALUES.get(1), DRAFT_VALUES.get(2))
@@ -121,13 +121,13 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "viewDraftTest")
     public void editDraftTest() {
 
-        ReferenceValuesEntityBaseEditPage referenceValuesEditPage = new MainPage(getDriver())
+        ReferenceValuesEditPage referenceValuesEditPage = new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .editRow(0);
 
         Assert.assertEquals(referenceValuesEditPage.getInputValues(), DRAFT_VALUES);
 
-        ReferenceValuesPageEntityBase referenceValuesPage = referenceValuesEditPage
+        ReferenceValuesPage referenceValuesPage = referenceValuesEditPage
                 .fillData(DRAFT_EDITED_VALUES.get(0), DRAFT_EDITED_VALUES.get(1), DRAFT_EDITED_VALUES.get(2))
                 .clickSaveDraftButton();
 
@@ -158,7 +158,7 @@ public class EntityReferenceValuesTest extends BaseTest {
 
         createRecordTest();
 
-        ReferenceValuesPageEntityBase referenceValuesPage = new ReferenceValuesPageEntityBase(getDriver()).editRow().clickSaveDraftButton();
+        ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver()).editRow().clickSaveDraftButton();
 
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
         Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_VALUES);
@@ -168,7 +168,7 @@ public class EntityReferenceValuesTest extends BaseTest {
     @Test(dependsOnMethods = "saveRecordAsDraftTest")
     public void saveDraftAsRecordTest() {
 
-        ReferenceValuesPageEntityBase referenceValuesPage = new ReferenceValuesPageEntityBase(getDriver())
+        ReferenceValuesPage referenceValuesPage = new ReferenceValuesPage(getDriver())
                 .clickMenuReferenceValues()
                 .editRow()
                 .clickSaveButton();

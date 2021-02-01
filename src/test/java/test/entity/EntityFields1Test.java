@@ -1,7 +1,7 @@
 package test.entity;
 
 import model.entity.common.Main1Page;
-import model.entity.table.Fields1PageEntityBase;
+import model.entity.table.Fields1Page;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -24,7 +24,7 @@ public class EntityFields1Test extends BaseTest {
     @Test
     public void createRecord() {
 
-        Fields1PageEntityBase fieldsPage1 = new Main1Page(getDriver())
+        Fields1Page fieldsPage1 = new Main1Page(getDriver())
                 .clickFields()
                 .clickNewFolder()
                 .sendKeys(TITLE,COMMENT, INT_)
@@ -39,7 +39,7 @@ public class EntityFields1Test extends BaseTest {
     @Test(dependsOnMethods = "createRecord")
     public void editRecord() {
 
-        Fields1PageEntityBase fields1Page = new Main1Page(getDriver())
+        Fields1Page fields1Page = new Main1Page(getDriver())
                 .clickFields()
                 .editRow()
                 .sendKeys(NEW_TITLE, NEW_COMMENT, NEW_INT_)
@@ -54,7 +54,7 @@ public class EntityFields1Test extends BaseTest {
     @Test(dependsOnMethods = "editRecord")
     public void deleteRecord() {
 
-        Fields1PageEntityBase fields1Page = new Main1Page(getDriver())
+        Fields1Page fields1Page = new Main1Page(getDriver())
                 .clickFields()
                 .deleteRow();
 

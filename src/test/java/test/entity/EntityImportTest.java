@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.entity.table.ImportValuesPageEntityBase;
+import model.entity.table.ImportValuesPage;
 import model.entity.common.RecycleBinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -25,7 +25,7 @@ public class EntityImportTest extends BaseTest {
 
         final String str = UUID.randomUUID().toString();
 
-        RecycleBinPage recycleBinPage = new ImportValuesPageEntityBase(getDriver())
+        RecycleBinPage recycleBinPage = new ImportValuesPage(getDriver())
                 .clickMenuImportValues()
                 .clickNewFolder()
                 .sendKeys(str)

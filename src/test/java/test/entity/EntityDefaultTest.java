@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import model.entity.edit.DefaultEntityBaseEditPage;
-import model.entity.table.DefaultPageEntityBase;
+import model.entity.edit.DefaultEditPage;
+import model.entity.table.DefaultPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
 import org.openqa.selenium.support.ui.Select;
@@ -168,7 +168,7 @@ public class EntityDefaultTest extends BaseTest {
         WebDriver driver = getDriver();
 
         MainPage mainPage = new MainPage(getDriver());
-        DefaultEntityBaseEditPage defaultEditPage = mainPage
+        DefaultEditPage defaultEditPage = mainPage
                 .clickMenuDefault()
                 .clickNewFolder();
 
@@ -209,7 +209,7 @@ public class EntityDefaultTest extends BaseTest {
     public void deleteRecord() {
 
         MainPage mainPage  = new MainPage(getDriver());
-        DefaultPageEntityBase defaultPage = mainPage.clickMenuDefault();
+        DefaultPage defaultPage = mainPage.clickMenuDefault();
 
         defaultPage.deleteRow();
 
@@ -228,12 +228,12 @@ public class EntityDefaultTest extends BaseTest {
     public void editExistingRecord() {
 
         MainPage mainPage = new MainPage(getDriver());
-        DefaultPageEntityBase defaultPage = mainPage
+        DefaultPage defaultPage = mainPage
                 .clickMenuDefault()
                 .clickNewFolder()
                 .clickSaveButton();
 
-        DefaultEntityBaseEditPage defaultEditPage = defaultPage.editRow(0);
+        DefaultEditPage defaultEditPage = defaultPage.editRow(0);
 
         defaultEditPage.sendKeys(newValues.fieldString, newValues.fieldText, newValues.fieldInt,
                 newValues.fieldDecimal, newValues.fieldDate, newValues.fieldDateTime, newValues.fieldUser);

@@ -2,7 +2,7 @@ package test.entity;
 
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
-import model.entity.table.ExportPageEntityBase;
+import model.entity.table.ExportPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -297,7 +297,7 @@ public class EntityExportTest extends BaseTest {
 
         inputTest();
 
-        ExportPageEntityBase exportPage = new ExportPageEntityBase(getDriver());
+        ExportPage exportPage = new ExportPage(getDriver());
 
         Assert.assertEquals(exportPage
                 .clickMenuExport()

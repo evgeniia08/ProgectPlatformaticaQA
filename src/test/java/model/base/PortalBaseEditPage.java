@@ -9,7 +9,7 @@ import runner.ProjectUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class PortalBaseEditPage<TablePage> extends BasePage {
+public abstract class PortalBaseEditPage<T> extends PortalBaseIndexPage {
 
     @FindBy(css = "button[id*='save']")
     protected WebElement saveButton;
@@ -27,18 +27,18 @@ public abstract class PortalBaseEditPage<TablePage> extends BasePage {
         super(driver);
     }
 
-    protected abstract TablePage createPage();
+    protected abstract T createPortalPage();
 
-    public TablePage clickSaveButton() {
+    public T clickSaveButton() {
         ProjectUtils.scroll(getDriver(), saveButton);
         ProjectUtils.click(getWait(), saveButton);
-        return createPage();
+        return createPortalPage();
     }
 
-    public TablePage clickSaveDraftButton() {
+    public T clickSaveDraftButton() {
         ProjectUtils.scroll(getDriver(), saveButton);
         ProjectUtils.click(getWait(), saveDraftButton);
-        return createPage();
+        return createPortalPage();
     }
 
     public ErrorPage clickSaveButtonErrorExpected() {
@@ -53,10 +53,10 @@ public abstract class PortalBaseEditPage<TablePage> extends BasePage {
         return new ErrorPage(getDriver());
     }
 
-    public TablePage clickCancelButton() {
+    public T clickCancelButton() {
         ProjectUtils.scroll(getDriver(), cancelButton);
         ProjectUtils.click(getWait(), cancelButton);
-        return createPage();
+        return createPortalPage();
     }
 
     public List<String> getInputValues() {

@@ -1,7 +1,7 @@
 package model.entity.edit;
 
 import model.base.BasePage;
-import model.entity.table.ImportValuesPageEntityBase;
+import model.entity.table.ImportValuesPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,9 +25,9 @@ public class ImportValuesEditPage extends BasePage {
         return this;
     }
 
-    public ImportValuesPageEntityBase clickSaveButton() {
+    public ImportValuesPage clickSaveButton() {
         ProjectUtils.click(getDriver(), buttonSave);
 
-        return new ImportValuesPageEntityBase(getDriver());
+        return new ImportValuesPage(getDriver());
     }
 }

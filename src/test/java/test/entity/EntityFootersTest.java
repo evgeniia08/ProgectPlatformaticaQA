@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.entity.edit.FootersEntityBaseEditPage;
+import model.entity.edit.FootersEditPage;
 import model.entity.common.MainPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -171,7 +171,7 @@ public class EntityFootersTest extends BaseTest {
         final double decimal = 10.5;
         final String firstRowControl = String.format("%d,%.1f", int_, decimal);
 
-        FootersEntityBaseEditPage footersEditPage = new MainPage(getDriver())
+        FootersEditPage footersEditPage = new MainPage(getDriver())
                 .clickMenuFooters()
                 .clickNewFolder()
                 .clickPlusSumButton()

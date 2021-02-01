@@ -2,8 +2,8 @@ package model.entity.common;
 
 import com.beust.jcommander.Strings;
 import model.base.EntityBaseTablePage;
-import model.entity.edit.BoardEntityBaseEditPage;
-import model.entity.table.BoardListPageEntityBase;
+import model.entity.edit.BoardEditPage;
+import model.entity.table.BoardListPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -43,8 +43,8 @@ public class BoardPageEntityBase extends EntityBaseTablePage {
     private WebElement listButton;
 
     @Override
-    protected BoardEntityBaseEditPage createEditPage() {
-        return new BoardEntityBaseEditPage(getDriver());
+    protected BoardEditPage createEditPage() {
+        return new BoardEditPage(getDriver());
     }
 
 
@@ -63,14 +63,14 @@ public class BoardPageEntityBase extends EntityBaseTablePage {
         return pendingCardItems.size();
     }
 
-    public BoardEntityBaseEditPage clickNewFolder() {
+    public BoardEditPage clickNewFolder() {
         buttonNew.click();
-        return new BoardEntityBaseEditPage(getDriver());
+        return new BoardEditPage(getDriver());
     }
 
-    public BoardListPageEntityBase clickListButton() {
+    public BoardListPage clickListButton() {
         listButton.click();
-        return new BoardListPageEntityBase(getDriver());
+        return new BoardListPage(getDriver());
     }
 
     public BoardPageEntityBase moveFromPedingToOntrack() {

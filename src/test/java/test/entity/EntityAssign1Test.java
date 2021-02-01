@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.entity.table.AssignPageEntityBase;
+import model.entity.table.AssignPage;
 import model.entity.common.MainPage;
 import model.entity.common.MyAssignmentsPage;
 import org.openqa.selenium.By;
@@ -56,7 +56,7 @@ public class EntityAssign1Test extends BaseTest {
         final String intInp = String.valueOf((int)(Math.random() * 100));
         final String decimalInp = String.valueOf(Math.random());
 
-        AssignPageEntityBase assignPage = new AssignPageEntityBase(getDriver())
+        AssignPage assignPage = new AssignPage(getDriver())
                 .clickMenuAssign()
                 .clickNewFolder()
                 .fillOutForm(STRING_INP, "test text", intInp, decimalInp)

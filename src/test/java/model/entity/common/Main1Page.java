@@ -1,7 +1,7 @@
 package model.entity.common;
 
 import model.base.BasePage;
-import model.entity.table.Fields1PageEntityBase;
+import model.entity.table.Fields1Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,9 +15,9 @@ public class Main1Page extends BasePage {
         super(driver);
     }
 
-    public Fields1PageEntityBase clickFields(){
+    public Fields1Page clickFields(){
         fieldsBtn.click();
 
-        return new Fields1PageEntityBase(getDriver());
+        return new Fields1Page(getDriver());
     }
 }

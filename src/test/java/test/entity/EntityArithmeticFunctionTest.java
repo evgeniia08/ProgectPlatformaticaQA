@@ -3,8 +3,8 @@ package test.entity;
 import model.base.EntityBaseViewPage;
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
-import model.entity.edit.ArithmeticFunctionEntityBaseEditPage;
-import model.entity.table.ArithmeticFunctionPageEntityBase;
+import model.entity.edit.ArithmeticFunctionEditPage;
+import model.entity.table.ArithmeticFunctionPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -37,7 +37,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
 
         List<String> expectedData = Arrays.asList(expectedData(F1, F2));
 
-        ArithmeticFunctionPageEntityBase arithmeticFunctionPage = new MainPage(getDriver())
+        ArithmeticFunctionPage arithmeticFunctionPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .clickNewFolder()
                 .inputInitialValue(F1, F2)
@@ -67,7 +67,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
 
         List<String> expectedData = Arrays.asList(expectedData(F3, F4));
 
-        ArithmeticFunctionEntityBaseEditPage arithmeticFunctionEditPage = new MainPage(getDriver())
+        ArithmeticFunctionEditPage arithmeticFunctionEditPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .editRow()
                 .inputInitialValue(F3, F4)
@@ -94,7 +94,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test(dependsOnMethods = "createNewRecordNegativeStringTest")
     public void deleteRecordTest() {
 
-        ArithmeticFunctionPageEntityBase arithmeticFunctionPage = new MainPage(getDriver())
+        ArithmeticFunctionPage arithmeticFunctionPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .deleteRow();
 

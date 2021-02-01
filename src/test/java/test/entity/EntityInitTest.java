@@ -1,8 +1,8 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.edit.InitEntityBaseEditPage;
-import model.entity.table.InitPageEntityBase;
+import model.entity.edit.InitEditPage;
+import model.entity.table.InitPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -24,7 +24,7 @@ public class EntityInitTest extends BaseTest {
     @Test
     public void createDefaultInit() {
 
-        InitPageEntityBase initPage = new MainPage(getDriver())
+        InitPage initPage = new MainPage(getDriver())
                 .clickMenuInit()
                 .clickNewFolder()
                 .clickSaveButton();
@@ -48,7 +48,7 @@ public class EntityInitTest extends BaseTest {
     @Test(dependsOnMethods = {"createDefaultInit"})
     public void checkDefaultValuesInEditMode() {
 
-        InitEntityBaseEditPage initEditPage = new MainPage(getDriver())
+        InitEditPage initEditPage = new MainPage(getDriver())
                 .clickMenuInit()
                 .editRow(0);
 
@@ -72,7 +72,7 @@ public class EntityInitTest extends BaseTest {
     @Test(dependsOnMethods = {"createDefaultInit"})
     public void deleteRecord() {
 
-        InitPageEntityBase initPage = new MainPage(getDriver())
+        InitPage initPage = new MainPage(getDriver())
                 .clickMenuInit()
                 .deleteRow();
 

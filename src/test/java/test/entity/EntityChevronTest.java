@@ -1,7 +1,7 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.table.ChevronPageEntityBase;
+import model.entity.table.ChevronPage;
 import org.testng.annotations.DataProvider;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -46,7 +46,7 @@ public class EntityChevronTest extends BaseTest {
 
     @Test()
     public void createNewRecord() {
-        ChevronPageEntityBase chevronPage = new MainPage(getDriver())
+        ChevronPage chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
                 .clickNewFolder()
                 .chooseRecordStatus()
@@ -68,7 +68,7 @@ public class EntityChevronTest extends BaseTest {
     @Test(dataProvider = "testData")
     public void createMultipleEntities(String title, String int_, String decimal, String data, String time) {
 
-        ChevronPageEntityBase chevronPage = new MainPage(getDriver()).clickMenuChevron();
+        ChevronPage chevronPage = new MainPage(getDriver()).clickMenuChevron();
         int rowCount = chevronPage.getRowCount();
         chevronPage.clickNewFolder()
                 .chooseRecordStatus()
@@ -90,7 +90,7 @@ public class EntityChevronTest extends BaseTest {
 
     @Test (dependsOnMethods = "viewRecord")
     public void deleteRecord() {
-        ChevronPageEntityBase chevronPage = new ChevronPageEntityBase(getDriver());
+        ChevronPage chevronPage = new ChevronPage(getDriver());
         Assert.assertEquals(chevronPage
                 .clickMenuChevron()
                 .deleteRow()

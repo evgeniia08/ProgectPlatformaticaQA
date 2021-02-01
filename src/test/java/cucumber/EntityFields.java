@@ -4,8 +4,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.entity.common.ErrorPage;
-import model.entity.edit.FieldsEntityBaseEditPage;
-import model.entity.table.FieldsPageEntityBase;
+import model.entity.edit.FieldsEditPage;
+import model.entity.table.FieldsPage;
 import model.entity.common.MainPage;
 import org.testng.Assert;
 import runner.CucumberBase;
@@ -14,8 +14,8 @@ import java.util.Arrays;
 
 public class EntityFields {
 
-    private FieldsPageEntityBase fieldsPage;
-    private FieldsEntityBaseEditPage fieldsEditPage;
+    private FieldsPage fieldsPage;
+    private FieldsEditPage fieldsEditPage;
     private ErrorPage errorPage;
 
     private String currentUser;

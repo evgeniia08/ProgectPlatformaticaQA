@@ -1,8 +1,8 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.edit.ArithmeticInlineEntityBaseEditPage;
-import model.entity.table.ArithmeticInlinePageEntityBase;
+import model.entity.edit.ArithmeticInlineEditPage;
+import model.entity.table.ArithmeticInlinePage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -56,7 +56,7 @@ public class EntityArithmeticInTest extends BaseTest {
     @Test
     public void createRecordTest() {
 
-        ArithmeticInlinePageEntityBase arithmeticInlinePage = new MainPage(getDriver())
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
                 .clickMenuArithmeticInline()
                 .clickNewFolder()
                 .fillF1F2(NUM_1, NUM_2)
@@ -82,7 +82,7 @@ public class EntityArithmeticInTest extends BaseTest {
     @Test(dependsOnMethods = "viewRecordTest")
     public void editRecordTest() {
 
-        ArithmeticInlineEntityBaseEditPage arithmeticInlineEditPage = new MainPage(getDriver())
+        ArithmeticInlineEditPage arithmeticInlineEditPage = new MainPage(getDriver())
                 .clickMenuArithmeticInline()
                 .editRow(0);
 
@@ -94,7 +94,7 @@ public class EntityArithmeticInTest extends BaseTest {
                 .waitMulToBe(EDIT_VALUES.get(4))
                 .waitDivToBe(EDIT_VALUES.get(5));
 
-        ArithmeticInlinePageEntityBase arithmeticInlinePage = arithmeticInlineEditPage.clickSaveButton();
+        ArithmeticInlinePage arithmeticInlinePage = arithmeticInlineEditPage.clickSaveButton();
 
         Assert.assertEquals(arithmeticInlinePage.getRow(0), EDIT_VALUES);
         Assert.assertEquals(arithmeticInlinePage.viewRow(0).getValues(), EDIT_VALUES);
@@ -104,7 +104,7 @@ public class EntityArithmeticInTest extends BaseTest {
     @Test(dependsOnMethods = "editRecordTest")
     public void deleteRecordTest() {
 
-        ArithmeticInlinePageEntityBase arithmeticInlinePage = new MainPage(getDriver())
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
                 .clickMenuArithmeticInline()
                 .deleteRow();
 
@@ -119,7 +119,7 @@ public class EntityArithmeticInTest extends BaseTest {
 
         final List<String> expectedValues = Arrays.asList(num_1, num_2, sum, sub, mul, div);
 
-        ArithmeticInlinePageEntityBase arithmeticInlinePage = new MainPage(getDriver())
+        ArithmeticInlinePage arithmeticInlinePage = new MainPage(getDriver())
                 .clickMenuArithmeticInline();
         int rowCount = arithmeticInlinePage.getRowCount();
 

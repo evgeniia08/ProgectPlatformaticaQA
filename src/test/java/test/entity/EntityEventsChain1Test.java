@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.entity.table.Chain1PageEntityBase;
+import model.entity.table.Chain1Page;
 import model.entity.common.MainPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,7 +20,7 @@ public class EntityEventsChain1Test extends BaseTest {
         MainPage mainPage = new MainPage(getDriver());
         mainPage.clickMenuEventsChain1();
 
-        Chain1PageEntityBase chain1Page = new Chain1PageEntityBase(getDriver());
+        Chain1Page chain1Page = new Chain1Page(getDriver());
         chain1Page.clickNewFolder()
                   .inputInitialValue()
                   .clickSaveButton();

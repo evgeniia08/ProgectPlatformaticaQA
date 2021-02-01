@@ -1,7 +1,7 @@
 package model.entity.edit;
 
 import model.base.BasePage;
-import model.entity.table.CalendarPageEntityBase;
+import model.entity.table.CalendarPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -45,8 +45,8 @@ public final class CalendarEditPage extends BasePage {
         inputDateTime.click();
         return this;
     }
-    public CalendarPageEntityBase clickSaveButton() {
+    public CalendarPage clickSaveButton() {
         ProjectUtils.click(getDriver(), buttonSave);
-        return new CalendarPageEntityBase(getDriver());
+        return new CalendarPage(getDriver());
     }
 }
