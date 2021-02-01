@@ -1,12 +1,10 @@
 package model.entity.edit;
-
 import model.BaseEditPage;
 import model.entity.table.ChildRecordsLoopPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 import java.util.List;
@@ -104,6 +102,19 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         return this;
     }
 
+    public ChildRecordsLoopEditPage fillWithLoop(double [] valuePassed, int max){
+        for (int i = 1; i < max; i++) {
+            fillData(getDriver(), String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(valuePassed[i]));
+       }
+        return this;
+    }
+
+    public ChildRecordsLoopEditPage waitForEndBalanceToBeDisplayed(double endBalanceDigit) {
+        String partOfXpath = Integer.toString((int) endBalanceDigit);
+        getWait().until(d -> getDriver().findElement(By.xpath("//div[contains(text(),'" + partOfXpath + "')]")).isDisplayed());
+        return this;
+    }
+
 
     public ChildRecordsLoopEditPage deleteRows(WebDriver driver, int rowNumber) {
         WebElement deleteLine = driver.findElement(By.xpath(String.format("//i[@data-row= '%d'  and contains(text(), 'clear')]", rowNumber)));
@@ -115,10 +126,11 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         ProjectUtils.click(driver, saveBtn);
         return this;
     }
-    public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance) throws InterruptedException {
+    public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance){
         getWait().until(d-> (checkEndBalance().equals(startBalance)));
         return this;
     }
+
     @Override
     protected ChildRecordsLoopPage createPage() {
         return new ChildRecordsLoopPage(getDriver());

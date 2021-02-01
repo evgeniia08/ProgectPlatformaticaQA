@@ -1,15 +1,12 @@
 package test.entity;
-
 import model.entity.common.MainPage;
 import model.entity.edit.ChildRecordsLoopEditPage;
 import model.entity.table.ChildRecordsLoopPage;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
 import runner.type.RunType;
-
 import java.util.Arrays;
 
 
@@ -24,7 +21,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
     private static final double[] FIRST_VALUES_PASSED = {0.00, 10.50, 11.00, 12.00, 13.00, 14.00, 1.00, 1.00, 2.50, 0.0};
 
     @Test
-    public void checkStartEndBalanceBeforeSave() throws InterruptedException {
+    public void checkStartEndBalanceBeforeSave() {
         ChildRecordsLoopEditPage childRecordsLoopEditPage = new MainPage(getDriver())
                 .clickMenuChildRecordsLoop()
                 .clickNewFolder()
@@ -39,9 +36,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
             sumNumber += FIRST_VALUES_PASSED[i];
         }
 
-        for (int i = 1; i < 10; i++) {
-            childRecordsLoopEditPage.fillData(getDriver(), String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(FIRST_VALUES_PASSED[i]));
-        }
+        childRecordsLoopEditPage.fillWithLoop(FIRST_VALUES_PASSED, 10);
 
         childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) sumNumber));
         Assert.assertEquals(childRecordsLoopEditPage.checkLastElement(), (String.valueOf(FIRST_VALUES_PASSED[FIRST_VALUES_PASSED.length - 1])));
@@ -64,9 +59,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
 
         childRecordsLoopEditPage.clickSaveBtn(getDriver());
 
-        String partOfXpath = Integer.toString((int) endBalanceDigit);
-
-        getWebDriverWait().until(d -> getDriver().findElement(By.xpath("//div[contains(text(),'" + partOfXpath + "')]")).isDisplayed());
+        childRecordsLoopEditPage.waitForEndBalanceToBeDisplayed(endBalanceDigit);
     }
 
     @Test(dependsOnMethods = "checkStartEndBalanceBeforeSave")
