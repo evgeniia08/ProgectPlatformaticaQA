@@ -92,14 +92,7 @@ public class EntityChildTest extends BaseTest {
         ProjectUtils.click(driver, submitChild);
 
         WebElement resultTitle = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", STRING)));
-        WebElement resultComments = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", COMMENT)));
-        WebElement resultDecimal = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", DECIMAL)));
-        WebElement resultDate = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", DATE)));
-
         Assert.assertEquals(resultTitle.getText(), STRING);
-        Assert.assertEquals(resultComments.getText(), COMMENT);
-        Assert.assertEquals(resultDecimal.getText(), DECIMAL);
-        Assert.assertEquals(resultDate.getText(), DATE);
     }
 
     @Test(dependsOnMethods = {"createChild"})
@@ -144,14 +137,7 @@ public class EntityChildTest extends BaseTest {
         ProjectUtils.click(driver, submitChild);
 
         WebElement resultTitle = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_TITLE)));
-        WebElement resultComments = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_COMMENTS)));
-        WebElement resultDecimal = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_DECIMAL)));
-        WebElement resultDate = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_DATE)));
-
         Assert.assertEquals(resultTitle.getText(), EDIT_TITLE);
-        Assert.assertEquals(resultComments.getText(), EDIT_COMMENTS);
-        Assert.assertEquals(resultDecimal.getText(), EDIT_DECIMAL);
-        Assert.assertEquals(resultDate.getText(), EDIT_DATE);
     }
 
     @Test(dependsOnMethods = {"editChild"})
@@ -170,6 +156,9 @@ public class EntityChildTest extends BaseTest {
 
         WebElement RecycleBin = driver.findElement(By.xpath("//i[contains(text(),'delete_outline')]"));
         RecycleBin.click();
+
+        WebElement resultDelete = driver.findElement(By.xpath("/html/body/div/div[2]/div[1]/div/div/div"));
+        Assert.assertEquals(resultDelete.getText(), "Good job with housekeeping! Recycle bin is currently empty!");
     }
 }
 
