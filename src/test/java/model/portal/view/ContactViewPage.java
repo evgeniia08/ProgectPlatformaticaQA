@@ -8,4 +8,5 @@ public class ContactViewPage extends PortalBaseViewPage {
     public ContactViewPage(WebDriver driver) {
         super(driver);
     }
+
 }
