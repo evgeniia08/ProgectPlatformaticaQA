@@ -31,7 +31,7 @@ public abstract class BaseIndexPage extends BasePage {
     }
 
     public void resetUserData() {
-        ProjectUtils.click(getWait(), resetButton);
+        ProjectUtils.click(getDriver(), resetButton);
     }
 
     public RecycleBinPage clickRecycleBin () {
