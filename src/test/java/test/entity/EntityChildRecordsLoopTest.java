@@ -24,14 +24,14 @@ public class EntityChildRecordsLoopTest extends BaseTest {
     private static final double[] FIRST_VALUES_PASSED = {0.00, 10.50, 11.00, 12.00, 13.00, 14.00, 1.00, 1.00, 2.50, 0.0};
 
     @Test
-    public void checkStartEndBalanceBeforeSave() {
+    public void checkStartEndBalanceBeforeSave() throws InterruptedException {
         ChildRecordsLoopEditPage childRecordsLoopEditPage = new MainPage(getDriver())
                 .clickMenuChildRecordsLoop()
                 .clickNewFolder()
                 .createNewChildLoopEmptyRecord(NUMBERS_OF_LINES)
                 .startSendKeys(START_BALANCE);
 
-        getWebDriverWait().until(d -> childRecordsLoopEditPage.checkEndBalance().equals(START_BALANCE));
+        childRecordsLoopEditPage.waitForEndBalanceMatchWith(START_BALANCE);
 
         sumNumber += Integer.parseInt(START_BALANCE);
 
@@ -43,7 +43,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
             childRecordsLoopEditPage.fillData(getDriver(), String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(FIRST_VALUES_PASSED[i]));
         }
 
-        getWebDriverWait().until(d -> childRecordsLoopEditPage.checkEndBalance().equals(String.valueOf((int) sumNumber)));
+        childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) sumNumber));
         Assert.assertEquals(childRecordsLoopEditPage.checkLastElement(), (String.valueOf(FIRST_VALUES_PASSED[FIRST_VALUES_PASSED.length - 1])));
         Assert.assertEquals(childRecordsLoopEditPage.getTableLinesSize(), FIRST_VALUES_PASSED.length - 1);
 
@@ -51,7 +51,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
         childRecordsLoopEditPage.deleteRows(getDriver(), 6);
 
         final double sum = sumNumber - FIRST_VALUES_PASSED[4] - FIRST_VALUES_PASSED[6];
-        getWebDriverWait().until(d -> childRecordsLoopEditPage.checkEndBalance().equals(String.valueOf((int) (sum))));
+        childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) (sum)));
 
         childRecordsLoopEditPage.addingRowsByClickingOnGreenPlus(getDriver(), childRecordsLoopEditPage.randomIntGeneration(1, 5));
 
@@ -60,7 +60,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
 
         childRecordsLoopEditPage.tableLinesSendValues(FIRST_VALUES_PASSED.length - 2, VALUE_9);
 
-        getWebDriverWait().until(d -> childRecordsLoopEditPage.checkEndBalance().equals(String.valueOf((int) endBalanceDigit)));
+        childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) endBalanceDigit));
 
         childRecordsLoopEditPage.clickSaveBtn(getDriver());
 

@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 import java.util.List;
@@ -114,7 +115,10 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         ProjectUtils.click(driver, saveBtn);
         return this;
     }
-
+    public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance) throws InterruptedException {
+        getWait().until(d-> (checkEndBalance().equals(startBalance)));
+        return this;
+    }
     @Override
     protected ChildRecordsLoopPage createPage() {
         return new ChildRecordsLoopPage(getDriver());
