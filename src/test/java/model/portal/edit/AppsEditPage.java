@@ -1,6 +1,8 @@
-package model.portal;
+package model.portal.edit;
 
-import model.BaseEditPage;
+
+import model.base.EntityBaseEditPage;
+import model.portal.common.AppsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import runner.ProjectUtils;
 
-public class AppsEditPage extends BaseEditPage<AppsPage>{
+public class AppsEditPage extends EntityBaseEditPage<AppsPage> {
 
     @FindBy(id = "name")
     private WebElement inputName;
@@ -24,14 +26,14 @@ public class AppsEditPage extends BaseEditPage<AppsPage>{
         super(driver);
     }
 
-    public AppsEditPage createInstance(WebDriver driver, String name, String subDomain, String primaryLanguage) throws InterruptedException {
+    public AppsEditPage createInstance(WebDriver driver, String name, String subDomain, String primaryLanguage) {
 
         getWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.id("name")));
-        ProjectUtils.fill(getWait(), driver.findElement(By.id("name")), name);
-        ProjectUtils.fill(getWait(), driver.findElement(By.id("subdomain")), name);
+        ProjectUtils.fill(getWait(), inputName, name);
+        ProjectUtils.fill(getWait(), inputSubdomain, subDomain);
 
-        Select drop = new Select(driver.findElement(By.id("primary_language")));
+        Select drop = new Select(inputPrimaryLanguage);
         drop.selectByVisibleText(primaryLanguage);
         return this;
     }

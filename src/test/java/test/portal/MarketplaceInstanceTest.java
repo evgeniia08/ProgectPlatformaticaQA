@@ -1,12 +1,11 @@
 package test.portal;
 
-import model.portal.AppsPage;
+import model.portal.common.AppsPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -252,7 +251,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     //functional bug
     @Ignore
     @Test
-    public void ascOrder() throws InterruptedException {
+    public void ascOrder() {
                 new AppsPage(getDriver())
                         .clickMenuApps()
                         .clickNewFolder()

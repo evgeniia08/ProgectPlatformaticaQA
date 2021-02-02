@@ -1,13 +1,15 @@
-package model.portal;
+package model.portal.common;
 
-import model.BaseTablePage;
+
+import model.base.EntityBaseTablePage;
+import model.portal.edit.AppsEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class AppsPage extends BaseTablePage<AppsPage, AppsEditPage> {
+public class AppsPage extends EntityBaseTablePage<AppsPage, AppsEditPage> {
 
     @FindBy(xpath = "//div[text() = 'Name']")
     private WebElement columnName;

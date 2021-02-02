@@ -2,7 +2,7 @@ package model.entity.common;
 
 import model.base.BaseIndexPage;
 import model.entity.table.*;
-import model.portal.AppsPage;
+import model.portal.common.AppsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -173,7 +173,7 @@ public class MainPage extends BaseIndexPage {
     }
 
     public AppsPage clickMenuApps() {
-        clickMenu(menuApps);
+        clickMainMenu(menuApps);
         return new AppsPage(getDriver());
     }
 }
