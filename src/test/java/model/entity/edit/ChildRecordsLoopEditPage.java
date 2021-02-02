@@ -44,7 +44,7 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
     }
 
     public ChildRecordsLoopEditPage clickNewFolder() {
-        createNew.click();
+        ProjectUtils.click(getDriver(),createNew);
         return this;
     }
 
