@@ -57,7 +57,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
 
         childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) endBalanceDigit));
 
-        childRecordsLoopEditPage.clickSaveBtn(getDriver());
+        childRecordsLoopEditPage.clickSaveButton();
 
         childRecordsLoopEditPage.waitForEndBalanceToBeDisplayed(endBalanceDigit);
     }

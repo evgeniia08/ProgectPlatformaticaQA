@@ -10,9 +10,9 @@ public final class ChildRecordsLoopPage extends BaseTablePage<ChildRecordsLoopPa
         super(driver);
     }
 
-      @Override
+    @Override
     protected ChildRecordsLoopEditPage createEditPage() {
         return new ChildRecordsLoopEditPage(getDriver());
     }
-
 }
+

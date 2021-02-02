@@ -21,9 +21,6 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
     @FindBy(xpath = "//button[@class='btn btn-round btn-sm btn-primary dropdown-toggle']")
     private WebElement recordMenu;
 
-    @FindBy(xpath = "//button[@id='pa-entity-form-save-btn']")
-    private WebElement saveBtn;
-
     @FindBy(xpath = "//input[@id='end_balance']")
     private WebElement endBalance;
 
@@ -41,11 +38,6 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
 
     public ChildRecordsLoopEditPage(WebDriver driver) {
         super(driver);
-    }
-
-    public ChildRecordsLoopEditPage clickNewFolder() {
-        ProjectUtils.click(getDriver(),createNew);
-        return this;
     }
 
     public ChildRecordsLoopEditPage tableLinesSendValues(int n, String value) {
@@ -121,10 +113,6 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         return this;
     }
 
-    public ChildRecordsLoopEditPage clickSaveBtn(WebDriver driver) {
-        ProjectUtils.click(driver, saveBtn);
-        return this;
-    }
     public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance){
         getWait().until(d-> (checkEndBalance().equals(startBalance)));
         return this;
