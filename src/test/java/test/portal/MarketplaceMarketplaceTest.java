@@ -1,5 +1,9 @@
 package test.portal;
 
+import model.portal.common.CheckoutPage;
+import model.portal.common.MarketplacePage;
+import model.portal.table.InstancePage;
+import model.portal.table.TemplatePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +15,9 @@ import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
+
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -64,5 +71,29 @@ public class MarketplaceMarketplaceTest extends BaseTest {
         ProjectUtils.click(driver, driver.findElement(BUY_NOW_BTN));
         userEmailAndBalance = driver.findElements(By.xpath("//div[@class='card-body']/div//h4"));
         Assert.assertEquals(userEmailAndBalance.get(1).getText().substring(11), String.valueOf(balanceLeftover));
+    }
+
+    @Test(dependsOnMethods = "checkTheRemainingBalance")
+    public void installLaterTest() {
+
+        final List<String> expectedTemplateRowData = Arrays.asList("appName", "Platformatica",
+                ProjectUtils.getGMTDate(), "Purchased from marketplace", "Licensed", "price");
+
+        InstancePage instancePage = new InstancePage(getDriver());
+        instancePage.resetUserData();
+        MarketplacePage marketplacePage = instancePage.clickMenuMarketplace();
+        expectedTemplateRowData.set(0, marketplacePage.getAllAppNames().get(0));
+        CheckoutPage checkoutPage = marketplacePage
+                .clickItemByName(expectedTemplateRowData.get(0))
+                .clickBuyNowButton();
+        expectedTemplateRowData.set(5, checkoutPage.getPrice());
+        TemplatePage templatePage = checkoutPage
+                .clickGetWithCreditButton()
+                .clickInstallLaterButton();
+
+        Assert.assertEquals(templatePage.getRowCount(), 1);
+        Assert.assertEquals(templatePage.getRowData(0), expectedTemplateRowData);
+        Assert.assertEquals(templatePage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
+        Assert.assertEquals(templatePage.clickMenuApps().getRowCount(), 0);
     }
 }
