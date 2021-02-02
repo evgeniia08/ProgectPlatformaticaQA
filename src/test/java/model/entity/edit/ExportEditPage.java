@@ -1,13 +1,13 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.ExportPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import static runner.ProjectUtils.fill;
 
-public final class ExportEditPage extends BaseEditPage<ExportPage> {
+public final class ExportEditPage extends EntityBaseEditPage<ExportPage> {
 
     @FindBy(id = "int")
     private WebElement inputInt;

@@ -1,13 +1,13 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.InitPage;
 import model.entity.common.ErrorPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class InitEditPage extends BaseEditPage<InitPage> {
+public class InitEditPage extends EntityBaseEditPage<InitPage> {
 
     @FindBy(xpath = "//input[@id='string']")
     private WebElement stringData;

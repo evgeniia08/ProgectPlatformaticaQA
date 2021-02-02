@@ -1,12 +1,12 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.InitEditPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class InitPage extends BaseTablePage<InitPage, InitEditPage> {
+public class InitPage extends EntityBaseTablePage<InitPage, InitEditPage> {
 
     @FindBy(xpath = "//td[.='User 1 Demo']")
     private WebElement defaultUser;

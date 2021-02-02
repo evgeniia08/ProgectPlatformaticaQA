@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.FootersPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 import java.util.List;
 
-public class FootersEditPage extends BaseEditPage<FootersPage> {
+public class FootersEditPage extends EntityBaseEditPage<FootersPage> {
 
     @FindBy(css = "tr#add-row-70 button")
     private WebElement plusSumFtrsButton;

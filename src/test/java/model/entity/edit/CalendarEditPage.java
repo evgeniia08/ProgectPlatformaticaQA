@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.table.CalendarPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.ParentEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.WebElement;
 import java.util.List;
 
-public final class ParentPage extends BaseTablePage<ParentPage, ParentEditPage> {
+public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEditPage> {
 
     @FindBy(xpath = "//table/tbody/tr/td[9]")
     private WebElement demoUser;

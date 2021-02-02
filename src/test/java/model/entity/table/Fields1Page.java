@@ -1,10 +1,10 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.FieldsEdit1Page;
 import org.openqa.selenium.WebDriver;
 
-public class Fields1Page extends BaseTablePage<Fields1Page, FieldsEdit1Page> {
+public class Fields1Page extends EntityBaseTablePage<Fields1Page, FieldsEdit1Page> {
 
     public Fields1Page(WebDriver driver) {
         super(driver);

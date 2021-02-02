@@ -1,12 +1,12 @@
 package model.entity.edit;
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.ChevronPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import static runner.ProjectUtils.fill;
 
-public final class ChevronEditPage extends BaseEditPage<ChevronPage> {
+public final class ChevronEditPage extends EntityBaseEditPage<ChevronPage> {
 
     public ChevronEditPage(WebDriver driver) {
         super(driver);
