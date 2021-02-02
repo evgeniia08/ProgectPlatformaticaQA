@@ -1,6 +1,6 @@
 package test.entity;
 
-import model.*;
+import model.base.EntityBaseViewPage;
 import model.entity.common.ErrorPage;
 import model.entity.common.MainPage;
 import model.entity.edit.ArithmeticFunctionEditPage;
@@ -55,7 +55,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
     @Test(dependsOnMethods = "createNewRecordTest")
     public void viewRecordTest() {
 
-        BaseViewPage arithmeticFunctionViewPage = new MainPage(getDriver())
+        EntityBaseViewPage arithmeticFunctionViewPage = new MainPage(getDriver())
                 .clickMenuArithmeticFunction()
                 .viewRow();
 

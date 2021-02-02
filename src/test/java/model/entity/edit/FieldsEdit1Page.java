@@ -1,16 +1,14 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
-import model.BasePage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.Fields1Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.ProjectUtils;
 
 import static runner.ProjectUtils.fill;
 
-public class FieldsEdit1Page extends BaseEditPage<Fields1Page> {
+public class FieldsEdit1Page extends EntityBaseEditPage<Fields1Page> {
 
     @FindBy(id = "title")
     private WebElement inputTitle;

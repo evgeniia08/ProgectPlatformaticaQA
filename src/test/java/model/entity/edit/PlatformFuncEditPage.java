@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.PlatformFuncPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import static runner.ProjectUtils.fill;
 
-public class PlatformFuncEditPage extends BaseEditPage<PlatformFuncPage> {
+public class PlatformFuncEditPage extends EntityBaseEditPage<PlatformFuncPage> {
 
     @FindBy(css = "input#last_int")
     private WebElement inputLastInt;

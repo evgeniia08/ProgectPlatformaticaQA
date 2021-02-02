@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.BoardEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BoardListPage extends BaseTablePage<BoardListPage, BoardEditPage> {
+public class BoardListPage extends EntityBaseTablePage<BoardListPage, BoardEditPage> {
 
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='dashboard']")
     private WebElement boardButton;
