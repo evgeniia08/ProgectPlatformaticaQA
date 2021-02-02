@@ -2,6 +2,7 @@ package model.entity.common;
 
 import model.base.BaseIndexPage;
 import model.entity.table.*;
+import org.openqa.selenium.By;
 import model.portal.common.AppsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -68,6 +69,9 @@ public class MainPage extends BaseIndexPage {
 
     @FindBy(xpath = "//p[contains(text(),'Footers')]")
     private WebElement menuFooters;
+
+    @FindBy(xpath = "//p[contains (text(), 'Child records loop')]/parent::a")
+    private WebElement childRecordsLoop;
 
     @FindBy(xpath = "//p[contains(text(),'Apps')]")
     private WebElement menuApps;
@@ -170,6 +174,11 @@ public class MainPage extends BaseIndexPage {
     public FootersPage clickMenuFooters() {
         clickMainMenu(menuFooters);
         return new FootersPage(getDriver());
+    }
+
+    public ChildRecordsLoopPage clickMenuChildRecordsLoop() {
+        clickMainMenu(childRecordsLoop);
+        return new ChildRecordsLoopPage(getDriver());
     }
 
     public AppsPage clickMenuApps() {
