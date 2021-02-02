@@ -1,13 +1,13 @@
 package model.entity.edit;
 
 import model.base.EntityBaseEditPage;
-import model.entity.table.Placeholder1Page;
+import model.entity.table.PlaceholderPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class PlaceholderEdit1Page extends EntityBaseEditPage<Placeholder1Page> {
+public class PlaceholderEdit1Page extends EntityBaseEditPage<PlaceholderPage> {
 
     public PlaceholderEdit1Page(WebDriver driver) {
         super(driver);
@@ -51,7 +51,13 @@ public class PlaceholderEdit1Page extends EntityBaseEditPage<Placeholder1Page> {
     }
 
     @Override
-    protected Placeholder1Page createPage() {
-        return new Placeholder1Page(getDriver());
+    protected PlaceholderPage createPage() {
+        return new PlaceholderPage(getDriver());
+    }
+
+    @Override
+    public PlaceholderPage clickSaveButton() {
+        ProjectUtils.click(getDriver(), saveButton);
+        return createPage();
     }
 }

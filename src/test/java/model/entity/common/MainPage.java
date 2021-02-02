@@ -167,9 +167,4 @@ public class MainPage extends BaseIndexPage {
         clickMainMenu(menuFooters);
         return new FootersPage(getDriver());
     }
-
-    public Placeholder1Page clickMenuPlaceholder1() {
-        clickMainMenu(menuPlaceholder);
-        return new Placeholder1Page(getDriver());
-    }
 }

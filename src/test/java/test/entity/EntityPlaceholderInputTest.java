@@ -1,7 +1,7 @@
 package test.entity;
 
 import model.entity.common.MainPage;
-import model.entity.table.Placeholder1Page;
+import model.entity.table.PlaceholderPage;
 import model.entity.edit.PlaceholderEdit1Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -100,18 +100,18 @@ public class EntityPlaceholderInputTest extends BaseTest {
         WebDriver driver = getDriver();
 
         MainPage mainPage = new MainPage(driver);
-        PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder1().clickNewFolder();
+        PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder().clickNewFolder();
 
         //Get an array of default placeholder values
         String[] arrayOfDefaultValues = {placeholderEdit1Page.getStrValue(), placeholderEdit1Page.getTxtValue(),
                                          placeholderEdit1Page.getIntValue(), placeholderEdit1Page.getDecValue()};
 
-        Placeholder1Page placeholder1Page = placeholderEdit1Page.fillFields().clickSaveButton();
+        PlaceholderPage placeholderPage = placeholderEdit1Page.fillFields().clickSaveButton();
 
         for (int i = 0; i < arrayOfDefaultValues.length; i++) {
-            Assert.assertEquals(placeholder1Page.newRecordElements().get(i).getText(), arrayOfDefaultValues[i]);
+            Assert.assertEquals(placeholderPage.newRecordElements().get(i).getText(), arrayOfDefaultValues[i]);
         }
 
-        placeholder1Page.deleteRow();
+        placeholderPage.deleteRow();
     }
 }
