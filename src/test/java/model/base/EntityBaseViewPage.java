@@ -1,4 +1,4 @@
-package model;
+package model.base;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BaseViewPage extends BasePage {
+public class EntityBaseViewPage extends BasePage {
 
     @FindBy(css = ".pa-view-field")
     private List<WebElement> labeledValues;
@@ -22,7 +22,7 @@ public class BaseViewPage extends BasePage {
     @FindBy (xpath = "//div[@class='form-group']/p")
     private WebElement user;
 
-    public BaseViewPage(WebDriver driver) {
+    public EntityBaseViewPage(WebDriver driver) {
         super(driver);
     }
 

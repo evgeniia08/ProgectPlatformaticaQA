@@ -1,14 +1,13 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.Placeholder1Page;
-import model.entity.table.PlaceholderPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class PlaceholderEdit1Page extends BaseEditPage<Placeholder1Page> {
+public class PlaceholderEdit1Page extends EntityBaseEditPage<Placeholder1Page> {
 
     public PlaceholderEdit1Page(WebDriver driver) {
         super(driver);

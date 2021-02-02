@@ -1,17 +1,16 @@
 package model.entity.edit;
 
 import model.entity.table.ArithmeticFunctionPage;
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
-public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFunctionPage> {
+public final class ArithmeticFunctionEditPage extends EntityBaseEditPage<ArithmeticFunctionPage> {
 
     @FindBy(id = "f1")
     private WebElement F1;
@@ -41,20 +40,18 @@ public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFun
     }
 
     public ArithmeticFunctionEditPage inputInitialValue(int value1, int value2) {
-
-        F1.clear();
-        ProjectUtils.sendKeys(F1, String.valueOf(value1));
-        F2.clear();
-        ProjectUtils.sendKeys(F2, String.valueOf(value2));
-        getWait().until(ExpectedConditions.attributeToBeNotEmpty(div, "value"));
+        String divInitialValue = div.getAttribute("value");
+        ProjectUtils.fill(getWait(), F1, String.valueOf(value1));
+        ProjectUtils.fill(getWait(), F2, String.valueOf(value2));
+        getWait().until(d -> !div.getAttribute("value").equals(divInitialValue));
 
         return this;
     }
 
     public ArithmeticFunctionEditPage inputInitialValue(String value1, String value2) {
 
-        ProjectUtils.sendKeys(F1, String.valueOf(value1));
-        ProjectUtils.sendKeys(F2, String.valueOf(value2));
+        ProjectUtils.fill(getWait(), F1, String.valueOf(value1));
+        ProjectUtils.fill(getWait(), F2, String.valueOf(value2));
 
         return this;
     }
@@ -66,5 +63,25 @@ public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFun
                 mul.getAttribute("value"), div.getAttribute("value")};
 
         return Arrays.asList(actual);
+    }
+
+    public ArithmeticFunctionEditPage waitSumToBe(String value) {
+        getWait().until(f -> sum.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitSubToBe(String value) {
+        getWait().until(f -> sub.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitMulToBe(String value) {
+        getWait().until(f -> mul.getAttribute("value").equals(value));
+        return this;
+    }
+
+    public ArithmeticFunctionEditPage waitDivToBe(String value) {
+        getWait().until(f -> div.getAttribute("value").equals(value));
+        return this;
     }
 }

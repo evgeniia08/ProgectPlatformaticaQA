@@ -1,12 +1,11 @@
 package runner.type;
 
 import com.beust.jcommander.Strings;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.entity.common.MainPage;
+import model.base.LoginPage;
 import runner.BaseTest;
 import runner.LoggerUtils;
-import runner.ProjectUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -70,17 +69,11 @@ public enum ProfileType {
     }
 
     public void login(WebDriver driver, String userName, String password) {
-        WebElement loginElement = driver.findElement(By.xpath("//input[@name='login_name']"));
-        loginElement.sendKeys(userName);
-        WebElement pasElement = driver.findElement(By.xpath("//input[@name='password']"));
-        pasElement.sendKeys(password);
-        WebElement button = driver.findElement(By.xpath("//button[text()='Sign in']"));
-        button.click();
+        new LoginPage(driver).login(userName, password);
     }
 
     public void reset(WebDriver driver) {
-        ProjectUtils.click(driver, driver.findElement(By.id("navbarDropdownProfile")));
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//a[contains(text(), 'Reset')]")));
+        new MainPage(driver).resetUserData();
     }
 
     public static void renewCredentials() {

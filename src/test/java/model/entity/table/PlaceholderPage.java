@@ -1,7 +1,7 @@
 
 package model.entity.table;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.edit.PlaceholderEdit1Page;
 import model.entity.edit.PlaceholderEditPage;
 import org.openqa.selenium.WebDriver;

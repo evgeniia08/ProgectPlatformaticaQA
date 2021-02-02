@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.PlaceholderEdit1Page;
 import model.entity.edit.PlaceholderEditPage;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import runner.ProjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Placeholder1Page extends BaseTablePage<Placeholder1Page, PlaceholderEdit1Page> {
+public class Placeholder1Page extends EntityBaseTablePage<Placeholder1Page, PlaceholderEdit1Page> {
 
     @FindBy(xpath = "//i[contains(text(),'create_new_folder')]")
     private WebElement newFolderButton;
@@ -49,7 +49,6 @@ public class Placeholder1Page extends BaseTablePage<Placeholder1Page, Placeholde
         newFolderButton.click();
         return new PlaceholderEdit1Page(getDriver());
     }
-
 
     @Override
     protected PlaceholderEdit1Page createEditPage() {

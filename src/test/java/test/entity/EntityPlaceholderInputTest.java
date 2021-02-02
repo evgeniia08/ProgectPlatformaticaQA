@@ -16,7 +16,7 @@ import java.util.UUID;
 public class EntityPlaceholderInputTest extends BaseTest {
 
     @Test
-    public void newRecord() throws InterruptedException {
+    public void newRecord() {
 
         final String title = UUID.randomUUID().toString();
 

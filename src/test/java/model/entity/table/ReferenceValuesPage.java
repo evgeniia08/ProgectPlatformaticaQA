@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.ReferenceValuesEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReferenceValuesPage extends BaseTablePage<ReferenceValuesPage, ReferenceValuesEditPage> {
+public class ReferenceValuesPage extends EntityBaseTablePage<ReferenceValuesPage, ReferenceValuesEditPage> {
 
     public ReferenceValuesPage(WebDriver driver) {
         super(driver);

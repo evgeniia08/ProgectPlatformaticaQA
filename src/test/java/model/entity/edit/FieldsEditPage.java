@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.FieldsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import static runner.ProjectUtils.fill;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class FieldsEditPage extends BaseEditPage<FieldsPage> {
+public final class FieldsEditPage extends EntityBaseEditPage<FieldsPage> {
 
     @FindBy(id = "title")
     private WebElement inputTitle;

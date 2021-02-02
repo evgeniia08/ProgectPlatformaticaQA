@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.Chain1Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
-public class Chain1EditPage extends BaseEditPage<Chain1Page> {
+public class Chain1EditPage extends EntityBaseEditPage<Chain1Page> {
 
     @FindBy(id = "f1")
     WebElement f1;
@@ -31,7 +31,7 @@ public class Chain1EditPage extends BaseEditPage<Chain1Page> {
 
 
     public Chain1EditPage inputInitialValue() {
-        ProjectUtils.sendKeys(f1, "1");
+        ProjectUtils.fill(getWait(), f1, "1");
         getWait().until(ExpectedConditions.attributeToBeNotEmpty(f10, "value"));
         return this;
     }

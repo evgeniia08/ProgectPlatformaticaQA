@@ -1,17 +1,15 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.common.CalendarEntityPage;
-import model.entity.common.BoardPage;
+import model.entity.common.BoardPageEntityBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 import runner.ProjectUtils;
 
-public final class BoardEditPage extends BaseEditPage<BoardPage> {
-
-
+public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase> {
 
     @FindBy(id = "string")
     private WebElement dropDownStatus;
@@ -51,17 +49,17 @@ public final class BoardEditPage extends BaseEditPage<BoardPage> {
     }
 
     public BoardEditPage fillText (String text) {
-        ProjectUtils.sendKeys(textInput, text);
+        ProjectUtils.fill(getWait(), textInput, text);
         return  this;
     }
 
     public BoardEditPage fillInt (String number)  {
-        ProjectUtils.sendKeys(intInput, number);
+        ProjectUtils.fill(getWait(), intInput, number);
         return this;
     }
 
     public BoardEditPage fillDecimal (String decimal)  {
-        ProjectUtils.sendKeys(decimalInput, decimal);
+        ProjectUtils.fill(getWait(), decimalInput, decimal);
         return this;
     }
 
@@ -73,11 +71,10 @@ public final class BoardEditPage extends BaseEditPage<BoardPage> {
     }
 
     public String[] getCreatedTime() {
-      //  String[] b;
         return  time.getText().split(" ");
     }
 
-    public BoardEditPage fillform(String status, String text,String number,String decimal,String user) {
+    public BoardEditPage fillform(String status, String text, String number, String decimal, String user) {
         Select drop = new Select(dropDownStatus);
         drop.selectByVisibleText(status);
         ProjectUtils.fill(getWait(), textInput, text);
@@ -99,7 +96,7 @@ public final class BoardEditPage extends BaseEditPage<BoardPage> {
     }
 
     @Override
-    protected BoardPage createPage() {
-        return new BoardPage(getDriver());
+    protected BoardPageEntityBase createPage() {
+        return new BoardPageEntityBase(getDriver());
     }
 }

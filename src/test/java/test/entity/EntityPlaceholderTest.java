@@ -31,7 +31,7 @@ public class EntityPlaceholderTest extends BaseTest {
     By newUserSelectedXpath = By.xpath("//span[text()='User 2']");
 
     @Test
-    public void inputTest() throws InterruptedException {
+    public void inputTest() {
 
         final String decimal = "95.46";
         String[] array = {null, TITLE, COMMENTS, INT_NUMBER, decimal, null, null, null, null, userSelected, null};
@@ -64,7 +64,7 @@ public class EntityPlaceholderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void verifyDecimal() throws InterruptedException {
+    public void verifyDecimal() {
 
         final String newDecimal = "37.0";
         String[] array = {null, TITLE, COMMENTS, INT_NUMBER, newDecimal, null, null, null, null, userSelected, null};
@@ -200,17 +200,14 @@ public class EntityPlaceholderTest extends BaseTest {
         driver.findElement(By.xpath("//i[text() = 'menu']/..")).click();
         ProjectUtils.click(driver, driver.findElement(By.xpath("//a[contains(text(),'delete')]")));
 
-        new WebDriverWait(driver, 3).until(ExpectedConditions.
-                invisibilityOfElementLocated(By.xpath("//div[contains(text(),'" + TITLE + "')]")));
-        List<WebElement> listOfElements = driver.findElements(By.xpath("//tbody/tr/.."));
-        Assert.assertEquals(listOfElements.size(), 0);
+        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@class, 'card-body')]")).getText(), "");
 
         driver.findElement(By.xpath("//i[contains(text(),'delete_outline')]/..")).click();
         Assert.assertEquals(driver.findElement(By.xpath("//b[contains(text(),'" + TITLE + "')]")).getText(), TITLE);
     }
 
     @Test
-    public void editRecordTest() throws InterruptedException {
+    public void editRecordTest() {
 
         final String TITLE = UUID.randomUUID().toString();
         final String NEW_TITLE = UUID.randomUUID().toString();
@@ -234,37 +231,29 @@ public class EntityPlaceholderTest extends BaseTest {
         ProjectUtils.click(driver,saveBtn);
 
         WebElement inputField = driver.findElement(By.xpath("//span/input"));
-        wait.until(ExpectedConditions.elementToBeClickable(inputField));
-        ProjectUtils.sendKeys(inputField, TITLE);
+        ProjectUtils.fill(getWebDriverWait(), inputField, TITLE);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div/button[contains(@type, 'button')])[3]")));
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td/a/div)[1]")));
         WebElement humburgerMenu = driver.findElement(By.xpath("(//div/button[contains(@type, 'button')])[3]"));
         wait.until(ExpectedConditions.elementToBeClickable(humburgerMenu));
         humburgerMenu.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li//a[contains(@href, \"edit\")]")));
-        WebElement editButton = driver.findElement(By.xpath("//li//a[contains(@href, \"edit\")]"));
-        wait.until(ExpectedConditions.elementToBeClickable(editButton));
-        editButton.click();
+        ProjectUtils.click(driver, driver.findElement(By.xpath("//li//a[contains(@href, \"edit\")]")));
         WebElement fieldString = driver.findElement(By.xpath("(//span/input)[1]"));
-        wait.until(ExpectedConditions.elementToBeClickable(fieldString));
-        fieldString.clear();
-        ProjectUtils.sendKeys(fieldString, NEW_TITLE);
+        ProjectUtils.fill(getWebDriverWait(), fieldString, NEW_TITLE);
         WebElement textString = driver.findElement(By.xpath("//span/textarea"));
-        textString.clear();
-        ProjectUtils.sendKeys(textString, COMMENTS_EDIT);
+        ProjectUtils.fill(getWebDriverWait(), textString, COMMENTS_EDIT);
         WebElement fieldInt = driver.findElement(By.xpath("//input[@name='entity_form_data[int]']"));
-        fieldInt.clear();
-        ProjectUtils.sendKeys(fieldInt, INT_EDIT);
+        ProjectUtils.fill(getWebDriverWait(), fieldInt, INT_EDIT);
         WebElement fieldDecimal2 = driver.findElement(By.xpath("//input[@name='entity_form_data[decimal]']"));
-        fieldDecimal2.clear();
-        ProjectUtils.sendKeys(fieldDecimal2, DEC_EDIT);
+        ProjectUtils.fill(getWebDriverWait(), fieldDecimal2, DEC_EDIT);
         WebElement userSelection = driver.findElement(By.xpath("//div[contains(text(),'Demo')]"));
         ProjectUtils.click(driver, userSelection);
         WebElement saveBtn2 = driver.findElement(By.xpath("//div//button[@id = \"pa-entity-form-save-btn\"]"));
         ProjectUtils.click(driver,saveBtn2);
 
         WebElement inputField2 = driver.findElement(By.xpath("//span/input"));
-        ProjectUtils.sendKeys(inputField2, NEW_TITLE);
+        ProjectUtils.fill(getWebDriverWait(), inputField2, NEW_TITLE);
         List<WebElement> listOfRecords = driver.findElements(By.xpath("//tbody/tr"));
         List<WebElement> listOfValues = listOfRecords.get(0).findElements(By.xpath("//td"));
         Assert.assertEquals(listOfValues.size(), array.length);

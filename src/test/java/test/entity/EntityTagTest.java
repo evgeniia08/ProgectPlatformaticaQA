@@ -1,5 +1,6 @@
 package test.entity;
 
+import com.beust.jcommander.Strings;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -10,7 +11,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
-import java.util.List;
 import java.util.Objects;
 
 public class EntityTagTest extends BaseTest {
@@ -19,9 +19,6 @@ public class EntityTagTest extends BaseTest {
     public void editTest() {
 
         WebDriver driver = getDriver();
-        driver.get("https://ref.eteam.work");
-
-        ProjectUtils.loginProcedure(driver);
 
         WebElement sidebar = driver.findElement(By.xpath("//div[contains(@class, 'sidebar-wrapper')]"));
         Actions builder = new Actions(driver);
@@ -41,10 +38,10 @@ public class EntityTagTest extends BaseTest {
         newTag.click();
         ProjectUtils.click(driver, assignButton(driver, builder));
 
-        Assert.assertEquals(assignedTag(driver, newTagText).size(), 1);
+        Assert.assertEquals(getNumberOfAssignedTags(driver, newTagText), 1);
         tagEntity(driver, tagRecordText).click();
         ProjectUtils.click(driver, assignButton(driver, builder));
-        Assert.assertEquals(assignedTag(driver, newTagText).size(), 0);
+        Assert.assertEquals(getNumberOfAssignedTags(driver, newTagText), 0);
     }
 
     @Ignore
@@ -116,10 +113,12 @@ public class EntityTagTest extends BaseTest {
         return assignButton;
     }
 
-    private static List<WebElement> assignedTag(WebDriver driver, String newTagText) {
-
-        By assignedTagLocator = By.xpath("//span[@class='pa-tag'][contains(text(), '" + newTagText + "')]");
-        return driver.findElements(assignedTagLocator);
+    private static int getNumberOfAssignedTags(WebDriver driver, String newTagText) {
+        if (Strings.isStringEmpty(driver.findElement(By.xpath("//tbody/tr/td[2]")).getText())) {
+            return 0;
+        }
+        By assignedTags = By.xpath(String.format("//span[@class='pa-tag'][contains(text(), '%s')]", newTagText));
+        return driver.findElements(assignedTags).size();
     }
 
     private static String createTagEntity(WebDriver driver) {
