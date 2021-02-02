@@ -1,9 +1,8 @@
 package test.entity;
 
-import model.*;
 
-
-import model.entity.common.BoardPage;
+import model.base.EntityBaseViewPage;
+import model.entity.common.BoardPageEntityBase;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
 import model.entity.edit.BoardEditPage;
@@ -57,7 +56,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = "inputValidationTest")
     public void kanbanValidationRecord() {
 
-        BoardPage boardPage = new MainPage(getDriver())
+        BoardPageEntityBase boardPage = new MainPage(getDriver())
                 .clickMenuBoard();
 
         dateForValidation = String.format("%2$s%4$s%3$s%4$s%1$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '-');
@@ -151,13 +150,13 @@ public class EntityBoardTest extends BaseTest {
         List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, APP_USER);
         List<String> actualValues;
 
-        BaseViewPage baseViewPage = new MainPage(getDriver())
+        EntityBaseViewPage entityBaseViewPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickListButton()
                 .viewRow();
 
-        actualValues = baseViewPage.getValues();
-        actualValues.add(baseViewPage.getUser());
+        actualValues = entityBaseViewPage.getValues();
+        actualValues.add(entityBaseViewPage.getUser());
         Assert.assertEquals(actualValues, editedValues);
     }
 
@@ -181,7 +180,7 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = {"recordDeletionRecBin"})
     public void cancelInputTest() {
 
-        BoardPage boardPage = new MainPage(getDriver())
+        BoardPageEntityBase boardPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickNewFolder()
                 .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)

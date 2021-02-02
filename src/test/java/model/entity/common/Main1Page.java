@@ -1,6 +1,6 @@
 package model.entity.common;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.table.Fields1Page;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

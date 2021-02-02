@@ -1,6 +1,7 @@
-package model;
+package model.entity.common;
 
 import com.beust.jcommander.Strings;
+import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

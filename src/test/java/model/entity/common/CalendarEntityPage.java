@@ -1,6 +1,6 @@
 package model.entity.common;
 
-import model.BasePage;
+import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

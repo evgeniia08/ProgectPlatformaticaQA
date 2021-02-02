@@ -1,10 +1,10 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.FootersEditPage;
 import org.openqa.selenium.WebDriver;
 
-public class FootersPage extends BaseTablePage<FootersPage, FootersEditPage> {
+public class FootersPage extends EntityBaseTablePage<FootersPage, FootersEditPage> {
 
     public FootersPage(WebDriver driver){
         super(driver);

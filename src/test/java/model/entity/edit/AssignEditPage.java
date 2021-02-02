@@ -1,13 +1,13 @@
 package model.entity.edit;
 
 import model.entity.table.AssignPage;
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class AssignEditPage extends BaseEditPage<AssignPage> {
+public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
 
     @FindBy(id = "string")
     private WebElement inputString;

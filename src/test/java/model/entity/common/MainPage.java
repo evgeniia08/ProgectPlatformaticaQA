@@ -1,24 +1,13 @@
 package model.entity.common;
 
-import model.*;
+import model.base.BaseIndexPage;
 import model.entity.table.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.ProjectUtils;
 
-public class MainPage extends BasePage {
-
-    @FindBy(id = "navbarDropdownProfile")
-    WebElement userProfileButton;
-
-    @FindBy(xpath = "//a[contains(text(), 'Reset')]")
-    WebElement resetButton;
-
-    @FindBy(css = "a[href*=recycle] > i")
-    private WebElement recycleBinIcon;
+public class MainPage extends BaseIndexPage {
 
     @FindBy(xpath = "//li[@id = 'pa-menu-item-45']")
     private WebElement menuFields;
@@ -88,119 +77,98 @@ public class MainPage extends BasePage {
         super(driver);
     }
 
-    private void clickMenu(WebElement element) {
-        ProjectUtils.scroll(getDriver(), element);
-        element.click();
-    }
-
-    public String getCurrentUser() {
-        String profileButtonText = getWait().until(ExpectedConditions.visibilityOf(userProfileButton)).getAttribute("textContent");
-        return profileButtonText.split("\n")[3].trim();
-    }
-
-    public MainPage resetUserData() {
-        getWait().until(ExpectedConditions.visibilityOf(userProfileButton));
-        ProjectUtils.click(getWait(), resetButton);
-        return this;
-    }
-
-    public RecycleBinPage clickRecycleBin() {
-        ProjectUtils.click(getWait(), recycleBinIcon);
-        return new RecycleBinPage(getDriver());
-    }
-
     public FieldsPage clickMenuFields() {
-        clickMenu(menuFields);
+        clickMainMenu(menuFields);
         return new FieldsPage(getDriver());
     }
 
     public ImportValuesPage clickMenuImportValues() {
-        clickMenu(menuImportValues);
+        clickMainMenu(menuImportValues);
         return new ImportValuesPage(getDriver());
     }
-
+  
     public Chain2Page clickMenuEventsChain2() {
-        clickMenu(menuEventsChain2);
+        clickMainMenu(menuEventsChain2);
         return new Chain2Page(getDriver());
     }
 
     public ExportPage clickMenuExport() {
-        clickMenu(menuExport);
+        clickMainMenu(menuExport);
         return new ExportPage(getDriver());
     }
 
     public Chain1Page clickMenuEventsChain1() {
-        clickMenu(menuEventsChain1);
+        clickMainMenu(menuEventsChain1);
         return new Chain1Page(getDriver());
     }
 
     public AssignPage clickMenuAssign() {
-        clickMenu(menuAssign);
+        clickMainMenu(menuAssign);
         return new AssignPage(getDriver());
     }
 
     public MyAssignmentsPage clickMenuMyAssignments() {
-        clickMenu(menuMyAssignments);
+        clickMainMenu(menuMyAssignments);
         return new MyAssignmentsPage(getDriver());
     }
 
     public DefaultPage clickMenuDefault() {
-        clickMenu(menuDefault);
+        clickMainMenu(menuDefault);
         return new DefaultPage(getDriver());
     }
 
     public PlaceholderPage clickMenuPlaceholder() {
-        clickMenu(menuPlaceholder);
+        clickMainMenu(menuPlaceholder);
         return new PlaceholderPage(getDriver());
     }
 
-    public BoardPage clickMenuBoard() {
-        clickMenu(menuBoard);
-        return new BoardPage(getDriver());
+    public BoardPageEntityBase clickMenuBoard() {
+        clickMainMenu(menuBoard);
+        return new BoardPageEntityBase(getDriver());
     }
 
     public PlatformFuncPage clickMenuPlatformFunctions() {
-        clickMenu(menuPlatformFunctions);
+        clickMainMenu(menuPlatformFunctions);
         return new PlatformFuncPage(getDriver());
     }
 
     public ArithmeticFunctionPage clickMenuArithmeticFunction() {
-        clickMenu(menuArithmeticFunction);
+        clickMainMenu(menuArithmeticFunction);
         return new ArithmeticFunctionPage(getDriver());
     }
 
     public InitPage clickMenuInit() {
-        clickMenu(init);
+        clickMainMenu(init);
         return new InitPage(getDriver());
     }
 
     public ChevronPage clickMenuChevron() {
-        clickMenu(menuChevron);
+        clickMainMenu(menuChevron);
         return new ChevronPage(getDriver());
     }
 
     public ArithmeticInlinePage clickMenuArithmeticInline() {
-        clickMenu(menuArithmeticInline);
+        clickMainMenu(menuArithmeticInline);
         return new ArithmeticInlinePage(getDriver());
     }
 
     public ReferenceValuesPage clickMenuReferenceValues() {
-        clickMenu(menuReferenceValues);
+        clickMainMenu(menuReferenceValues);
         return new ReferenceValuesPage(getDriver());
     }
 
     public CalendarPage clickMenuCalendar() {
-        clickMenu(menuCalendar);
+        clickMainMenu(menuCalendar);
         return new CalendarPage(getDriver());
     }
 
     public ParentPage clickMenuParent() {
-        clickMenu(menuParent);
+        clickMainMenu(menuParent);
         return new ParentPage(getDriver());
     }
 
     public FootersPage clickMenuFooters() {
-        clickMenu(menuFooters);
+        clickMainMenu(menuFooters);
         return new FootersPage(getDriver());
     }
 

@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.DefaultPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +11,7 @@ import runner.ProjectUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultEditPage extends BaseEditPage<DefaultPage> {
+public class DefaultEditPage extends EntityBaseEditPage<DefaultPage> {
 
     @FindBy(id = "string")
     private WebElement fieldString;

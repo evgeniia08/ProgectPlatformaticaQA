@@ -1,13 +1,13 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.ParentPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public final class ParentEditPage extends BaseEditPage<ParentPage> {
+public final class ParentEditPage extends EntityBaseEditPage<ParentPage> {
 
     @FindBy(xpath = "//input[contains(@name, 'string')]")
     private WebElement inputTitle;

@@ -1,17 +1,16 @@
 package model.entity.edit;
 
 import model.entity.table.ArithmeticFunctionPage;
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
-public final class ArithmeticFunctionEditPage extends BaseEditPage<ArithmeticFunctionPage> {
+public final class ArithmeticFunctionEditPage extends EntityBaseEditPage<ArithmeticFunctionPage> {
 
     @FindBy(id = "f1")
     private WebElement F1;

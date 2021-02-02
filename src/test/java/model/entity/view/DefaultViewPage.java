@@ -1,6 +1,6 @@
 package model.entity.view;
 
-import model.BaseViewPage;
+import model.base.EntityBaseViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DefaultViewPage extends BaseViewPage {
+public class DefaultViewPage extends EntityBaseViewPage {
 
     private static final By BY_XPATH_TDS = By.tagName("td");
 
