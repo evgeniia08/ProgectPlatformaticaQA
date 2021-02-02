@@ -96,6 +96,31 @@ public class EntityChildTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"createChild"})
+    public void viewChild() {
+
+        WebDriver driver = getDriver();
+
+        WebElement parent = driver.findElement(By.xpath("//p[contains(text(),'Parent')]"));
+        ProjectUtils.click(driver, parent);
+
+        WebElement parentAction = driver.findElement(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='view']"));
+        ProjectUtils.click(driver, parentAction);
+
+        WebElement childAction = driver.findElement(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='view']"));
+        ProjectUtils.click(driver, childAction);
+
+        WebElement viewTitle = driver.findElement(By.xpath("//label[text()='String']/../div[1]//span"));
+        WebElement viewComment = driver.findElement(By.xpath("//label[text()='String']/../div[2]//span"));
+        WebElement viewInt = driver.findElement(By.xpath("//label[text()='String']/../div[3]//span"));
+        WebElement viewDecimal = driver.findElement(By.xpath("//label[text()='String']/../div[4]//span"));
+
+        Assert.assertEquals(viewTitle.getText(), STRING);
+        Assert.assertEquals(viewComment.getText(), COMMENT);
+        Assert.assertEquals(viewInt.getText(), INT_);
+        Assert.assertTrue(viewDecimal.isDisplayed());
+    }
+
+    @Test(dependsOnMethods = {"viewChild"})
     public void editChild() {
 
         WebDriver driver = getDriver();
@@ -161,4 +186,3 @@ public class EntityChildTest extends BaseTest {
         Assert.assertEquals(resultDelete.getText(), "Good job with housekeeping! Recycle bin is currently empty!");
     }
 }
-
