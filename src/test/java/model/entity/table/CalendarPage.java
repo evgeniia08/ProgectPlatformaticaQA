@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.CalendarEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +11,7 @@ import runner.ProjectUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class CalendarPage extends BaseTablePage<CalendarPage, CalendarEditPage> {
+public final class CalendarPage extends EntityBaseTablePage<CalendarPage, CalendarEditPage> {
 
     @FindBy(xpath = ("//div[2]/div[1]//div[1]/div/ul/li[2]/a"))
     private WebElement clickList;

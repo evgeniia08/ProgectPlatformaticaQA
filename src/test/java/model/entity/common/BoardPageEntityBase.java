@@ -1,6 +1,7 @@
 package model.entity.common;
 
-import model.BaseTablePage;
+import com.beust.jcommander.Strings;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import org.openqa.selenium.WebDriver;
@@ -9,10 +10,13 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class BoardPage extends BaseTablePage {
+public class BoardPageEntityBase extends EntityBaseTablePage {
 
     @FindBy(xpath = "//div[@class = 'kanban-item']/div[2]")
     private WebElement boardRow;
+
+    @FindBy(css = "div[data-id=Pending] main.kanban-drag")
+    private WebElement kanbanPendingContainer;
 
     @FindBy(xpath = "//div[@data-id='Pending']//div[@class='kanban-item']")
     private List<WebElement> pendingCardItems;
@@ -44,7 +48,7 @@ public class BoardPage extends BaseTablePage {
     }
 
 
-    public BoardPage(WebDriver driver) {
+    public BoardPageEntityBase(WebDriver driver) {
         super(driver);
     }
 
@@ -53,6 +57,9 @@ public class BoardPage extends BaseTablePage {
     }
 
     public int getPendingItemsCount() {
+        if (Strings.isStringEmpty(kanbanPendingContainer.getText())) {
+            return 0;
+        }
         return pendingCardItems.size();
     }
 
@@ -66,22 +73,22 @@ public class BoardPage extends BaseTablePage {
         return new BoardListPage(getDriver());
     }
 
-    public BoardPage moveFromPedingToOntrack() {
+    public BoardPageEntityBase moveFromPedingToOntrack() {
         getActions().dragAndDrop(pendingCardItems.get(0), onTrackKanbanItem).build().perform();
         return this;
     }
 
-    public BoardPage moveFromOntrackToDone() {
+    public BoardPageEntityBase moveFromOntrackToDone() {
         getActions().dragAndDrop(onTrackCardItem.get(0), doneKanbanItem).build().perform();
         return this;
     }
 
-    public BoardPage moveFromDoneToOnTrack() {
+    public BoardPageEntityBase moveFromDoneToOnTrack() {
         getActions().dragAndDrop(doneCardItem.get(0), onTrackKanbanItem).build().perform();
         return this;
     }
 
-    public BoardPage moveFromOnTrackToPending() {
+    public BoardPageEntityBase moveFromOnTrackToPending() {
         getActions().dragAndDrop(onTrackCardItem.get(0), pendingKanbanItem).build().perform();
         return this;
     }

@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.table.CalendarPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,10 +32,10 @@ public final class CalendarEditPage extends BasePage {
     }
 
     public CalendarEditPage sendKeys(String STRING, String NUMBER, String NUMBER1, String DATE) {
-        ProjectUtils.sendKeys(inputTitle, STRING);
-        ProjectUtils.sendKeys(inputInt, NUMBER);
-        ProjectUtils.sendKeys(inputDecimal, NUMBER1);
-        ProjectUtils.sendKeys(inputDate, DATE);
+        ProjectUtils.fill(getWait(), inputTitle, STRING);
+        ProjectUtils.fill(getWait(), inputInt, NUMBER);
+        ProjectUtils.fill(getWait(), inputDecimal, NUMBER1);
+        ProjectUtils.fill(getWait(), inputDate, DATE);
 
         return this;
     }

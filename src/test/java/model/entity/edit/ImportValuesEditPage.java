@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.table.ImportValuesPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,7 +20,7 @@ public class ImportValuesEditPage extends BasePage {
     }
 
     public ImportValuesEditPage sendKeys(String string) {
-        ProjectUtils.sendKeys(inputString, string);
+        ProjectUtils.fill(getWait(), inputString, string);
 
         return this;
     }

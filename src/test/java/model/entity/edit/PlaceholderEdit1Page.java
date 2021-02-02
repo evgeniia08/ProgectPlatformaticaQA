@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BasePage;
+import model.base.BasePage;
 import model.entity.table.PlaceholderPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,10 +45,10 @@ public class PlaceholderEdit1Page extends BasePage {
     }
 
     public void fillFields (){
-        ProjectUtils.sendKeys(strValue, getStrValue());
-        ProjectUtils.sendKeys(txtValue, getTxtValue());
-        ProjectUtils.sendKeys(intValue, getIntValue());
-        ProjectUtils.sendKeys(decValue, getDecValue());
+        ProjectUtils.fill(getWait(), strValue, getStrValue());
+        ProjectUtils.fill(getWait(), txtValue, getTxtValue());
+        ProjectUtils.fill(getWait(), intValue, getIntValue());
+        ProjectUtils.fill(getWait(), decValue, getDecValue());
     }
 
     public PlaceholderPage clickSaveButton (){

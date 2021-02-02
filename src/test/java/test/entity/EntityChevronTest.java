@@ -99,7 +99,7 @@ public class EntityChevronTest extends BaseTest {
     @Test()
     public void findChevron() throws InterruptedException {
 
-        WebDriver driver = ProjectUtils.loginProcedure(getDriver());
+        WebDriver driver = getDriver();
 
         WebElement clickChevron = driver.findElement(By.xpath("//p[contains(text(),'Chevron')]"));
         ProjectUtils.click(driver, clickChevron);

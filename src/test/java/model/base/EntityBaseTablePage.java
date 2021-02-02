@@ -1,4 +1,4 @@
-package model;
+package model.base;
 
 import com.beust.jcommander.Strings;
 import model.entity.common.MainPage;
@@ -11,7 +11,7 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
+public abstract class EntityBaseTablePage<TablePage, EditPage> extends MainPage {
 
     private static final String ROW_MENU_ = "//button[@data-toggle='dropdown']/../ul/li/a[text()='%s']";
 
@@ -31,7 +31,7 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
 
-    public BaseTablePage(WebDriver driver) {
+    public EntityBaseTablePage(WebDriver driver) {
         super(driver);
     }
 
@@ -71,18 +71,17 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
                 .map(WebElement::getText).collect(Collectors.toList());
     }
 
-
     public void clickRowMenu(int rowNumber, By menu) {
         trs.get(rowNumber).findElement(By.xpath("//td//div//button")).click();
         getWait().until(TestUtils.movingIsFinished(menu)).click();
     }
 
-    public BaseViewPage viewRow(int rowNumber) {
+    public EntityBaseViewPage viewRow(int rowNumber) {
         clickRowMenu(rowNumber, ROW_MENU_VIEW);
-        return new BaseViewPage(getDriver());
+        return new EntityBaseViewPage(getDriver());
     }
 
-    public BaseViewPage viewRow() {
+    public EntityBaseViewPage viewRow() {
         return viewRow(getRows().size() - 1);
     }
 
@@ -104,9 +103,8 @@ public abstract class BaseTablePage<TablePage, EditPage> extends MainPage {
         return deleteRow(getRows().size() - 1);
     }
 
-    public BaseTablePage clickListButton() {
+    public TablePage clickListButton() {
         listButton.click();
-        return this;
+        return (TablePage)this;
     }
-
 }
