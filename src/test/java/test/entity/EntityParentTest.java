@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import model.entity.common.MainPage;
+import static runner.ProjectUtils.createUUID;
 
 @Run(run = RunType.Multiple)
 public class EntityParentTest extends BaseTest {
@@ -21,7 +22,7 @@ public class EntityParentTest extends BaseTest {
     private static final String DECIMAL = "44.55";
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-    private static final String EDIT_TITLE = "4536";
+    private static final String EDIT_TITLE = String.format("%s_EditTextAllNew", createUUID());
     private static final String EDIT_COMMENTS = "New comment";
     private static final String EDIT_INT = "7";
     private static final String EDIT_DECIMAL = "77.99";
