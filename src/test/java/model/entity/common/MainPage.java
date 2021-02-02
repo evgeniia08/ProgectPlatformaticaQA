@@ -199,4 +199,9 @@ public class MainPage extends BasePage {
         clickMenu(menuFooters);
         return new FootersPage(getDriver());
     }
+
+    public Placeholder1Page clickMenuPlaceholder1() {
+        clickMenu(menuPlaceholder);
+        return new Placeholder1Page(getDriver());
+    }
 }
