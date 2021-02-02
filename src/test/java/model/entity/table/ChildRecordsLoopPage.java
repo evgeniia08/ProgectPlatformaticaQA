@@ -1,10 +1,11 @@
 package model.entity.table;
-import model.BaseTablePage;
+
+import model.base.EntityBaseTablePage;
 import model.entity.edit.ChildRecordsLoopEditPage;
 import org.openqa.selenium.WebDriver;
 
 
-public final class ChildRecordsLoopPage extends BaseTablePage<ChildRecordsLoopPage, ChildRecordsLoopEditPage> {
+public final class ChildRecordsLoopPage extends EntityBaseTablePage <ChildRecordsLoopPage, ChildRecordsLoopEditPage> {
 
     public ChildRecordsLoopPage(WebDriver driver) {
         super(driver);
@@ -14,5 +15,6 @@ public final class ChildRecordsLoopPage extends BaseTablePage<ChildRecordsLoopPa
     protected ChildRecordsLoopEditPage createEditPage() {
         return new ChildRecordsLoopEditPage(getDriver());
     }
+
 }
 

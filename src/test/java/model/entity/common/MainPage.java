@@ -173,7 +173,7 @@ public class MainPage extends BaseIndexPage {
     }
 
     public ChildRecordsLoopPage clickMenuChildRecordsLoop() {
-        clickMenu(childRecordsLoop);
+        clickMainMenu(childRecordsLoop);
         return new ChildRecordsLoopPage(getDriver());
     }
 }

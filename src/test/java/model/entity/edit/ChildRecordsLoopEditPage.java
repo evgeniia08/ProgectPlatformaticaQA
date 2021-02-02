@@ -1,5 +1,6 @@
 package model.entity.edit;
-import model.BaseEditPage;
+
+import model.base.EntityBaseEditPage;
 import model.entity.table.ChildRecordsLoopPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +11,7 @@ import runner.ProjectUtils;
 import java.util.List;
 import java.util.Random;
 
-public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage> {
+public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLoopPage> {
 
     @FindBy(xpath = "//i[contains(text(), 'create_new_folder')]/ancestor::a")
     private WebElement createNew;
@@ -80,15 +81,15 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         return tableLines.size();
     }
 
-    public ChildRecordsLoopEditPage createNewChildLoopEmptyRecord(int n) {
-        ProjectUtils.click(getDriver(), childRecordsLoop);
-        ProjectUtils.click(getDriver(), createNew);
-        addingRowsByClickingOnGreenPlus(getDriver(), n);
+    public ChildRecordsLoopEditPage createNewChildLoopEmptyRecord(WebDriver driver, int n) {
+        ProjectUtils.click(driver, childRecordsLoop);
+        ProjectUtils.click(driver, createNew);
+        addingRowsByClickingOnGreenPlus(driver, n);
         return this;
     }
 
-    public ChildRecordsLoopEditPage fillData(WebDriver driver, String xpath, String valueSend) {
-        WebElement line = driver.findElement(By.xpath(xpath));
+    public ChildRecordsLoopEditPage fillData(String xpath, String valueSend) {
+        WebElement line = getDriver().findElement(By.xpath(xpath));
         line.clear();
         line.sendKeys(valueSend);
         return this;
@@ -96,7 +97,7 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
 
     public ChildRecordsLoopEditPage fillWithLoop(double [] valuePassed, int max){
         for (int i = 1; i < max; i++) {
-            fillData(getDriver(), String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(valuePassed[i]));
+            fillData(String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(valuePassed[i]));
        }
         return this;
     }
@@ -107,9 +108,9 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         return this;
     }
 
-    public ChildRecordsLoopEditPage deleteRows(WebDriver driver, int rowNumber) {
-        WebElement deleteLine = driver.findElement(By.xpath(String.format("//i[@data-row= '%d'  and contains(text(), 'clear')]", rowNumber)));
-        ProjectUtils.click(driver, deleteLine);
+    public ChildRecordsLoopEditPage deleteRows(int rowNumber) {
+        WebElement deleteLine = getDriver().findElement(By.xpath(String.format("//i[@data-row= '%d'  and contains(text(), 'clear')]", rowNumber)));
+        ProjectUtils.click(getDriver(), deleteLine);
         return this;
     }
 

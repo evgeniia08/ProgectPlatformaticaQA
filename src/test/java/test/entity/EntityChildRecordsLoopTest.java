@@ -25,7 +25,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
         ChildRecordsLoopEditPage childRecordsLoopEditPage = new MainPage(getDriver())
                 .clickMenuChildRecordsLoop()
                 .clickNewFolder()
-                .createNewChildLoopEmptyRecord(NUMBERS_OF_LINES)
+                .createNewChildLoopEmptyRecord(getDriver(),NUMBERS_OF_LINES)
                 .startSendKeys(START_BALANCE);
 
         childRecordsLoopEditPage.waitForEndBalanceMatchWith(START_BALANCE);
@@ -42,8 +42,8 @@ public class EntityChildRecordsLoopTest extends BaseTest {
         Assert.assertEquals(childRecordsLoopEditPage.checkLastElement(), (String.valueOf(FIRST_VALUES_PASSED[FIRST_VALUES_PASSED.length - 1])));
         Assert.assertEquals(childRecordsLoopEditPage.getTableLinesSize(), FIRST_VALUES_PASSED.length - 1);
 
-        childRecordsLoopEditPage.deleteRows(getDriver(), 4);
-        childRecordsLoopEditPage.deleteRows(getDriver(), 6);
+        childRecordsLoopEditPage.deleteRows(4);
+        childRecordsLoopEditPage.deleteRows(6);
 
         final double sum = sumNumber - FIRST_VALUES_PASSED[4] - FIRST_VALUES_PASSED[6];
         childRecordsLoopEditPage.waitForEndBalanceMatchWith(String.valueOf((int) (sum)));
