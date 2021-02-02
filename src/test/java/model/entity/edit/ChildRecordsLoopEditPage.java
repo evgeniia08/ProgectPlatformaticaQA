@@ -115,7 +115,6 @@ public class ChildRecordsLoopEditPage extends BaseEditPage<ChildRecordsLoopPage>
         return this;
     }
 
-
     public ChildRecordsLoopEditPage deleteRows(WebDriver driver, int rowNumber) {
         WebElement deleteLine = driver.findElement(By.xpath(String.format("//i[@data-row= '%d'  and contains(text(), 'clear')]", rowNumber)));
         ProjectUtils.click(driver, deleteLine);
