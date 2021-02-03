@@ -95,7 +95,7 @@ public class EntityPlaceholderInputTest extends BaseTest {
     }
 
     @Test
-    public void PomNewRecordPV(){
+    public void pomNewRecordPV(){
 
         WebDriver driver = getDriver();
 
@@ -111,7 +111,5 @@ public class EntityPlaceholderInputTest extends BaseTest {
         for (int i = 0; i < arrayOfDefaultValues.length; i++) {
             Assert.assertEquals(placeholderPage.newRecordElements().get(i).getText(), arrayOfDefaultValues[i]);
         }
-
-        placeholderPage.deleteRow();
     }
 }
