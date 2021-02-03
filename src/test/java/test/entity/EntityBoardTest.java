@@ -5,13 +5,23 @@ import model.base.EntityBaseViewPage;
 import model.entity.common.BoardPageEntityBase;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
+import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +43,8 @@ public class EntityBoardTest extends BaseTest {
     private String dateTimeForValidation;
     private String time;
     CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
+    private RecycleBinPage boardListPage;
+    private static final String SAFEASDRAFT = "fa fa-pencil";
 
     @Test
     public void inputValidationTest() {
@@ -51,6 +63,8 @@ public class EntityBoardTest extends BaseTest {
 
         Assert.assertEquals(boardListPage.getRowCount(), 1);
         Assert.assertEquals(boardListPage.getRow(0), expectedValues);
+
+
     }
 
     @Test(dependsOnMethods = "inputValidationTest")
@@ -172,9 +186,33 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"deleteRecord"})
+    public void restoreAsDraftTest() {
+
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickRecycleBin()
+                .clickRestoreAsDraft();
+
+        Assert.assertEquals(recycleBinPage.getNotification(), AppConstant.EMPTY_RECYCLE_BIN_TEXT);
+
+        BoardListPage boardListPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton();
+
+        Assert.assertEquals(boardListPage.getRowIconClass(0), AppConstant.DRAFT_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = {"restoreAsDraftTest"})
     public void recordDeletionRecBin() {
 
-        Assert.assertEquals(new MainPage(getDriver()).clickRecycleBin().clickDeletePermanently(0).getRowCount(), 0);
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton()
+                .deleteRow()
+                .clickRecycleBin()
+                .clickDeletePermanently(0);
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
     }
 
     @Test(dependsOnMethods = {"recordDeletionRecBin"})
@@ -189,4 +227,3 @@ public class EntityBoardTest extends BaseTest {
         Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
 }
-
