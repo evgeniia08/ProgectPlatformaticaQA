@@ -1,9 +1,11 @@
 package model.entity.edit;
 import model.base.EntityBaseEditPage;
 import model.entity.table.ChevronPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import java.util.List;
 import static runner.ProjectUtils.fill;
 
 public final class ChevronEditPage extends EntityBaseEditPage<ChevronPage> {
@@ -52,5 +54,15 @@ public final class ChevronEditPage extends EntityBaseEditPage<ChevronPage> {
         fill(getWait(), inputDate, Data);
         fill(getWait(), inputDateTime, Time);
         return this;
+    }
+
+    public ChevronEditPage ChooseValues() {
+        List<WebElement> list = getDriver().findElements(By.xpath("//select[@name='entity_form_data[user]']//option"));
+        for (WebElement listOfValues : list) {
+            if (listOfValues.getText().equals("User 1")) {
+                listOfValues.click();
+                break;
+            }
+        }return this;
     }
 }
