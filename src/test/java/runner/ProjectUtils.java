@@ -4,6 +4,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public abstract class ProjectUtils {
@@ -46,4 +49,9 @@ public abstract class ProjectUtils {
         return UUID.randomUUID().toString();
     }
 
+    public static String getGMTDate() {
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+        return dateFormatGmt.format(new Date());
+    }
 }

@@ -1,6 +1,6 @@
 package model.entity.edit;
 
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import model.entity.common.ErrorPage;
 import model.entity.table.Chain2Page;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import static runner.ProjectUtils.fill;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chain2EditPage extends BaseEditPage<Chain2Page> {
+public class Chain2EditPage extends EntityBaseEditPage<Chain2Page> {
 
     @FindBy(id = "f1")
     private WebElement f1Field;

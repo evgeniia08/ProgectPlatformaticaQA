@@ -1,5 +1,5 @@
 package model.entity.table;
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.ChevronEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class ChevronPage extends BaseTablePage<ChevronPage, ChevronEditPage> {
+public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronEditPage> {
 
     public ChevronPage(WebDriver driver) {
         super(driver);

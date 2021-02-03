@@ -1,6 +1,6 @@
 package model.entity.table;
 
-import model.BaseTablePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.FieldsEditPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class FieldsPage extends BaseTablePage<FieldsPage, FieldsEditPage> {
+public final class FieldsPage extends EntityBaseTablePage<FieldsPage, FieldsEditPage> {
 
     public FieldsPage(WebDriver driver) {
         super(driver);
@@ -33,5 +33,4 @@ public final class FieldsPage extends BaseTablePage<FieldsPage, FieldsEditPage> 
     public String getDecimal(int rowNumber) {
         return getRow(rowNumber).get(3);
     }
-
 }

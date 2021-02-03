@@ -1,13 +1,13 @@
 package model.entity.edit;
 
 import model.entity.table.ArithmeticInlinePage;
-import model.BaseEditPage;
+import model.base.EntityBaseEditPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class ArithmeticInlineEditPage extends BaseEditPage<ArithmeticInlinePage> {
+public class ArithmeticInlineEditPage extends EntityBaseEditPage<ArithmeticInlinePage> {
 
     @FindBy(css = "input#f1")
     private WebElement f1;
