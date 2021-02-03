@@ -189,43 +189,31 @@ public class EntityBoardTest extends BaseTest {
     @Test(dependsOnMethods = {"deleteRecord"})
     public void restoreAsDraftTest() {
 
-        WebDriver driver = getDriver();
-
-        WebElement tab = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
-        ProjectUtils.click(driver, tab);
-
-        WebElement recycleBin = driver.findElement(By.xpath("//li/a/i[text()='delete_outline']"));
-        ProjectUtils.click(driver, recycleBin);
-
-        WebElement restoreAsDraft = driver.findElement(By.xpath("//a[normalize-space()='restore as draft']"));
-        ProjectUtils.click(driver, restoreAsDraft);
-
-        WebElement emptyRecycleBin = driver.findElement(By.xpath(
-                "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]"));
-        Assert.assertNotNull(emptyRecycleBin);
-        System.out.println(emptyRecycleBin.getText());
-
-        WebElement tab1 = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
-        ProjectUtils.click(driver, tab1);
-
-        WebElement list = driver.findElement(By.xpath("//a[contains(@href, '31')]/i[text()='list']"));
-        ProjectUtils.click(driver, list);
-
-        List<WebElement> rows = driver.findElements(By.xpath("//tbody/tr"));
-        Assert.assertEquals(rows.get(0).findElement(By.xpath("//td[1]/i")).getAttribute("class"), AppConstant.DRAFT_ICON_CLASS);
-
-        }
-
-        /*BoardListPage boardListPage = new MainPage(getDriver())
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickRecycleBin()
                 .clickRestoreAsDraft();
+
+        Assert.assertEquals(recycleBinPage.getNotification(), AppConstant.EMPTY_RECYCLE_BIN_TEXT);
+
+        BoardListPage boardListPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton();
+
+        Assert.assertEquals(boardListPage.getRowIconClass(0), AppConstant.DRAFT_ICON_CLASS);
     }
-*/
+
     @Test(dependsOnMethods = {"restoreAsDraftTest"})
     public void recordDeletionRecBin() {
 
-        Assert.assertEquals(new MainPage(getDriver()).clickRecycleBin().clickDeletePermanently(0).getRowCount(), 0);
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickListButton()
+                .deleteRow()
+                .clickRecycleBin()
+                .clickDeletePermanently(0);
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
     }
 
     @Test(dependsOnMethods = {"recordDeletionRecBin"})

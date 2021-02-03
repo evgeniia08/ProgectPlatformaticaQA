@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.ProjectUtils;
 import test.data.AppConstant;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public final class RecycleBinPage extends MainPage {
     @FindBy(xpath = "//div[contains(text(), 'Good job with housekeeping! Recycle bin is currently empty!')]")
     private WebElement notification;
 
-   /* @FindBy(xpath = "//a[normalize-space()='restore as draft']")
-    private WebElement restoreAsDraft;*/
+    @FindBy(xpath = "//a[normalize-space()='restore as draft']")
+    private WebElement linkRestoreAsDraft;
 
     public RecycleBinPage(WebDriver driver) {
         super(driver);
@@ -59,7 +60,8 @@ public final class RecycleBinPage extends MainPage {
         return notification.getText();
     }
 
-    /*public String clickRestoreAsDraft() {
-        return rows.get(0).findElement(By.tagName("td")).getText();
-    }*/
+    public RecycleBinPage clickRestoreAsDraft() {
+        ProjectUtils.click(getWait(), linkRestoreAsDraft);
+        return this;
+    }
 }
