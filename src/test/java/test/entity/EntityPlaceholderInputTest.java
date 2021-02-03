@@ -97,10 +97,7 @@ public class EntityPlaceholderInputTest extends BaseTest {
     @Test
     public void pomNewRecordPV(){
 
-        WebDriver driver = getDriver();
-
-        MainPage mainPage = new MainPage(driver);
-        PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder().clickNewFolder();
+        PlaceholderEdit1Page placeholderEdit1Page = new MainPage(getDriver()).clickMenuPlaceholder().clickNewFolder();
 
         //Get an array of default placeholder values
         String[] arrayOfDefaultValues = {placeholderEdit1Page.getStrValue(), placeholderEdit1Page.getTxtValue(),
