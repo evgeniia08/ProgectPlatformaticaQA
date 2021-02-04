@@ -11,7 +11,7 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class EntityBaseTablePage<TablePage, EditPage> extends MainPage {
+public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends MainPage {
 
     private static final String ROW_MENU_ = "//button[@data-toggle='dropdown']/../ul/li/a[text()='%s']";
 
@@ -36,6 +36,8 @@ public abstract class EntityBaseTablePage<TablePage, EditPage> extends MainPage 
     }
 
     protected abstract EditPage createEditPage();
+
+    protected abstract ViewPage createViewPage();
 
     public WebElement getBody(){
         return body;
@@ -76,12 +78,12 @@ public abstract class EntityBaseTablePage<TablePage, EditPage> extends MainPage 
         getWait().until(TestUtils.movingIsFinished(menu)).click();
     }
 
-    public EntityBaseViewPage viewRow(int rowNumber) {
+    public ViewPage viewRow(int rowNumber) {
         clickRowMenu(rowNumber, ROW_MENU_VIEW);
-        return new EntityBaseViewPage(getDriver());
+        return createViewPage();
     }
 
-    public EntityBaseViewPage viewRow() {
+    public ViewPage viewRow() {
         return viewRow(getRows().size() - 1);
     }
 

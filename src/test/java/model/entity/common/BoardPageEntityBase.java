@@ -1,7 +1,7 @@
 package model.entity.common;
 
 import com.beust.jcommander.Strings;
-import model.base.EntityBaseTablePage;
+import model.base.BaseIndexPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class BoardPageEntityBase extends EntityBaseTablePage {
+public class BoardPageEntityBase extends BaseIndexPage {
 
     @FindBy(xpath = "//div[@class = 'kanban-item']/div[2]")
     private WebElement boardRow;
@@ -41,12 +41,6 @@ public class BoardPageEntityBase extends EntityBaseTablePage {
 
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
-
-    @Override
-    protected BoardEditPage createEditPage() {
-        return new BoardEditPage(getDriver());
-    }
-
 
     public BoardPageEntityBase(WebDriver driver) {
         super(driver);
@@ -93,5 +87,3 @@ public class BoardPageEntityBase extends EntityBaseTablePage {
         return this;
     }
 }
-
-

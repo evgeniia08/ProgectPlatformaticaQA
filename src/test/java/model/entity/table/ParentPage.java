@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.ParentEditPage;
+import model.entity.view.ParentViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.WebElement;
 import java.util.List;
 
-public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEditPage> {
+public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEditPage, ParentViewPage> {
 
     @FindBy(xpath = "//table/tbody/tr/td[9]")
     private WebElement demoUser;
@@ -27,6 +28,11 @@ public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEdit
     @Override
     protected ParentEditPage createEditPage() {
         return new ParentEditPage(getDriver());
+    }
+
+    @Override
+    protected ParentViewPage createViewPage() {
+        return new ParentViewPage(getDriver());
     }
 
     public String getDefaultUser() { return demoUser.getText(); }
@@ -76,5 +82,3 @@ public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEdit
         return getDriver().findElement(By.xpath("//tr[@data-index='0']/td[2]")).getText();
     }
 }
-
-

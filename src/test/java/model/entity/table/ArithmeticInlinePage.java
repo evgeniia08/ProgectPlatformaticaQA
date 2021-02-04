@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.ArithmeticInlineEditPage;
+import model.entity.view.ArithmeticInlineViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ArithmeticInlinePage extends EntityBaseTablePage<ArithmeticInlinePage, ArithmeticInlineEditPage> {
+public class ArithmeticInlinePage extends EntityBaseTablePage<ArithmeticInlinePage, ArithmeticInlineEditPage, ArithmeticInlineViewPage> {
 
     @FindBy(css = "input#sum")
     private WebElement sum;
@@ -31,6 +32,11 @@ public class ArithmeticInlinePage extends EntityBaseTablePage<ArithmeticInlinePa
     @Override
     protected ArithmeticInlineEditPage createEditPage() {
         return new ArithmeticInlineEditPage(getDriver());
+    }
+
+    @Override
+    protected ArithmeticInlineViewPage createViewPage() {
+        return new ArithmeticInlineViewPage(getDriver());
     }
 
     @Override
