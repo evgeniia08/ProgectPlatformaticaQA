@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.FieldsEditPage;
+import model.entity.view.FieldsViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class FieldsPage extends EntityBaseTablePage<FieldsPage, FieldsEditPage> {
+public final class FieldsPage extends EntityBaseTablePage<FieldsPage, FieldsEditPage, FieldsViewPage> {
 
     public FieldsPage(WebDriver driver) {
         super(driver);
@@ -18,6 +19,11 @@ public final class FieldsPage extends EntityBaseTablePage<FieldsPage, FieldsEdit
     @Override
     protected FieldsEditPage createEditPage() {
         return new FieldsEditPage(getDriver());
+    }
+
+    @Override
+    protected FieldsViewPage createViewPage() {
+        return new FieldsViewPage(getDriver());
     }
 
     @Override

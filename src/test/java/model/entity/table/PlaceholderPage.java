@@ -1,16 +1,20 @@
 
 package model.entity.table;
 
-import model.base.BasePage;
+import model.base.EntityBaseTablePage;
 import model.entity.edit.PlaceholderEdit1Page;
 import model.entity.edit.PlaceholderEditPage;
+import model.entity.view.PlaceholderViewPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import runner.ProjectUtils;
 
-public final class PlaceholderPage extends BasePage {
+import java.util.ArrayList;
+import java.util.List;
+
+public final class PlaceholderPage extends EntityBaseTablePage<PlaceholderPage, PlaceholderEdit1Page, PlaceholderViewPage> {
 
     @FindBy(xpath = "//i[contains(text(),'create_new_folder')]")
     private WebElement newFolderButton;
@@ -37,22 +41,36 @@ public final class PlaceholderPage extends BasePage {
         super(driver);
     }
 
-    public PlaceholderEditPage createNewRecord(){
-        newFolderButton.click();
-
-        return new PlaceholderEditPage(getDriver());
-    }
-
-    public PlaceholderEdit1Page goPlaceholderEdit1Page() {
-        newFolderButton.click();
+    @Override
+    protected PlaceholderEdit1Page createEditPage() {
         return new PlaceholderEdit1Page(getDriver());
     }
 
-    public void verify (String stringValue, String textValue, String integerValue, String decimalValue) {
+    @Override
+    protected PlaceholderViewPage createViewPage() {
+        return new PlaceholderViewPage(getDriver());
+    }
+
+    public PlaceholderEditPage createNewRecord(){
+        newFolderButton.click();
+        return new PlaceholderEditPage(getDriver());
+    }
+
+    public PlaceholderPage verify (String stringValue, String textValue, String integerValue, String decimalValue) {
         Assert.assertEquals(el1.getText(), stringValue);
         Assert.assertEquals(el2.getText(), textValue);
         Assert.assertEquals(el3.getText(), integerValue);
         Assert.assertEquals(el4.getText(), decimalValue);
+        return this;
+    }
+
+    public List<WebElement> newRecordElements() {
+        List<WebElement> listOfElements = new ArrayList<>();
+        listOfElements.add(el1);
+        listOfElements.add(el2);
+        listOfElements.add(el3);
+        listOfElements.add(el4);
+        return listOfElements;
     }
 
     public void deleteRecord (){

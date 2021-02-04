@@ -68,6 +68,8 @@ public class MainPage extends BaseIndexPage {
     @FindBy(xpath = "//p[contains(text(),'Footers')]")
     private WebElement menuFooters;
 
+    @FindBy(xpath = "//p[contains (text(), 'Child records loop')]/parent::a")
+    private WebElement childRecordsLoop;
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -166,5 +168,10 @@ public class MainPage extends BaseIndexPage {
     public FootersPage clickMenuFooters() {
         clickMainMenu(menuFooters);
         return new FootersPage(getDriver());
+    }
+
+    public ChildRecordsLoopPage clickMenuChildRecordsLoop() {
+        clickMainMenu(childRecordsLoop);
+        return new ChildRecordsLoopPage(getDriver());
     }
 }

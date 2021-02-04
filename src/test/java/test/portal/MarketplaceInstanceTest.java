@@ -1,11 +1,11 @@
 package test.portal;
 
+import model.portal.table.InstancePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
@@ -34,7 +33,6 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final String PRIMARY_LANGUAGE = "English";
     private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
-
 
     private Boolean isUnableCreateApp() {
         return getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -63,20 +61,6 @@ public class MarketplaceInstanceTest extends BaseTest {
         return instance_values;
     }
 
-    private void createInstance(WebDriver driver, String name, String subDomain, String primaryLanguage) throws InterruptedException {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.id("name")));
-         ProjectUtils.fill(getWebDriverWait(), driver.findElement(By.id("name")), name);
-         ProjectUtils.fill(getWebDriverWait(), driver.findElement(By.id("subdomain")), name);
-
-         Select drop = new Select(driver.findElement(By.id("primary_language")));
-         drop.selectByVisibleText(primaryLanguage);
-         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
-
-
-    }
 
     private void actionsClick(WebDriver driver, int record_index, String mode) {
         ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -264,14 +248,22 @@ public class MarketplaceInstanceTest extends BaseTest {
     //functional bug
     @Ignore
     @Test
-    public void ascOrder() throws InterruptedException {
-        WebDriver driver = getDriver();
-        createInstance(driver, "nnnn", "nnnn", PRIMARY_LANGUAGE);
-        createInstance(driver, "bbbb", "bbbb", PRIMARY_LANGUAGE);
-        createInstance(driver, "kkkk", "kkkk", PRIMARY_LANGUAGE);
-        createInstance(driver, "zzzz", "zzzz", PRIMARY_LANGUAGE);
-        driver.findElement(By.xpath("//div[text() = 'Name']")).click();
-        Assert.assertEquals(driver.findElements(By.xpath("//tbody//tr//td[2]")).stream().map(WebElement::getText).collect(Collectors.toList()), ascNames);
+    public void ascOrder() {
+        InstancePage instancePage = new InstancePage(getDriver())
+                        .clickNewFolder()
+                        .fillOutInstanceForm("nnnn", "nnnn", PRIMARY_LANGUAGE)
+                        .clickSaveButton()
+                        .clickNewFolder()
+                        .fillOutInstanceForm("bbbb", "bbbb", PRIMARY_LANGUAGE)
+                        .clickSaveButton()
+                        .clickNewFolder()
+                        .fillOutInstanceForm("kkkk", "kkkk", PRIMARY_LANGUAGE)
+                        .clickSaveButton()
+                        .clickNewFolder()
+                        .fillOutInstanceForm("zzzz", "zzzz", PRIMARY_LANGUAGE)
+                        .clickSaveButton()
+                        .clickColumnHeader("Name");
 
+        Assert.assertEquals(instancePage.getNames(), ascNames);
     }
 }

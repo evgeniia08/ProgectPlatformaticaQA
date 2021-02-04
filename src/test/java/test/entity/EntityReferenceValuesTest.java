@@ -57,7 +57,7 @@ public class EntityReferenceValuesTest extends BaseTest {
         Assert.assertEquals(new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .viewRow()
-                .getReferenceValues(), RECORD_VALUES);
+                .getValues(), RECORD_VALUES);
     }
 
     @Test(dependsOnMethods = "viewRecordTest")
@@ -76,7 +76,7 @@ public class EntityReferenceValuesTest extends BaseTest {
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
         Assert.assertEquals(referenceValuesPage.getRow(0), RECORD_EDITED_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), RECORD_ICON_CLASS);
-        Assert.assertEquals(referenceValuesPage.viewRow().getReferenceValues(), RECORD_EDITED_VALUES);
+        Assert.assertEquals(referenceValuesPage.viewRow().getValues(), RECORD_EDITED_VALUES);
     }
 
     @Test(dependsOnMethods = "editRecordTest")
@@ -115,7 +115,7 @@ public class EntityReferenceValuesTest extends BaseTest {
         Assert.assertEquals(new MainPage(getDriver())
                 .clickMenuReferenceValues()
                 .viewRow()
-                .getReferenceValues(), DRAFT_VALUES);
+                .getValues(), DRAFT_VALUES);
     }
 
     @Test(dependsOnMethods = "viewDraftTest")
@@ -134,7 +134,7 @@ public class EntityReferenceValuesTest extends BaseTest {
         Assert.assertEquals(referenceValuesPage.getRowCount(), 1);
         Assert.assertEquals(referenceValuesPage.getRow(0), DRAFT_EDITED_VALUES);
         Assert.assertEquals(referenceValuesPage.getRowIconClass(0), DRAFT_ICON_CLASS);
-        Assert.assertEquals(referenceValuesPage.viewRow().getReferenceValues(), DRAFT_EDITED_VALUES);
+        Assert.assertEquals(referenceValuesPage.viewRow().getValues(), DRAFT_EDITED_VALUES);
     }
 
     @Test(dependsOnMethods = "editDraftTest")

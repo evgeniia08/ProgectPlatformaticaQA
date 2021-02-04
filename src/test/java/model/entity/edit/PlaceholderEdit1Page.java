@@ -1,13 +1,13 @@
 package model.entity.edit;
 
-import model.base.BasePage;
+import model.base.EntityBaseEditPage;
 import model.entity.table.PlaceholderPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class PlaceholderEdit1Page extends BasePage {
+public class PlaceholderEdit1Page extends EntityBaseEditPage<PlaceholderPage> {
 
     public PlaceholderEdit1Page(WebDriver driver) {
         super(driver);
@@ -25,8 +25,6 @@ public class PlaceholderEdit1Page extends BasePage {
     @FindBy(xpath = "//input[@name='entity_form_data[decimal]']")
     WebElement decValue;
 
-    @FindBy(xpath = "//div/button[@id='pa-entity-form-save-btn']")
-    WebElement saveButton;
 
     public String getStrValue() {
         return strValue.getAttribute("placeholder");
@@ -44,15 +42,22 @@ public class PlaceholderEdit1Page extends BasePage {
         return decValue.getAttribute("placeholder");
     }
 
-    public void fillFields (){
+    public PlaceholderEdit1Page fillFields (){
         ProjectUtils.fill(getWait(), strValue, getStrValue());
         ProjectUtils.fill(getWait(), txtValue, getTxtValue());
         ProjectUtils.fill(getWait(), intValue, getIntValue());
         ProjectUtils.fill(getWait(), decValue, getDecValue());
+        return this;
     }
 
-    public PlaceholderPage clickSaveButton (){
-        ProjectUtils.click(getDriver(), saveButton);
+    @Override
+    protected PlaceholderPage createPage() {
         return new PlaceholderPage(getDriver());
+    }
+
+    @Override
+    public PlaceholderPage clickSaveButton() {
+        ProjectUtils.click(getDriver(), saveButton);
+        return createPage();
     }
 }

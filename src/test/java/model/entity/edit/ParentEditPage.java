@@ -1,11 +1,13 @@
 package model.entity.edit;
 
+
 import model.base.EntityBaseEditPage;
 import model.entity.table.ParentPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
+import static runner.ProjectUtils.fill;
 
 public final class ParentEditPage extends EntityBaseEditPage<ParentPage> {
 
@@ -55,13 +57,22 @@ public final class ParentEditPage extends EntityBaseEditPage<ParentPage> {
     public ParentEditPage clickDataTime() {
         inputDateTime.click();
         inputDateTime.click();
+        return this;
+    }
 
+    public ParentEditPage sendKeys1(String DRAG_THE_ROW_UP) {
+        fill(getWait(), inputTitle, DRAG_THE_ROW_UP);
+        return this;
+    }
+
+    public ParentEditPage sendKeys2(String DRAG_THE_ROW_DOWN) {
+        fill(getWait(), inputTitle, DRAG_THE_ROW_DOWN);
         return this;
     }
 
     public ParentPage clickSaveButton() {
         ProjectUtils.click(getDriver(), buttonSave);
-
         return new ParentPage(getDriver());
     }
 }
+

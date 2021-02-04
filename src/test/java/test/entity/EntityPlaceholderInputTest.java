@@ -66,19 +66,19 @@ public class EntityPlaceholderInputTest extends BaseTest {
 
         WebElement stringValue = driver.findElement(By.xpath("//input[@name='entity_form_data[string]']"));
         String string_ph = stringValue.getAttribute("placeholder");
-        stringValue.sendKeys(string_ph);
+        ProjectUtils.fill(getWebDriverWait(), stringValue, string_ph);
 
         WebElement textValue = driver.findElement(By.xpath("//textarea[@name='entity_form_data[text]']"));
         String text_ph = textValue.getAttribute("placeholder");
-        textValue.sendKeys(text_ph);
+        ProjectUtils.fill(getWebDriverWait(), textValue, text_ph);
 
         WebElement intValue = driver.findElement(By.xpath("//input[@name='entity_form_data[int]']"));
         String int_ph = intValue.getAttribute("placeholder");
-        intValue.sendKeys(int_ph);
+        ProjectUtils.fill(getWebDriverWait(), intValue, int_ph);
 
         WebElement decimalValue = driver.findElement(By.xpath("//input[@name='entity_form_data[decimal]']"));
         String decimal_ph = decimalValue.getAttribute("placeholder");
-        decimalValue.sendKeys(decimal_ph);
+        ProjectUtils.fill(getWebDriverWait(), decimalValue, decimal_ph);
 
         WebElement saveButton = driver.findElement(By.xpath("//div/button[@id='pa-entity-form-save-btn']"));
         ProjectUtils.click(driver, saveButton);
@@ -95,25 +95,18 @@ public class EntityPlaceholderInputTest extends BaseTest {
     }
 
     @Test
-    public void newRecordPV_POM(){
+    public void pomNewRecordPV(){
 
-        WebDriver driver = getDriver();
+        PlaceholderEdit1Page placeholderEdit1Page = new MainPage(getDriver()).clickMenuPlaceholder().clickNewFolder();
 
-        MainPage mainPage = new MainPage(driver);
-        PlaceholderEdit1Page placeholderEdit1Page = mainPage.clickMenuPlaceholder().goPlaceholderEdit1Page();
+        //Get an array of default placeholder values
+        String[] arrayOfDefaultValues = {placeholderEdit1Page.getStrValue(), placeholderEdit1Page.getTxtValue(),
+                                         placeholderEdit1Page.getIntValue(), placeholderEdit1Page.getDecValue()};
 
-        //Get and save default placeholder values
-        String strValue = placeholderEdit1Page.getStrValue();
-        String txtValue = placeholderEdit1Page.getTxtValue();
-        String intValue = placeholderEdit1Page.getIntValue();
-        String decValue = placeholderEdit1Page.getDecValue();
+        PlaceholderPage placeholderPage = placeholderEdit1Page.fillFields().clickSaveButton();
 
-        placeholderEdit1Page.fillFields();
-
-        PlaceholderPage placeholderPage = placeholderEdit1Page.clickSaveButton();
-
-        placeholderPage.verify(strValue, txtValue, intValue, decValue);
-
-        placeholderPage.deleteRecord();
+        for (int i = 0; i < arrayOfDefaultValues.length; i++) {
+            Assert.assertEquals(placeholderPage.newRecordElements().get(i).getText(), arrayOfDefaultValues[i]);
+        }
     }
 }

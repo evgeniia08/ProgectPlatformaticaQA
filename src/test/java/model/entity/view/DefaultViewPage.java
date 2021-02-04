@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DefaultViewPage extends EntityBaseViewPage {
 
-    private static final By BY_XPATH_TDS = By.tagName("td");
+    private static final By BY_TAG_TD = By.tagName("td");
 
     @FindBy(xpath = "//table[@class='pa-entity-table']/tbody/tr")
     private List<WebElement> trs;
@@ -23,7 +23,7 @@ public class DefaultViewPage extends EntityBaseViewPage {
     public List<String> getEmbeddedRow(int rowNumber) {
         List<String> result = new ArrayList<>();
 
-        for (WebElement cell : trs.get(rowNumber).findElements(BY_XPATH_TDS)) {
+        for (WebElement cell : trs.get(rowNumber).findElements(BY_TAG_TD)) {
             result.add(cell.getText());
         }
 

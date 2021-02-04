@@ -3,9 +3,9 @@ package model.entity.view;
 import model.base.EntityBaseViewPage;
 import org.openqa.selenium.WebDriver;
 
-public class Chain1ViewPage extends EntityBaseViewPage {
+public class Chain2ViewPage extends EntityBaseViewPage {
 
-    public Chain1ViewPage(WebDriver driver) {
+    public Chain2ViewPage(WebDriver driver) {
         super(driver);
     }
 }
