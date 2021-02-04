@@ -43,7 +43,7 @@ public class MarketplaceInstallNowTest extends BaseTest {
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
         ProjectUtils.click(driver, saveButton);
 
-        String confirm = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
+        String confirm = driver.findElement(By.xpath("//h3[contains(text(),'Congratulations! Your instance was successfully created')]")).getText();
         Assert.assertEquals(confirm, "Congratulations! Your instance was successfully created");
     }
 }
