@@ -34,7 +34,6 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
 
-
     private Boolean isUnableCreateApp() {
         return getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//body"))).getText().equals("Unable to create instance");

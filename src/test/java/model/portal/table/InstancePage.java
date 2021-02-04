@@ -19,24 +19,15 @@ public class InstancePage extends PortalBaseTablePage<InstancePage, InstanceEdit
     private static final By ROW_MENU_TEMPLATE =
             By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='Save as template']");
 
-    @FindBy(id = "name")
-    private WebElement inputName;
-
-    @FindBy(id = "subdomain")
-    private WebElement inputSubdomain;
-
-    @FindBy(id = "primary_language")
-    private WebElement inputPrimaryLanguage;
-
     @FindBy(xpath = "//tbody//tr//td[2]")
     private List<WebElement> allInstanceNames;
+
+    @FindBy(xpath = "//div[text() = 'Name']")
+    private WebElement columnLabelName;
 
     public InstancePage(WebDriver driver) {
         super(driver);
     }
-
-    @FindBy(xpath = "//div[text() = 'Name']")
-    private WebElement columnName;
 
     @Override
     protected InstanceEditPage createPortalEditPage() {
