@@ -1,6 +1,6 @@
 package test.portal;
 
-import model.portal.common.AppsPage;
+import model.portal.table.InstancePage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
@@ -32,7 +31,6 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
     private static final String PRIMARY_LANGUAGE = "English";
-    private static final String[] columnNames= {"Name"};
     private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
 
@@ -252,23 +250,21 @@ public class MarketplaceInstanceTest extends BaseTest {
     @Ignore
     @Test
     public void ascOrder() {
-                new AppsPage(getDriver())
-                        .clickMenuApps()
+        InstancePage instancePage = new InstancePage(getDriver())
                         .clickNewFolder()
-                        .createInstance(getDriver(), "nnnn", "nnnn", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("nnnn", "nnnn", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickNewFolder()
-                        .createInstance(getDriver(), "bbbb", "bbbb", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("bbbb", "bbbb", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickNewFolder()
-                        .createInstance(getDriver(), "kkkk", "kkkk", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("kkkk", "kkkk", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickNewFolder()
-                        .createInstance(getDriver(), "zzzz", "zzzz", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("zzzz", "zzzz", PRIMARY_LANGUAGE)
                         .clickSaveButton()
-                        .clickColumnHeader(columnNames[0]);
+                        .clickColumnHeader("Name");
 
-        Assert.assertEquals(getDriver().findElements(By.xpath("//tbody//tr//td[2]")).stream().map(WebElement::getText).collect(Collectors.toList()), ascNames);
-
+        Assert.assertEquals(instancePage.getNames(), ascNames);
     }
 }

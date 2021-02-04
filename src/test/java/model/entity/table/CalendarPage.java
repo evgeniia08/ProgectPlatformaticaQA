@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.CalendarEditPage;
+import model.entity.view.CalendarViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,7 @@ import runner.ProjectUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public final class CalendarPage extends EntityBaseTablePage<CalendarPage, CalendarEditPage> {
+public final class CalendarPage extends EntityBaseTablePage<CalendarPage, CalendarEditPage, CalendarViewPage> {
 
     @FindBy(xpath = ("//div[2]/div[1]//div[1]/div/ul/li[2]/a"))
     private WebElement clickList;
@@ -29,6 +30,11 @@ public final class CalendarPage extends EntityBaseTablePage<CalendarPage, Calend
     @Override
     protected CalendarEditPage createEditPage() {
         return new CalendarEditPage(getDriver());
+    }
+
+    @Override
+    protected CalendarViewPage createViewPage() {
+        return new CalendarViewPage(getDriver());
     }
 
     @Override
@@ -64,4 +70,3 @@ public final class CalendarPage extends EntityBaseTablePage<CalendarPage, Calend
         return table.findElement(By.xpath("//tr/td[6]/a/div")).getText();
     }
 }
-

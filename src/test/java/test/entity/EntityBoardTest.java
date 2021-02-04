@@ -1,23 +1,15 @@
 package test.entity;
 
-
-import model.base.EntityBaseViewPage;
 import model.entity.common.BoardPageEntityBase;
 import model.entity.common.CalendarEntityPage;
 import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import model.entity.view.BoardViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
@@ -43,8 +35,6 @@ public class EntityBoardTest extends BaseTest {
     private String dateTimeForValidation;
     private String time;
     CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
-    private RecycleBinPage boardListPage;
-    private static final String SAFEASDRAFT = "fa fa-pencil";
 
     @Test
     public void inputValidationTest() {
@@ -164,7 +154,7 @@ public class EntityBoardTest extends BaseTest {
         List<String> editedValues = Arrays.asList(ON_TRACK, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, APP_USER);
         List<String> actualValues;
 
-        EntityBaseViewPage entityBaseViewPage = new MainPage(getDriver())
+        BoardViewPage entityBaseViewPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .clickListButton()
                 .viewRow();
