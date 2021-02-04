@@ -11,7 +11,6 @@ import runner.BaseTest;
 import runner.TestUtils;
 import runner.type.Run;
 import runner.type.RunType;
-
 import java.util.List;
 
 import static org.testng.Assert.assertThrows;
@@ -340,7 +339,7 @@ public class EntityFootersTest extends BaseTest {
         footerTab.click();
 
         driver.findElement(By.xpath("//i[normalize-space()='menu']")).click();
-        wait.until(TestUtils.movingIsFinished(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='view']"))).click();
+        wait.until(TestUtils.movingIsFinished(By.xpath("//a[text()='view']"))).click();
 
         //check that impossible to edit data
         assertThrows(ElementNotInteractableException.class,
@@ -389,7 +388,7 @@ public class EntityFootersTest extends BaseTest {
         footerTab.click();
 
         driver.findElement(By.xpath("//i[normalize-space()='menu']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='edit']"))).click();
+        wait.until(TestUtils.movingIsFinished(By.xpath("//a[text()='edit']"))).click();
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-table_id=70]"))).click();
 
@@ -424,10 +423,9 @@ public class EntityFootersTest extends BaseTest {
         footerTab.click();
 
         driver.findElement(By.xpath("//i[normalize-space()='menu']")).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='delete']"))).click();
+        wait.until(TestUtils.movingIsFinished(By.xpath("//a[text()='delete']"))).click();
 
-        assertThrows(NoSuchElementException.class,
-                () -> driver.findElement(By.xpath("//*[@id='pa-all-entities-table']")));
+        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@class, 'card-body')]")).getText(), "");
     }
 
     @Test
