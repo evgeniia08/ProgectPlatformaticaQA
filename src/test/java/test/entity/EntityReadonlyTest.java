@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class EntityReadonlyTest extends BaseTest {
 
     private static final List<String> EXPECTED_VALUES =
-            new ArrayList<>(Arrays.asList("", "", "", "0", "0", "", "", "", "", "", "menu"));
+            Arrays.asList("", "", "", "0", "0", "", "", "", "", "", "menu");
 
     @Test
     public void verifyListIsEmptyTest() {
