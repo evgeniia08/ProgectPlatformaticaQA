@@ -29,6 +29,12 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
 
+    @FindBy(xpath = "//h4[contains(text(), 'Password')]/b")
+    private WebElement password;
+
+    @FindBy(xpath = "//h4[contains(text(), 'Username')]/b")
+    private WebElement username;
+
     public PortalBaseTablePage(WebDriver driver) {
         super(driver);
     }
@@ -68,7 +74,7 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     }
 
     protected void clickRowMenuButton(int rowNumber) {
-        rows.get(rowNumber).findElement(By.xpath("//button[@data-toggle]")).click();
+        rows.get(rowNumber).findElement(By.xpath("//td//div//button")).click();
     }
 
     private void clickRowMenu(int rowNumber, By menu) {
@@ -99,5 +105,17 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     public S clickListButton() {
         listButton.click();
         return (S)this;
+    }
+
+    public String getPassword() {
+        return password.getText();
+    }
+
+    public String getUsername() {
+        return username.getText();
+    }
+
+    public String getUrl(int rowNumber) {
+        return getEntireRowData(rowNumber).get(4);
     }
 }

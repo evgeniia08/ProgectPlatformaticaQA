@@ -11,7 +11,7 @@ import runner.ProjectUtils;
 public class InstanceEditPage extends PortalBaseEditPage<InstancePage> {
 
     @FindBy(id = "name")
-    private WebElement inputName;
+    protected WebElement inputName;
 
     @FindBy(id = "subdomain")
     private WebElement inputSubdomain;
@@ -36,6 +36,11 @@ public class InstanceEditPage extends PortalBaseEditPage<InstancePage> {
         Select drop = new Select(inputPrimaryLanguage);
         drop.selectByVisibleText(primaryLanguage);
 
+        return this;
+    }
+
+    public InstanceEditPage inputName(String name) {
+        ProjectUtils.fill(getWait(), inputName, name);
         return this;
     }
 }
