@@ -52,7 +52,6 @@ public class EntityFootersTest extends BaseTest {
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"), "2"));
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"), "2"));
     }
-@Ignore
     @Test
     public void aveFooter() {
 
