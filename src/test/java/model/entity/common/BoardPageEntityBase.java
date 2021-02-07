@@ -18,14 +18,14 @@ public class BoardPageEntityBase extends BaseIndexPage {
     @FindBy(css = "div[data-id=Pending] main.kanban-drag")
     private WebElement kanbanPendingContainer;
 
-    @FindBy(xpath = "//div[@data-id='Pending']//div[@class='kanban-item']")
+    @FindBy(xpath = "//div[@data-id='Pending']//div[@class='kanban-item']/div[1]")
     private List<WebElement> pendingCardItems;
 
-    @FindBy(xpath = "//div[@data-id='On track']//div[@class='kanban-item']")
-    private List<WebElement> onTrackCardItem;
+    @FindBy(xpath = "//div[@data-id='On track']//div[@class='kanban-item']/div[1]")
+    private List<WebElement> onTrackCardItems;
 
-    @FindBy(xpath = "//div[@data-id='Done']//div[@class='kanban-item']")
-    private List<WebElement> doneCardItem;
+    @FindBy(xpath = "//div[@data-id='Done']//div[@class='kanban-item']/div[1]")
+    private List<WebElement> doneCardItems;
 
     @FindBy(xpath = "//div[1]/main[@class='kanban-drag']")
     private WebElement pendingKanbanItem;
@@ -73,17 +73,17 @@ public class BoardPageEntityBase extends BaseIndexPage {
     }
 
     public BoardPageEntityBase moveFromOntrackToDone() {
-        getActions().dragAndDrop(onTrackCardItem.get(0), doneKanbanItem).build().perform();
+        getActions().dragAndDrop(onTrackCardItems.get(0), doneKanbanItem).build().perform();
         return this;
     }
 
     public BoardPageEntityBase moveFromDoneToOnTrack() {
-        getActions().dragAndDrop(doneCardItem.get(0), onTrackKanbanItem).build().perform();
+        getActions().dragAndDrop(doneCardItems.get(0), onTrackKanbanItem).build().perform();
         return this;
     }
 
     public BoardPageEntityBase moveFromOnTrackToPending() {
-        getActions().dragAndDrop(onTrackCardItem.get(0), pendingKanbanItem).build().perform();
+        getActions().dragAndDrop(onTrackCardItems.get(0), pendingKanbanItem).build().perform();
         return this;
     }
 }

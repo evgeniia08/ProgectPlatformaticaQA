@@ -29,7 +29,8 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
     @FindBy(id = "datetime")
     private WebElement dateTimePlaceholder;
 
-    @FindBy(xpath = "//td[7]/a/div")
+    //@FindBy(xpath = "//td[7]/a/div")
+    @FindBy(xpath = "//*[@id='pa-all-entities-table']/tbody/tr[1]/td[7]/a")
     private WebElement time;
 
     @FindBy(xpath = "//button[@data-id='user']/div/div")

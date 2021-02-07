@@ -7,9 +7,14 @@ import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import model.entity.view.BoardViewPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
@@ -47,8 +52,9 @@ public class EntityBoardTest extends BaseTest {
                 .clickListButton();
 
         time = new BoardEditPage(getDriver()).getCreatedTime()[1];
-        dateForValidation = String.format("%1$s%4$s%3$s%4$s%2$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '/');
-        dateTimeForValidation= String.format("%1$s %2$s", dateForValidation, time);
+        //dateForValidation = String.format("%1$s%4$s%3$s%4$s%2$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '-');
+        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(),  calendar.getCurrentYear(), '/');
+        dateTimeForValidation= String.format("%s %s", dateForValidation, time);
         List<String> expectedValues = Arrays.asList(PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation,"",  APP_USER);
 
         Assert.assertEquals(boardListPage.getRowCount(), 1);
@@ -63,26 +69,25 @@ public class EntityBoardTest extends BaseTest {
         BoardPageEntityBase boardPage = new MainPage(getDriver())
                 .clickMenuBoard();
 
-        dateForValidation = String.format("%2$s%4$s%3$s%4$s%1$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '-');
-        dateTimeForValidation = String.format("%1$s %2$s", dateForValidation, time);
+        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(),  calendar.getCurrentYear(), '/');
+        dateTimeForValidation= String.format("%s %s", dateForValidation, time);
 
         Assert.assertEquals(boardPage.getPendingItemsCount(), 1);
-        Assert.assertEquals(boardPage.getPendingText(), String.format("%s %s %s %s %5$s %6$s 8", PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation));
+        Assert.assertEquals(boardPage.getPendingText(), String.format("%s %s %s %s %5$s %6$s apptester1@tester.com", PENDING, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation));
     }
 
     @Test(dependsOnMethods = {"kanbanValidationRecord"})
-    public void manipulateTest1() {
-
-
+    public void manipulateTest1() throws InterruptedException {
 
         BoardListPage boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
                 .moveFromPedingToOntrack()
                 .clickListButton();
 
-        dateForValidation =String.format("%1$s%4$s%3$s%4$s%2$s", calendar.getRandomDay() , calendar.getCurrentYear(), calendar.getCurrentMonth(), '/');
-        dateTimeForValidation= String.format("%1$s %2$s", dateForValidation, time);
+        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(),  calendar.getCurrentYear(), '/');
+        dateTimeForValidation= String.format("%s %s", dateForValidation, time);
         List<String> expectedValues = Arrays.asList(ON_TRACK, TEXT, NUMBER, DECIMAL, dateForValidation, dateTimeForValidation, "", APP_USER);
+
 
         Assert.assertEquals(boardListPage.getRowCount(), 1);
         Assert.assertEquals(boardListPage.getRow(0), expectedValues);
@@ -216,4 +221,19 @@ public class EntityBoardTest extends BaseTest {
 
         Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
+
+    /*@Test (dependsOnMethods = {"inputValidationTest"})
+    public void searchRecord() {
+
+        WebDriver driver = getDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 3);
+
+        WebElement board = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
+        ProjectUtils.click(driver, board);
+
+
+
+
+
+    }*/
 }
