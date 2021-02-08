@@ -8,6 +8,7 @@ import model.work.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -103,6 +104,7 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         Assert.assertEquals(templatePage.getRowData(0).get(1), AUTHOR);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "saveAsTemplateTest")
     public void installFromTemplateTest() {
 
@@ -126,6 +128,7 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         new EntityPage(getDriver()).clickProject();
     }
 
+    @Ignore
     @Test(dependsOnMethods = "installFromTemplateTest")
     public void instanceCreateSameNameNegativeTest() {
 
@@ -136,6 +139,7 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         Assert.assertEquals(driver.findElement(ERROR).getText(), ERROR_MESSAGE);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "instanceCreateSameNameNegativeTest")
     public void instanceCreateCyrillicAlphabetNegativeTest() {
 
