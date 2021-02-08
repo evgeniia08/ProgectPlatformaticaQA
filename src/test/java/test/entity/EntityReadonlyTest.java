@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Ignore
 public class EntityReadonlyTest extends BaseTest {
 
     private static final List<String> EXPECTED_VALUES =
