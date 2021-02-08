@@ -22,7 +22,6 @@ import test.data.AppConstant;
 
 import static runner.ProjectUtils.createUUID;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityFieldsTest extends BaseTest {
 
