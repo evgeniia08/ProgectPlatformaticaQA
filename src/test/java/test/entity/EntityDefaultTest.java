@@ -7,6 +7,7 @@ import model.entity.common.MainPage;
 import model.entity.common.RecycleBinPage;
 import model.entity.view.DefaultViewPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityDefaultTest extends BaseTest {
 

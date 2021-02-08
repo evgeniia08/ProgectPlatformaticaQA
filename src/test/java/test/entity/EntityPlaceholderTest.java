@@ -14,6 +14,7 @@ import runner.ProjectUtils;
 import java.util.List;
 import java.util.UUID;
 
+@Ignore
 public class EntityPlaceholderTest extends BaseTest {
 
     private final String TITLE = UUID.randomUUID().toString();
@@ -62,7 +63,6 @@ public class EntityPlaceholderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void verifyDecimal() {
 

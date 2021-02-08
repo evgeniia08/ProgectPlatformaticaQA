@@ -8,6 +8,7 @@ import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import model.entity.view.BoardViewPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityBoardTest extends BaseTest {
 
