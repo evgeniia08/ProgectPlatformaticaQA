@@ -30,7 +30,7 @@ public class EntityBoardTest extends BaseTest {
 
     private static final String TEXT = UUID.randomUUID().toString();
     private static final String NUMBER = Integer.toString((int) (Math.random() * 100));
-    private  static final String DECIMAL = Double.toString((int) (Math.random()*20000) / 100.0);
+    private  static final String DECIMAL = "157.01";
     private static final String TEXT_EDIT = "My values are changed";
     private static final String NUMBER_EDIT = "1975";
     private static final String DECIMAL_EDIT = "112.38";
