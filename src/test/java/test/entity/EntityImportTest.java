@@ -56,6 +56,7 @@ public class EntityImportTest extends BaseTest {
     private static final By BY_CREATE_DECIMAL_FIELD = By.xpath("//input[@id='decimal']");
     private static final By BY_CREATE_SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
 
+    @Ignore
     @Test
     public void doImportButton() throws InterruptedException{
 
@@ -96,6 +97,7 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
     }
 
+    @Ignore
     @Test
     public void customImportButton() throws InterruptedException{
 

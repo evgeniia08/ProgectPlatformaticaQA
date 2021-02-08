@@ -97,6 +97,8 @@ public class EntityChevronTest extends BaseTest {
                 .deleteRow()
                 .getRowCount(), 5);
     }
+
+    @Ignore
     @Test()
     public void findChevron() throws InterruptedException {
 
