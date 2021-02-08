@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.UUID;
 import static runner.ProjectUtils.createUUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChildTest extends BaseTest {
 

@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -20,7 +21,7 @@ import test.data.AppConstant;
 import java.util.Arrays;
 import java.util.List;
 
-
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceMarketplaceTest extends BaseTest {

@@ -22,6 +22,7 @@ import test.data.AppConstant;
 
 import static runner.ProjectUtils.createUUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityFieldsTest extends BaseTest {
 
@@ -163,7 +164,6 @@ public class EntityFieldsTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "deleteDraftTest")
     public void entityDecimalEndsZeroTest() {
 

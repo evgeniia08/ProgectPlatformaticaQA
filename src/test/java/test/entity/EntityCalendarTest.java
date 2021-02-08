@@ -17,6 +17,7 @@ import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityCalendarTest extends BaseTest {
 
