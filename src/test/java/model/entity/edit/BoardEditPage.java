@@ -29,7 +29,7 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
     @FindBy(id = "datetime")
     private WebElement dateTimePlaceholder;
 
-    @FindBy(xpath = "//td[7]/a/div")
+    @FindBy(xpath = "//td[7]")
     private WebElement time;
 
     @FindBy(xpath = "//button[@data-id='user']/div/div")
@@ -84,6 +84,7 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
         CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
         dateTimePlaceholder.click();
         calendar.clickOnCalendarDate(getDriver());
+        System.out.println(time.getText());
 
         datePlaceholder.click();
         calendar.clickOnCalendarDate(getDriver());
