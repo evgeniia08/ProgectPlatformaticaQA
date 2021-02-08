@@ -70,7 +70,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "deleteRecordTest")
     public void createDraftTest() {
 
-        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0", "", "", "", currentUser, "");
+        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0.00", "", "", "", currentUser, "");
 
         FieldsPage fieldsPage = new FieldsPage(getDriver())
                 .clickMenuFields()
