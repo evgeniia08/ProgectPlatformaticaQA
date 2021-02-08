@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
+@Ignore
 public class EntityImportEditTest extends BaseTest {
 
     private static final String STRING = "String new Added";

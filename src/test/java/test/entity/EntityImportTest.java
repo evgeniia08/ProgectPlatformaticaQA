@@ -17,9 +17,9 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.UUID;
 
+@Ignore
 public class EntityImportTest extends BaseTest {
 
-    @Ignore
     @Test
     public void deleteRecordFromEntityImport() {
 

@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
