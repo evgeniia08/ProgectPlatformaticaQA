@@ -1,27 +1,23 @@
 package test.entity;
-
 import model.entity.common.MainPage;
 import model.entity.edit.InitEditPage;
 import model.entity.table.InitPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
 import runner.type.RunType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityInitTest extends BaseTest {
 
     private static final String USER_DEFAULT = "User 1 Demo";
-    private static final List<String> DEFAULT_VALUES_TABLE = new ArrayList<>(Arrays.asList("New String", "New Text", "2", "3.14", "01/01/2020", "31/12/2020 23:59:59", "1", "Two"));
     private static final List<String> DEFAULT_VALUES_VIEW = new ArrayList<>(Arrays.asList("New String", "New Text", "2", "3.14", "01/01/2020", "31/12/2020 23:59:59", "Two"));
     private static final String[] DEFAULT_VALUES_EDIT = {"New String", "New Text", "2", "3.14", "01/01/2020", "31/12/2020 23:59:59", "Two".toUpperCase()};
+    private static final String VALUES_DISPLAYED= "//tbody//td/a";
 
     @Test
     public void createDefaultInit() {
@@ -33,8 +29,8 @@ public class EntityInitTest extends BaseTest {
 
         Assert.assertEquals(initPage.getRowCount(), 1);
         Assert.assertTrue(initPage.getDefaultUser().equals(USER_DEFAULT));
-        Assert.assertTrue(initPage.getRow(0).equals(DEFAULT_VALUES_TABLE));
-
+        Assert.assertTrue(initPage.checkSwitchQty() == 2);
+        Assert.assertEquals(initPage.getRow(0, VALUES_DISPLAYED), DEFAULT_VALUES_VIEW);
     }
 
     @Test(dependsOnMethods = {"createDefaultInit"})
