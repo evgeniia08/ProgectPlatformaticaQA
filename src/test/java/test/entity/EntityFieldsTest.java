@@ -12,7 +12,6 @@ import model.entity.common.RecycleBinPage;
 import model.entity.edit.FieldsEditPage;
 import model.entity.table.FieldsPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.BaseTest;
@@ -70,7 +69,7 @@ public class EntityFieldsTest extends BaseTest {
     @Test(dependsOnMethods = "deleteRecordTest")
     public void createDraftTest() {
 
-        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0", "", "", "", currentUser, "");
+        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0.00", "", "", "", currentUser, "");
 
         FieldsPage fieldsPage = new FieldsPage(getDriver())
                 .clickMenuFields()
@@ -163,7 +162,6 @@ public class EntityFieldsTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "deleteDraftTest")
     public void entityDecimalEndsZeroTest() {
 

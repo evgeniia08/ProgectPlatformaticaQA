@@ -3,6 +3,7 @@ import model.entity.common.MainPage;
 import model.entity.edit.InitEditPage;
 import model.entity.table.InitPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityInitTest extends BaseTest {
 

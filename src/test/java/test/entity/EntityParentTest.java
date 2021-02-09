@@ -13,6 +13,7 @@ import java.util.UUID;
 import model.entity.common.MainPage;
 import static runner.ProjectUtils.createUUID;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityParentTest extends BaseTest {
 

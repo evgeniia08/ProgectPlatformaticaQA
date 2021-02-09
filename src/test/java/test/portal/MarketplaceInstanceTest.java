@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceInstanceTest extends BaseTest {

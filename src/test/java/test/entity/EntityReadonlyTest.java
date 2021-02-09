@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class EntityReadonlyTest extends BaseTest {
 
     private static final List<String> EXPECTED_VALUES =
-            Arrays.asList("", "", "", "0", "0", "", "", "", "", "", "menu");
+            Arrays.asList("", "", "", "0", "0.00", "", "", "", "", "", "menu");
 
     @Test
     public void verifyListIsEmptyTest() {
@@ -52,7 +52,6 @@ public class EntityReadonlyTest extends BaseTest {
     public void inputTest() {
 
         WebDriver driver = getDriver();
-
         driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]")).click();
         driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")).click();
 
