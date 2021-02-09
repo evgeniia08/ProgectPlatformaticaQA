@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -66,12 +65,10 @@ public class EntityParentTest extends BaseTest {
         WebElement viewTitle = driver.findElement(By.xpath("//label[text()='String']/../div[1]//span"));
         WebElement viewComment = driver.findElement(By.xpath("//label[text()='String']/../div[2]//span"));
         WebElement viewInt = driver.findElement(By.xpath("//label[text()='String']/../div[3]//span"));
-        WebElement viewDecimal = driver.findElement(By.xpath("//label[text()='String']/../div[4]//span"));
 
         Assert.assertEquals(viewTitle.getText(), STRING);
         Assert.assertEquals(viewComment.getText(), COMMENT);
         Assert.assertEquals(viewInt.getText(), INT_);
-        Assert.assertTrue(viewDecimal.isDisplayed());
     }
 
 
