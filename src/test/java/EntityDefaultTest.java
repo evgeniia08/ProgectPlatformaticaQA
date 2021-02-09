@@ -2,11 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import model.DefaultEditPage;
-import model.DefaultPage;
-import model.MainPage;
-import model.RecycleBinPage;
+import model.entity.common.MainPage;
+import model.entity.common.RecycleBinPage;
+import model.entity.edit.DefaultEditPage;
+import model.entity.table.DefaultPage;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -216,7 +215,7 @@ public class EntityDefaultTest extends BaseTest {
         RecycleBinPage recycleBinPage = mainPage.clickRecycleBin();
 
         Assert.assertEquals(recycleBinPage.getRowCount(), 1);
-        Assert.assertEquals(recycleBinPage.getFirstCellValue(0), changedDefaultValues.fieldString);
+        Assert.assertEquals(recycleBinPage.getCellValue(0, 1), changedDefaultValues.fieldString);
 
         recycleBinPage.clickDeletePermanently(0);
         Assert.assertEquals(recycleBinPage.getRowCount(), 0);

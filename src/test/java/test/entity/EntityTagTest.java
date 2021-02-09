@@ -13,7 +13,6 @@ import runner.ProjectUtils;
 
 import java.util.Objects;
 
-@Ignore
 public class EntityTagTest extends BaseTest {
 
     @Test
@@ -154,7 +153,7 @@ public class EntityTagTest extends BaseTest {
     }
 
     private static WebElement tagEntity(WebDriver driver, String tagRecordText) {
-        By tagEntityLocator = By.xpath("//tr//td/a/div[contains(text(), '" + tagRecordText + "')]/../../../td[1]/div");
+        By tagEntityLocator = By.xpath("//tr//td/a/[contains(text(), '" + tagRecordText + "')]/../../../td[1]/div");
         return driver.findElement(tagEntityLocator);
     }
 }
