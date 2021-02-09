@@ -37,10 +37,6 @@ public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEdit
 
     public String getDefaultUser() { return demoUser.getText(); }
 
-    public int getRowCount(){
-        return rowList.size();
-    }
-
     public String getTitleText(){
         return table.findElement(By.xpath("//tr/td[2]/a")).getText();
     }
