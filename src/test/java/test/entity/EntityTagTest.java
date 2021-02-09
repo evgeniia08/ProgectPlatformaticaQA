@@ -13,6 +13,7 @@ import runner.ProjectUtils;
 
 import java.util.Objects;
 
+@Ignore
 public class EntityTagTest extends BaseTest {
 
     @Test
