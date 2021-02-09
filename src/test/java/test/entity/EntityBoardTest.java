@@ -7,21 +7,17 @@ import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import model.entity.view.BoardViewPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
-
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -30,7 +26,7 @@ public class EntityBoardTest extends BaseTest {
 
     private static final String TEXT = UUID.randomUUID().toString();
     private static final String NUMBER = Integer.toString((int) (Math.random() * 100));
-    private  static final String DECIMAL = "157.00";
+    private static final String DECIMAL = new BigDecimal(BigInteger.valueOf(new Random().nextInt(100001)), 2).toString();
     private static final String TEXT_EDIT = "My values are changed";
     private static final String NUMBER_EDIT = "1975";
     private static final String DECIMAL_EDIT = "112.38";
@@ -77,7 +73,7 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"kanbanValidationRecord"})
-    public void manipulateTest1() throws InterruptedException {
+    public void manipulateTest1() {
 
         BoardListPage boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
