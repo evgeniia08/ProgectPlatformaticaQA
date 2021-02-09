@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -20,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityExportTest extends BaseTest {
     private static final String INVALID_ENTRY = "comments";
@@ -89,13 +87,10 @@ public class EntityExportTest extends BaseTest {
         ProjectUtils.click(driver, addRecord);
         WebElement embedString = driver.findElement(By.id("t-undefined-r-1-_line_number"));
         ProjectUtils.click(driver, embedString);
-        //driver.findElement(By.id("t-undefined-r-1-_line_number")).click();
 
         WebElement embedText = driver.findElement(By.id("t-23-r-1-string"));
         ProjectUtils.scroll(driver, embedText);
         ProjectUtils.fill(getWebDriverWait(), embedText, tableString);
-        //driver.findElement(By.id("t-23-r-1-string")).clear();
-        //driver.findElement(By.id("t-23-r-1-string")).sendKeys(tableString);
 
         driver.findElement(By.xpath("//tr[@id='row-23-1']/td[4]")).click();
         driver.findElement(By.id("t-23-r-1-text")).click();
@@ -166,7 +161,7 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr[" + (number + 1) + "]/td[9]")).getText(),
                 User);
 
-        driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr[" + (number + 1) + "]/td[2]/a/div")).click();
+        driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr[" + (number + 1) + "]/td[2]/a")).click();
 
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[2]")).getText(), tableString);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[3]")).getText(), tableTex);
@@ -175,8 +170,6 @@ public class EntityExportTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[6]")).getText(), Data);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[7]")).getText(), DataTime);
         Assert.assertEquals(driver.findElement(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr/td[9]")).getText(), User);
-
-        //ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains(text(), ' Export ')]/..")));
     }
 
     @Test(dependsOnMethods = "inputTest")
@@ -291,7 +284,6 @@ public class EntityExportTest extends BaseTest {
 
         WebElement deletePermanently = driver.findElement(By.xpath("//a[contains (text(), 'delete permanently')]"));
         deletePermanently.click();
-
     }
 
     @Test(dependsOnMethods = "deleteTest")
