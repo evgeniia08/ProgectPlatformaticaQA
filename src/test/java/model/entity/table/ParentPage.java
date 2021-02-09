@@ -42,23 +42,23 @@ public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEdit
     }
 
     public String getTitleText(){
-        return table.findElement(By.xpath("//tr/td[2]/a/div")).getText();
+        return table.findElement(By.xpath("//tr/td[2]/a")).getText();
     }
 
     public String getCommentsText(){
-        return table.findElement(By.xpath("//tr/td[3]/a/div")).getText();
+        return table.findElement(By.xpath("//tr/td[3]/a")).getText();
     }
 
     public String getNumberText(){
-        return table.findElement(By.xpath("//tr/td[4]/a/div")).getText();
+        return table.findElement(By.xpath("//tr/td[4]/a")).getText();
     }
 
     public String getNumber1Text(){
-        return table.findElement(By.xpath("//tr/td[5]/a/div")).getText();
+        return table.findElement(By.xpath("//tr/td[5]/a")).getText();
     }
 
     public String getDataText(){
-        return table.findElement(By.xpath("//tr/td[6]/a/div")).getText();
+        return table.findElement(By.xpath("//tr/td[6]/a")).getText();
     }
 
     public ParentPage clickOrderParent() {
