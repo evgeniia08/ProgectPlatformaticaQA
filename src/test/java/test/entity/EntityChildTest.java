@@ -163,7 +163,7 @@ public class EntityChildTest extends BaseTest {
         WebElement submitChild = driver.findElement(By.xpath("//button[text() = 'Save']"));
         ProjectUtils.click(driver, submitChild);
 
-        WebElement resultTitle = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_TITLE)));
+        WebElement resultTitle = driver.findElement(By.xpath(String.format("//span[contains(text(),'%s')]", EDIT_TITLE)));
         Assert.assertEquals(resultTitle.getText(), EDIT_TITLE);
     }
 
