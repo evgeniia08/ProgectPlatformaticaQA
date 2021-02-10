@@ -9,6 +9,7 @@ import model.entity.table.FieldsPage;
 import model.entity.common.MainPage;
 import org.testng.Assert;
 import runner.CucumberBase;
+import test.data.AppConstant;
 
 import java.util.Arrays;
 
@@ -62,7 +63,6 @@ public class EntityFields {
     @Then("We are on error page")
     public void weAreOnErrorPage() {
         Assert.assertNotNull(errorPage);
-        Assert.assertEquals(errorPage.getErrorMessage(),
-                errorPage.ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 }

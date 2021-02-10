@@ -144,7 +144,7 @@ public class EntityPlaceholderTest extends BaseTest {
                 .fillInt(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class EntityPlaceholderTest extends BaseTest {
                 .fillDecimal(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
     @Test(dependsOnMethods = "deleteDraftTest")
