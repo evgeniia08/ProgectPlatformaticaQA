@@ -139,7 +139,7 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(driver.findElement(By.xpath("//tbody/tr/td[2]/a")).getText(),
                 "Fulfillment");
 
-        WebElement findFulfillmentAgain = driver.findElement(By.xpath("//tbody/tr"));
+        WebElement findFulfillmentAgain = driver.findElement(By.xpath("//tbody/tr/td[2]"));
         ProjectUtils.click(driver, findFulfillmentAgain);
 
         WebElement recheckFulfillment = driver.findElement(By.xpath("//a[@class = 'pa-chev-active']"));
