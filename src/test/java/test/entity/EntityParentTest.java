@@ -30,6 +30,7 @@ public class EntityParentTest extends BaseTest {
     private static final String EDIT_INT = "7";
     private static final String EDIT_DECIMAL = "77.99";
     private static final String EDIT_DATE = "01/01/2021";
+    private static final String EDIT_DATE_TIME = "02/22/2021 01:00:00";
     private static final String USER_DEMO = "User 1 Demo";
 
     @Test
@@ -38,8 +39,7 @@ public class EntityParentTest extends BaseTest {
         ParentPage parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .clickNewFolder()
-                .sendKeys(STRING, COMMENT, INT_, DECIMAL, DATE)
-                .clickDataTime()
+                .fillOutParentForm(STRING, COMMENT, INT_, DECIMAL, DATE, DATE_TIME)
                 .clickSaveButton();
 
         Assert.assertEquals(parentPage.getTitleText(), STRING);
@@ -65,10 +65,18 @@ public class EntityParentTest extends BaseTest {
         WebElement viewTitle = driver.findElement(By.xpath("//label[text()='String']/../div[1]//span"));
         WebElement viewComment = driver.findElement(By.xpath("//label[text()='String']/../div[2]//span"));
         WebElement viewInt = driver.findElement(By.xpath("//label[text()='String']/../div[3]//span"));
+        WebElement viewDecimal = driver.findElement(By.xpath("//label[text()='String']/../div[4]//span"));
+        WebElement viewDate = driver.findElement(By.xpath("//label[text()='String']/../div[5]//span"));
+        WebElement viewDateTime = driver.findElement(By.xpath("//label[text()='String']/../div[6]//span"));
+        WebElement viewUser = driver.findElement(By.xpath("//div[@class='row']//p"));
 
         Assert.assertEquals(viewTitle.getText(), STRING);
         Assert.assertEquals(viewComment.getText(), COMMENT);
         Assert.assertEquals(viewInt.getText(), INT_);
+        Assert.assertEquals(viewDecimal.getText(), DECIMAL);
+        Assert.assertEquals(viewDate.getText(), DATE);
+        Assert.assertEquals(viewDateTime.getText(), DATE_TIME);
+        Assert.assertEquals(viewUser.getText(), USER_DEMO);
     }
 
 
@@ -78,8 +86,7 @@ public class EntityParentTest extends BaseTest {
         ParentPage parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .editRow()
-                .sendKeys(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE)
-                .clickDataTime()
+                .fillOutParentForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE, EDIT_DATE_TIME)
                 .clickSaveButton();
 
         Assert.assertEquals(parentPage.getRowCount(), 1);
