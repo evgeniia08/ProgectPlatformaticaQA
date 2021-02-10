@@ -7,8 +7,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class ErrorPage extends BasePage {
 
-    public final String ERROR_MESSAGE = "error saving entity";
-
     @FindBy(tagName = "body")
     private WebElement errorMessage;
 
