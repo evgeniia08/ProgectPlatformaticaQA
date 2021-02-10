@@ -44,13 +44,13 @@ public final class ParentEditPage extends EntityBaseEditPage<ParentPage> {
         return new ParentPage(getDriver());
     }
 
-    public ParentEditPage sendKeys(String STRING, String COMMENT, String INT_, String DECIMAL, String DATE) {
+    public ParentEditPage fillOutParentForm(String STRING, String COMMENT, String INT_, String DECIMAL, String DATE, String DATE_TIME) {
         ProjectUtils.fill(getWait(), inputTitle, STRING);
         ProjectUtils.fill(getWait(), inputComments, COMMENT);
         ProjectUtils.fill(getWait(), inputInt, INT_);
         ProjectUtils.fill(getWait(), inputDecimal, DECIMAL);
         ProjectUtils.fill(getWait(), inputDate, DATE);
-
+        ProjectUtils.fill(getWait(), inputDateTime, DATE_TIME);
         return this;
     }
 
