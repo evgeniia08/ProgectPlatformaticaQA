@@ -17,7 +17,7 @@ public class ConfigurationPage extends WorkBaseIndexPage {
     @FindBy(xpath = "//li//p[contains(text(), 'Entities')]")
     private WebElement entities;
 
-    @FindBy(xpath = "//span[contains(text(), 'New')]")
+    @FindBy(xpath = "//div[@id='formsEntities']//span[contains(text(), 'New')]")
     private WebElement newEntity;
 
     public ConfigurationPage(WebDriver driver) {

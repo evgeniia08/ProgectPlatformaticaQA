@@ -2,20 +2,19 @@ package test.portal;
 
 import model.base.LoginPage;
 import model.base.WorkHomePage;
+import model.entity.common.ErrorPage;
 import model.portal.table.InstancePage;
 import model.portal.table.TemplatePage;
 import model.work.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,29 +26,15 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
 
     private static final String NEW_APP_NAME = UUID.randomUUID().toString().substring(0, 10);
     private static final String NEW_APP_NAME2 = UUID.randomUUID().toString().substring(0, 10);
-    private String WORK_URL;
-    private String WORK_USER_NAME;
-    private String WORK_PASSWORD;
-    private static final String ERROR_MESSAGE = "Unable to create instance";
     private static final String ENTITY_NAME = "Project";
     private static final String ENTITY_FIELD_LABEL = "Label";
     private static final String ENTITY_FIELD_BODY = "Body";
     private static final String AUTHOR = "Burdishka";
     private static final String DESCRIPTION = "Description";
-
-    private static final By CREATE_NEW_FOLDER = By.xpath("//i[text() = 'create_new_folder']");
-    private static final By INSTANCE_INPUT_NAME = By.id("name");
-    private static final By SAVE_BUTTON = By.id("pa-entity-form-save-btn");
-    private static final By ERROR = By.tagName("body");
-
+    private String WORK_URL;
+    private String WORK_USER_NAME;
+    private String WORK_PASSWORD;
     private static final List<String> EDIT_LABELS = Arrays.asList(ENTITY_FIELD_LABEL, ENTITY_FIELD_BODY);
-
-    private void instanceCreate(WebDriver driver, String name) {
-
-        ProjectUtils.click(driver, driver.findElement((CREATE_NEW_FOLDER)));
-        driver.findElement(INSTANCE_INPUT_NAME).sendKeys(name);
-        driver.findElement(SAVE_BUTTON).click();
-    }
 
     @Test
     public void instanceCreateTest() {
@@ -104,7 +89,6 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         Assert.assertEquals(templatePage.getRowData(0).get(1), AUTHOR);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "saveAsTemplateTest")
     public void installFromTemplateTest() {
 
@@ -132,21 +116,23 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
     @Test(dependsOnMethods = "installFromTemplateTest")
     public void instanceCreateSameNameNegativeTest() {
 
-        WebDriver driver = getDriver();
+        ErrorPage errorPage = new InstancePage(getDriver())
+                .clickNewFolder()
+                .inputName(NEW_APP_NAME)
+                .clickSaveButtonErrorExpected();
 
-        instanceCreate(driver, NEW_APP_NAME);
-
-        Assert.assertEquals(driver.findElement(ERROR).getText(), ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.PORTAL_ERROR_MESSAGE);
     }
 
     @Ignore
     @Test(dependsOnMethods = "instanceCreateSameNameNegativeTest")
     public void instanceCreateCyrillicAlphabetNegativeTest() {
 
-        WebDriver driver = getDriver();
+        ErrorPage errorPage = new InstancePage(getDriver())
+                .clickNewFolder()
+                .inputName("абвг")
+                .clickSaveButtonErrorExpected();
 
-        instanceCreate(driver, "абвг");
-
-        Assert.assertEquals(driver.findElement(ERROR).getText(), ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.PORTAL_ERROR_MESSAGE);
     }
 }
