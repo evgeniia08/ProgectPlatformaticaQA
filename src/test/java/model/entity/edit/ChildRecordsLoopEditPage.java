@@ -1,5 +1,4 @@
 package model.entity.edit;
-
 import model.base.EntityBaseEditPage;
 import model.entity.table.ChildRecordsLoopPage;
 import org.openqa.selenium.By;
@@ -7,11 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
-
 import java.util.List;
 import java.util.Random;
 
-public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLoopPage> {
+public class ChildRecordsLoopEditPage extends EntityBaseEditPage<ChildRecordsLoopPage> {
 
     @FindBy(xpath = "//i[contains(text(), 'create_new_folder')]/ancestor::a")
     private WebElement createNew;
@@ -37,6 +35,9 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLo
     @FindBy(xpath = "//textarea[@class='pa-entity-table-textarea pa-table-field t-68-amount']")
     private List<WebElement> tableLines;
 
+    @FindBy(xpath = "//td/a")
+    private List<WebElement> balances;
+
     public ChildRecordsLoopEditPage(WebDriver driver) {
         super(driver);
     }
@@ -45,6 +46,11 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLo
         tableLines.get(n).clear();
         tableLines.get(n).sendKeys(value);
         return this;
+    }
+
+    public String[] getBalance() {
+        String[] balance = {balances.get(0).getText(), balances.get(1).getText()};
+        return balance;
     }
 
     public int randomIntGeneration(int min, int max) {
@@ -65,12 +71,14 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLo
         return this;
     }
 
-    public String checkEndBalance() {
-        return endBalance.getAttribute("value");
+    public String[] checkStartEndBalance() {
+        String[] startAndEndBalance = {startBalanceField.getAttribute("value"), endBalance.getAttribute("value")};
+
+        return startAndEndBalance;
     }
 
-    public String checkStartFieldBalance() {
-        return startBalanceField.getAttribute("value");
+    public String checkEndBalance() {
+        return endBalance.getAttribute("value");
     }
 
     public String checkLastElement() {
@@ -95,16 +103,10 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLo
         return this;
     }
 
-    public ChildRecordsLoopEditPage fillWithLoop(double [] valuePassed, int max){
+    public ChildRecordsLoopEditPage fillWithLoop(double[] valuePassed, int max) {
         for (int i = 1; i < max; i++) {
             fillData(String.format("//tr//textarea[@id='t-68-r-%d-amount']", i), String.valueOf(valuePassed[i]));
-       }
-        return this;
-    }
-
-    public ChildRecordsLoopEditPage waitForEndBalanceToBeDisplayed(double endBalanceDigit) {
-        String partOfXpath = Integer.toString((int) endBalanceDigit);
-        getWait().until(d -> getDriver().findElement(By.xpath("//div[contains(text(),'" + partOfXpath + "')]")).isDisplayed());
+        }
         return this;
     }
 
@@ -114,8 +116,8 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage <ChildRecordsLo
         return this;
     }
 
-    public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance){
-        getWait().until(d-> (checkEndBalance().equals(startBalance)));
+    public ChildRecordsLoopEditPage waitForEndBalanceMatchWith(String startBalance) {
+        getWait().until(d -> (checkEndBalance().equals(startBalance)));
         return this;
     }
 
