@@ -80,7 +80,6 @@ public class EntityCalendarTest extends BaseTest {
         Assert.assertEquals(calendarPage.getRowCount(), 0);
     }
 
-
     public void setValue(WebDriver driver, String title, String text, int num, double decimal) {
 
         WebElement titleField = driver.findElement(By.xpath("//input[@name='entity_form_data[string]']"));
