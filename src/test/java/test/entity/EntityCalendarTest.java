@@ -17,7 +17,6 @@ import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityCalendarTest extends BaseTest {
 
@@ -143,17 +142,17 @@ public class EntityCalendarTest extends BaseTest {
 
         setValue(driver, TITLE_FIELD_NEW, "test test test", 256, 0.1);
 
-        WebElement nameString = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", TITLE_FIELD_NEW)));
+        WebElement nameString = driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]", TITLE_FIELD_NEW)));
         Assert.assertEquals(nameString.getText(), TITLE_FIELD_NEW);
 
-        WebElement nameText = driver.findElement(By.xpath("//div[contains(text(),'test test test')]"));
+        WebElement nameText = driver.findElement(By.xpath("//td/a[contains(text(),'test test test')]"));
         Assert.assertEquals(nameText.getText(), "test test test");
 
-        WebElement intField = driver.findElement(By.xpath("//div[contains(text(),'256')]"));
+        WebElement intField = driver.findElement(By.xpath("//td/a[contains(text(),'256')]"));
         Assert.assertEquals(intField.getText(), "256");
 
-        WebElement decimalField = driver.findElement(By.xpath("//div[contains(text(),'0.1')]"));
-        Assert.assertEquals(decimalField.getText(), "0.1");
+        WebElement decimalField = driver.findElement(By.xpath("//td/a[contains(text(),'0.10')]"));
+        Assert.assertEquals(decimalField.getText(), "0.10");
     }
 
     @Test(dependsOnMethods = {"newRecord", "editRecord"})

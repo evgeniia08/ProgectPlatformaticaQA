@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityEventsChain2Test extends BaseTest {
 

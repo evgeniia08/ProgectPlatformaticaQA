@@ -18,14 +18,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
     final String comments = "TEST1";
     final String int_ = "11";
     final String decimal = "0.11";
-    final String xpath = "//tr[@data-index='4']";
+    final String xpath = "//tr[@data-index='4']/td[2]/a";
 
     SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
     public String Data = data.format(new Date());
@@ -45,7 +44,7 @@ public class EntityChevronTest extends BaseTest {
         };
     }
 
-    @Test()
+    @Test(dependsOnMethods = "createMultipleEntities")
     public void createNewRecord() {
         ChevronPage chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -57,7 +56,7 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage.getRow(4), expectedResults);
     }
 
-    @Test(dependsOnMethods = "createNewRecord")
+    @Test(dependsOnMethods = "findChevron")
     public void viewRecord() {
         List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -80,7 +79,7 @@ public class EntityChevronTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = "createMultipleEntities")
+    @Test(dependsOnMethods = "createNewRecord")
     public void dragTheRowUp() throws InterruptedException {
         String chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
@@ -99,9 +98,8 @@ public class EntityChevronTest extends BaseTest {
                 .getRowCount(), 5);
     }
 
-    @Ignore
-    @Test()
-    public void findChevron() throws InterruptedException {
+    @Test(dependsOnMethods = "dragTheRowUp")
+    public void findChevron()  {
 
         WebDriver driver = getDriver();
 
@@ -138,10 +136,10 @@ public class EntityChevronTest extends BaseTest {
         WebElement buttonSaveClick = driver.findElement(By.xpath("//button[@class = 'btn btn-warning']"));
         ProjectUtils.click(driver, buttonSaveClick);
 
-        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'Fulfillment')]")).getText(),
+        Assert.assertEquals(driver.findElement(By.xpath("//tbody/tr/td[2]/a")).getText(),
                 "Fulfillment");
 
-        WebElement findFulfillmentAgain = driver.findElement(By.xpath("//td//div[contains(text(), 'Fulfillment')]"));
+        WebElement findFulfillmentAgain = driver.findElement(By.xpath("//tbody/tr/td[2]/a"));
         ProjectUtils.click(driver, findFulfillmentAgain);
 
         WebElement recheckFulfillment = driver.findElement(By.xpath("//a[@class = 'pa-chev-active']"));
