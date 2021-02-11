@@ -28,8 +28,6 @@ public class EntityFieldsTest extends BaseTest {
     private static final String COMMENTS = RandomStringUtils.randomAlphanumeric(25);
     private static final String INT = Integer.toString(ThreadLocalRandom.current().nextInt(100, 200));
     private static final String DECIMAL = "12.34";
-    private static final String DECIMAL_ENDS_ZERO = "1.10";
-    private static final String ALL_ZERO_AFTER_DECIMAL = "1.00";
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
     private static final String NEW_TITLE = String.format("%s_EditTextAllNew", createUUID());
@@ -39,17 +37,19 @@ public class EntityFieldsTest extends BaseTest {
     private static final String NEW_DATE = "25/10/2018";
     private static final String NEW_DATE_TIME = "25/10/2018 08:22:05";
     private static final String INVALID_ENTRY = "a";
-
-    private String randomUser = null;
-    private String currentUser = null;
+    private static String currentUser = null;
 
     @Test
     public void createRecordTest() {
 
-        currentUser = new MainPage(getDriver()).getCurrentUser();
-        final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, INT, DECIMAL, DATE, DATE_TIME, "", currentUser, "");
+        final List<String> expectedRecordValues = Arrays.asList(TITLE, COMMENTS, INT, DECIMAL, DATE,
+                DATE_TIME, "", currentUser, "");
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
+        MainPage mainPage = new MainPage(getDriver());
+        currentUser = mainPage.getCurrentUser();
+        expectedRecordValues.set(7, currentUser);
+
+        FieldsPage fieldsPage = mainPage
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillTitle(TITLE)
@@ -62,8 +62,48 @@ public class EntityFieldsTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(fieldsPage.getRowCount(), 1);
+        Assert.assertEquals(fieldsPage.getRow(0), expectedRecordValues);
+        Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = "createRecordTest")
+    public void editRecordTest() {
+
+        List<String> expectedValues = Arrays.asList(NEW_TITLE, NEW_COMMENTS, NEW_INT, NEW_DECIMAL, NEW_DATE,
+                NEW_DATE_TIME, "", "randomUser", "");
+
+        MainPage mainPage = new MainPage(getDriver());
+        FieldsEditPage fieldsEditsPage = mainPage.clickMenuFields().editRow(0);
+        final String randomUser = fieldsEditsPage.getRandomUser();
+        expectedValues.set(7, randomUser);
+
+        FieldsPage fieldsPage = fieldsEditsPage
+                .fillTitle(NEW_TITLE)
+                .fillComments(NEW_COMMENTS)
+                .fillInt(NEW_INT)
+                .fillDecimal(NEW_DECIMAL)
+                .fillDate(NEW_DATE)
+                .fillDateTime(NEW_DATE_TIME)
+                .selectUser(randomUser)
+                .clickSaveButton();
+
+        Assert.assertEquals(fieldsPage.getRowCount(), 1);
         Assert.assertEquals(fieldsPage.getRow(0), expectedValues);
         Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
+    }
+
+    @Test(dependsOnMethods = "editRecordTest")
+    public void deleteRecordTest() {
+
+        FieldsPage fieldsPage = new MainPage(getDriver()).clickMenuFields();
+        fieldsPage.deleteRow(0);
+
+        Assert.assertEquals(fieldsPage.getRowCount(), 0, "Record has not been deleted");
+
+        RecycleBinPage recycleBinPage = fieldsPage.clickRecycleBin();
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 1);
+        Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(NEW_TITLE));
     }
 
     @Test(dependsOnMethods = "deleteRecordTest")
@@ -71,7 +111,7 @@ public class EntityFieldsTest extends BaseTest {
 
         final List<String> expectedValues = Arrays.asList(TITLE, COMMENTS, "0", "0.00", "", "", "", currentUser, "");
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
+        FieldsPage fieldsPage = new MainPage(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillTitle(TITLE)
@@ -84,50 +124,10 @@ public class EntityFieldsTest extends BaseTest {
         Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.DRAFT_ICON_CLASS);
     }
 
-    @Test(dependsOnMethods = "createRecordTest")
-    public void editRecordTest() {
-
-        String[] expectedValues = {NEW_TITLE, NEW_COMMENTS, NEW_INT, NEW_DECIMAL, NEW_DATE, NEW_DATE_TIME, "", randomUser, ""};
-
-        MainPage mainPage = new MainPage(getDriver());
-        FieldsEditPage fieldsEditsPage = mainPage.clickMenuFields().editRow(0);
-
-        randomUser = expectedValues[7] = fieldsEditsPage.getRandomUser();
-        FieldsPage fieldsPage = fieldsEditsPage
-                .fillTitle(NEW_TITLE)
-                .fillComments(NEW_COMMENTS)
-                .fillInt(NEW_INT)
-                .fillDecimal(NEW_DECIMAL)
-                .fillDate(NEW_DATE)
-                .fillDateTime(NEW_DATE_TIME)
-                .selectUser(randomUser)
-                .clickSaveButton();
-
-        Assert.assertEquals(fieldsPage.getRowCount(), 1);
-        Assert.assertEquals(fieldsPage.getRow(0), Arrays.asList(expectedValues));
-        Assert.assertEquals(fieldsPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
-    }
-
-    @Test(dependsOnMethods = "editRecordTest")
-    public void deleteRecordTest() {
-
-        FieldsPage fieldsPage = new FieldsPage(getDriver());
-        final String recordTitle = fieldsPage.clickMenuFields().getTitle(0);
-        fieldsPage.deleteRow(0);
-
-        Assert.assertEquals(fieldsPage.getRowCount(), 0, "Record has not been deleted");
-
-        RecycleBinPage recycleBinPage = fieldsPage.clickRecycleBin();
-
-        Assert.assertEquals(recycleBinPage.getRowCount(), 1);
-        Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(recordTitle));
-    }
-
     @Test(dependsOnMethods = "createDraftTest")
     public void deleteDraftTest() {
 
-        FieldsPage fieldsPage = new FieldsPage(getDriver());
-        final String entityTitle = fieldsPage.clickMenuFields().getTitle(0);
+        FieldsPage fieldsPage = new MainPage(getDriver()).clickMenuFields();
         fieldsPage.deleteRow(0);
 
         Assert.assertEquals(fieldsPage.getRowCount(), 0, "Draft has not been deleted");
@@ -135,48 +135,48 @@ public class EntityFieldsTest extends BaseTest {
         RecycleBinPage recycleBinPage = fieldsPage.clickRecycleBin();
 
         Assert.assertEquals(recycleBinPage.getRowCount(), 2);
-        Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(entityTitle));
+        Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(TITLE));
+    }
+
+    @Test(dependsOnMethods = "deleteDraftTest")
+    public void entityDecimalFormatTest() {
+
+        FieldsPage fieldsPage = new MainPage(getDriver())
+                .clickMenuFields()
+                .clickNewFolder()
+                .fillDecimal("1")
+                .clickSaveButton();
+
+        Assert.assertEquals(fieldsPage.getDecimal(0), "1.00");
+
+        fieldsPage.editRow(0)
+                .fillDecimal("1.1")
+                .clickSaveButton();
+
+        Assert.assertEquals(fieldsPage.getDecimal(0), "1.10");
     }
 
     @Test
     public void invalidIntEntryCreateTest() {
 
-        ErrorPage errorPage = new FieldsPage(getDriver())
+        ErrorPage errorPage = new MainPage(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillInt(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
     @Test
     public void invalidDecimalEntryCreateTest() {
 
-        ErrorPage errorPage = new FieldsPage(getDriver())
+        ErrorPage errorPage = new MainPage(getDriver())
                 .clickMenuFields()
                 .clickNewFolder()
                 .fillDecimal(INVALID_ENTRY)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
-    }
-
-    @Test(dependsOnMethods = "deleteDraftTest")
-    public void entityDecimalEndsZeroTest() {
-
-        FieldsPage fieldsPage = new FieldsPage(getDriver())
-                .clickMenuFields()
-                .clickNewFolder()
-                .fillDecimal(DECIMAL_ENDS_ZERO)
-                .clickSaveButton();
-
-        Assert.assertEquals(fieldsPage.getDecimal(0), DECIMAL_ENDS_ZERO);
-
-        fieldsPage.editRow(0)
-                .fillDecimal(ALL_ZERO_AFTER_DECIMAL)
-                .clickSaveButton();
-
-        Assert.assertEquals(fieldsPage.getDecimal(0), ALL_ZERO_AFTER_DECIMAL);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 }

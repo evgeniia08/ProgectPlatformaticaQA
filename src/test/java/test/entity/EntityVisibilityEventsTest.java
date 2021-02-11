@@ -6,24 +6,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.type.Profile;
-import runner.type.ProfileType;
+import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
-
 import java.util.UUID;
 
-@Ignore
+
 @Run(run = RunType.Multiple)
 public class EntityVisibilityEventsTest extends BaseTest {
 
     private void setUp() {
         WebDriver driver = getDriver();
-        WebElement visibilityEventsTab = driver.findElement(
-                By.xpath("//div[@id='menu-list-parent']//li/a[contains(@href,'id=86')]"));
+        WebElement visibilityEventsTab =  driver.findElement(
+                    By.xpath("//p[contains(text(),'Visibility')]"));
+        ProjectUtils.scroll(getDriver(), visibilityEventsTab);
         visibilityEventsTab.click();
     }
 
@@ -74,7 +72,7 @@ public class EntityVisibilityEventsTest extends BaseTest {
         searchField.sendKeys(content);
 
         final int timeoutSec = 2;
-        final String selector = "//div[contains(text(), '" + content + "')]/ancestor::tr//button[contains(., 'menu')]";
+        final String selector = "//a[contains(text(), '" + content + "')]/ancestor::tr//button[contains(., 'menu')]";
         new WebDriverWait(driver, timeoutSec).until(
                 ExpectedConditions.presenceOfElementLocated(By.xpath(selector)));
 

@@ -3,7 +3,6 @@ package test.entity;
 import model.entity.table.Chain1Page;
 import model.entity.common.MainPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Ignore
+
 public class EntityEventsChain1Test extends BaseTest {
     @Test
     public void createNewRecord(){
