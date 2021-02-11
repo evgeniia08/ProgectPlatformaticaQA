@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public class EntityImportTest extends BaseTest {
 
-    @Ignore
     @Test
     public void deleteRecordFromEntityImport() {
 
@@ -56,8 +55,9 @@ public class EntityImportTest extends BaseTest {
     private static final By BY_CREATE_DECIMAL_FIELD = By.xpath("//input[@id='decimal']");
     private static final By BY_CREATE_SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
 
+    @Ignore
     @Test
-    public void doImportButton() throws InterruptedException{
+    public void doImportButton() {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -83,10 +83,10 @@ public class EntityImportTest extends BaseTest {
         List<WebElement> importedRow = driver.findElements(BY_IMPORTED_ROW);
         Assert.assertEquals(importedRow.size(), 1);
 
-        WebElement fieldString = importedRow.get(0).findElement(By.xpath("//td[2]/a/div"));
-        WebElement fieldText = importedRow.get(0).findElement(By.xpath("//td[3]/a/div"));
-        WebElement fieldInt = importedRow.get(0).findElement(By.xpath("//td[4]/a/div"));
-        WebElement fieldDecimal = importedRow.get(0).findElement(By.xpath("//td[5]/a/div"));
+        WebElement fieldString = importedRow.get(0).findElement(By.xpath("//td[2]/a"));
+        WebElement fieldText = importedRow.get(0).findElement(By.xpath("//td[3]/a"));
+        WebElement fieldInt = importedRow.get(0).findElement(By.xpath("//td[4]/a"));
+        WebElement fieldDecimal = importedRow.get(0).findElement(By.xpath("//td[5]/a"));
         WebElement fieldUser = importedRow.get(0).findElement(By.xpath("//td[9]"));
 
         Assert.assertEquals(fieldString.getText(), STRING_VALUE);
@@ -96,8 +96,9 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
     }
 
+    @Ignore
     @Test
-    public void customImportButton() throws InterruptedException{
+    public void customImportButton() {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = new WebDriverWait(driver, 10);

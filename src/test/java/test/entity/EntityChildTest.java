@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import static runner.ProjectUtils.createUUID;
+
 
 @Run(run = RunType.Multiple)
 public class EntityChildTest extends BaseTest {
@@ -91,7 +93,7 @@ public class EntityChildTest extends BaseTest {
         WebElement submitChild = driver.findElement(By.xpath("//button[text() = 'Save']"));
         ProjectUtils.click(driver, submitChild);
 
-        WebElement resultTitle = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", STRING)));
+        WebElement resultTitle = driver.findElement(By.xpath(String.format("//span[contains(text(),'%s')]", STRING)));
         Assert.assertEquals(resultTitle.getText(), STRING);
     }
 
@@ -161,7 +163,7 @@ public class EntityChildTest extends BaseTest {
         WebElement submitChild = driver.findElement(By.xpath("//button[text() = 'Save']"));
         ProjectUtils.click(driver, submitChild);
 
-        WebElement resultTitle = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", EDIT_TITLE)));
+        WebElement resultTitle = driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]", EDIT_TITLE)));
         Assert.assertEquals(resultTitle.getText(), EDIT_TITLE);
     }
 

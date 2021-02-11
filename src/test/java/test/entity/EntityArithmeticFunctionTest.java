@@ -88,7 +88,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
                 .inputInitialValue(STRING, STRING)
                 .clickSaveButtonErrorExpected();
 
-        Assert.assertEquals(errorPage.getErrorMessage(), errorPage.ERROR_MESSAGE);
+        Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
     @Test(dependsOnMethods = "createNewRecordNegativeStringTest")

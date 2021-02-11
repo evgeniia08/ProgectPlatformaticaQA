@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.AssignEditPage;
+import model.entity.view.AssignViewPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
-public final class AssignPage extends EntityBaseTablePage<AssignPage, AssignEditPage> {
+public final class AssignPage extends EntityBaseTablePage<AssignPage, AssignEditPage, AssignViewPage> {
 
     @FindBy(xpath = "//select[@class='pa-list-assignee']")
     private WebElement assignee;
@@ -39,5 +40,10 @@ public final class AssignPage extends EntityBaseTablePage<AssignPage, AssignEdit
     @Override
     protected AssignEditPage createEditPage() {
         return new AssignEditPage(getDriver());
+    }
+
+    @Override
+    protected AssignViewPage createViewPage() {
+        return new AssignViewPage(getDriver());
     }
 }

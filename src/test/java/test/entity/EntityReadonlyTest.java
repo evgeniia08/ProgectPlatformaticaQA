@@ -9,15 +9,42 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class EntityReadonlyTest extends BaseTest {
+
+    private static final List<String> EXPECTED_VALUES =
+            Arrays.asList("", "", "", "0", "0.00", "", "", "", "", "", "menu");
 
     @Test
     public void verifyListIsEmptyTest() {
         WebDriver driver = getDriver();
 
-        driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]")).click();
+        WebElement readonlyPage = driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]"));
+        ProjectUtils.click(driver, readonlyPage);
         driver.findElement(By.xpath("//a[@href='index.php?action=action_list&list_type=table&entity_id=6']")).click();
         Assert.assertEquals(driver.findElement(By.className("card-body")).getText(), "");
+    }
+
+    @Test
+    public void verifyRowsAreEmptyTest() {
+        WebDriver driver = getDriver();
+
+        WebElement readonlePage = driver.findElement(By.xpath("//p[contains(text(), ' Readonly ')]"));
+        ProjectUtils.click(driver, readonlePage);
+        WebElement createNewRecordButton = driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]"));
+        ProjectUtils.click(driver, createNewRecordButton);
+        WebElement saveButton = driver.findElement(By.xpath("//button[contains(text(), 'Save')][1]"));
+        ProjectUtils.click(driver, saveButton);
+
+        List<WebElement> rowsList = driver.findElements(By.xpath("//tbody/tr"));
+        List<WebElement> rowValue = driver.findElements(By.xpath("//td"));
+
+        Assert.assertEquals(rowsList.size(), 1);
+        Assert.assertEquals(rowValue.stream().map(WebElement::getText).collect(Collectors.toList()), EXPECTED_VALUES);
     }
 
     @Ignore
@@ -25,7 +52,6 @@ public class EntityReadonlyTest extends BaseTest {
     public void inputTest() {
 
         WebDriver driver = getDriver();
-
         driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]")).click();
         driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")).click();
 
