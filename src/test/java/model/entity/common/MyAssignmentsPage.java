@@ -33,4 +33,9 @@ public class MyAssignmentsPage extends EntityBaseTablePage {
     protected Object createEditPage() {
         return null;
     }
+
+    @Override
+    protected Object createViewPage() {
+        return null;
+    }
 }
