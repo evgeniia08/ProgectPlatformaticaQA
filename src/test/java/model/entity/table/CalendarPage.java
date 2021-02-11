@@ -58,6 +58,10 @@ public final class CalendarPage extends EntityBaseTablePage<CalendarPage, Calend
         return table.findElement(By.xpath("//tr/td[2]/a")).getText();
     }
 
+    public String getCommentsText(){
+        return table.findElement(By.xpath("//tr/td[3]/a")).getText();
+    }
+
     public String getNumberText(){
         return table.findElement(By.xpath("//tr/td[4]/a")).getText();
     }
