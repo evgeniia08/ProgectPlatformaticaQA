@@ -65,7 +65,7 @@ public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends
     }
 
     public List<String> getRow(int rowNumber) {
-        return getRow(rowNumber, "//td/a/div");
+        return getRow(rowNumber, "//td/a");
     }
 
     public List<String> getRow(int rowNumber, String xpath) {
