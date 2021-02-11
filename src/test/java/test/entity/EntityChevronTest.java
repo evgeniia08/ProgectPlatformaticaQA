@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 @Ignore
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
@@ -51,6 +52,7 @@ public class EntityChevronTest extends BaseTest {
                 .clickNewFolder()
                 .chooseRecordStatus()
                 .sendKeys(comments, int_, decimal, DataTime, Data)
+                .ChooseValues()
                 .clickSaveButton();
         Assert.assertEquals(chevronPage.getRow(4), expectedResults);
     }
@@ -96,6 +98,8 @@ public class EntityChevronTest extends BaseTest {
                 .deleteRow()
                 .getRowCount(), 5);
     }
+
+    @Ignore
     @Test()
     public void findChevron() throws InterruptedException {
 

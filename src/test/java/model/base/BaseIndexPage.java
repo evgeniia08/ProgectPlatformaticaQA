@@ -10,7 +10,7 @@ import runner.TestUtils;
 public abstract class BaseIndexPage extends BasePage {
 
     @FindBy(id = "navbarDropdownProfile")
-    private WebElement userProfileButton;
+    protected WebElement userProfileButton;
 
     @FindBy(xpath = "//a[contains(text(), 'Reset')]")
     private WebElement resetButton;

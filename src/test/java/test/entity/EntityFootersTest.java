@@ -9,6 +9,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class EntityFootersTest extends BaseTest {
 
     @Ignore
@@ -26,6 +27,7 @@ public class EntityFootersTest extends BaseTest {
     public void maxFooter() {
     }
 
+    @Ignore
     @Test
     public void countFooter() {
 
@@ -52,6 +54,7 @@ public class EntityFootersTest extends BaseTest {
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//textarea[@id='f-73-control']"), "2"));
         wait.until(ExpectedConditions.textToBePresentInElementValue(By.xpath("//input[@data-field_name='count_control']"), "2"));
     }
+
 
     @Test
     public void aveFooter() {

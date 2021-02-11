@@ -5,6 +5,7 @@ import model.entity.edit.ArithmeticInlineEditPage;
 import model.entity.table.ArithmeticInlinePage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -114,6 +115,7 @@ public class EntityArithmeticInTest extends BaseTest {
                         EDIT_NUM_1, EDIT_NUM_2, EDIT_SUM, EDIT_SUB, EDIT_MUL, EDIT_DIV)));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "deleteRecordTest", dataProvider = "positiveTestData")
     public void parametrizedCreateRecordTest(String num_1, String num_2, String sum, String sub, String mul, String div) {
 
@@ -136,6 +138,7 @@ public class EntityArithmeticInTest extends BaseTest {
         Assert.assertEquals(arithmeticInlinePage.getRow(rowCount), expectedValues);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "parametrizedCreateRecordTest", dataProvider = "negativeTestData")
     public void invalidEntryTest(String f1Value, String f2Value) {
 

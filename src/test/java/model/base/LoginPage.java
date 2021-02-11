@@ -20,6 +20,11 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    public LoginPage goToLoginPage(String url) {
+        getDriver().get(url);
+        return this;
+    }
+
     public void login(String username, String password) {
         ProjectUtils.fill(getWait(), inputUsername, username);
         ProjectUtils.fill(getWait(), inputPassword, password);

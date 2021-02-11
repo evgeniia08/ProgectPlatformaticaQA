@@ -2,6 +2,7 @@ package model.entity.table;
 
 import model.base.EntityBaseTablePage;
 import model.entity.edit.PlatformFuncEditPage;
+import model.entity.view.PlatformFuncViewPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlatformFuncPage extends EntityBaseTablePage<PlatformFuncPage, PlatformFuncEditPage> {
+public class PlatformFuncPage extends EntityBaseTablePage<PlatformFuncPage, PlatformFuncEditPage, PlatformFuncViewPage> {
 
     public PlatformFuncPage(WebDriver driver) {
         super(driver);
@@ -18,6 +19,11 @@ public class PlatformFuncPage extends EntityBaseTablePage<PlatformFuncPage, Plat
     @Override
     protected PlatformFuncEditPage createEditPage() {
         return new PlatformFuncEditPage(getDriver());
+    }
+
+    @Override
+    protected PlatformFuncViewPage createViewPage() {
+        return new PlatformFuncViewPage(getDriver());
     }
 
     @Override
