@@ -93,6 +93,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "createNewRecordNegativeStringTest")
     public void deleteRecordTest() {
 
