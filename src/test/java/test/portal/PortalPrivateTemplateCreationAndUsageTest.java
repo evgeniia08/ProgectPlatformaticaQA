@@ -7,7 +7,6 @@ import model.portal.table.InstancePage;
 import model.portal.table.TemplatePage;
 import model.work.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Profile;
@@ -112,11 +111,11 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         new EntityPage(getDriver()).clickProject();
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "installFromTemplateTest")
+    @Test(dependsOnMethods = "instanceCreateTest")
     public void instanceCreateSameNameNegativeTest() {
 
         ErrorPage errorPage = new InstancePage(getDriver())
+                .clickListButton()
                 .clickNewFolder()
                 .inputName(NEW_APP_NAME)
                 .clickSaveButtonErrorExpected();
@@ -124,7 +123,6 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.PORTAL_ERROR_MESSAGE);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "instanceCreateSameNameNegativeTest")
     public void instanceCreateCyrillicAlphabetNegativeTest() {
 
