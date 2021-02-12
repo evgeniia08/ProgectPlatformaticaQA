@@ -62,7 +62,6 @@ public class EntityCalendarTest extends BaseTest {
                 .fillOutParentForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE, EDIT_DATE_TIME)
                 .clickSaveButton();
 
-        Assert.assertEquals(calendarPage.getRowCount(), 1);
         Assert.assertEquals(calendarPage.getTitleText(), EDIT_TITLE);
         Assert.assertEquals(calendarPage.getCommentsText(), EDIT_COMMENTS);
         Assert.assertEquals(calendarPage.getNumberText(), EDIT_INT);
