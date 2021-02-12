@@ -81,8 +81,8 @@ public class EntityAssign1Test extends BaseTest {
     public void deleteTest() {
 
         AssignPage assignPage = new AssignPage(getDriver());
-        assignPage.clickMenuAssign().logout().login(FIRST_USER_NAME, FIRST_USER_PASS);
-        assignPage.selectUser(FIRST_USER_NAME).deleteRow();
+        assignPage.logout().login(FIRST_USER_NAME, FIRST_USER_PASS);
+        assignPage.clickMenuAssign().selectUser(FIRST_USER_NAME).deleteRow();
 
         Assert.assertEquals(assignPage.getRowCount(), 0);
 
