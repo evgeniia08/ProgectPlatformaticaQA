@@ -12,6 +12,7 @@ import model.entity.common.RecycleBinPage;
 import model.entity.edit.FieldsEditPage;
 import model.entity.table.FieldsPage;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 import runner.BaseTest;
@@ -156,6 +157,7 @@ public class EntityFieldsTest extends BaseTest {
         Assert.assertEquals(fieldsPage.getDecimal(0), "1.10");
     }
 
+    @Ignore
     @Test
     public void invalidIntEntryCreateTest() {
 
@@ -168,6 +170,7 @@ public class EntityFieldsTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
+    @Ignore
     @Test
     public void invalidDecimalEntryCreateTest() {
 

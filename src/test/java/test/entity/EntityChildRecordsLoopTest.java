@@ -4,6 +4,7 @@ import model.entity.common.MainPage;
 import model.entity.edit.ChildRecordsLoopEditPage;
 import model.entity.table.ChildRecordsLoopPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -21,6 +22,7 @@ public class EntityChildRecordsLoopTest extends BaseTest {
     private static final double[] FIRST_VALUES_PASSED = {0.00, 10.50, 11.00, 12.00, 13.00, 14.00, 1.00, 1.00, 2.50, 0.0};
     private static String[] startAndEndBalanceDisplayed;
 
+    @Ignore
     @Test
     public void checkStartEndBalanceBeforeSave() {
         ChildRecordsLoopEditPage childRecordsLoopEditPage = new MainPage(getDriver())
