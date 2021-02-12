@@ -8,7 +8,6 @@ import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -16,6 +15,7 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
+import static runner.ProjectUtils.createUUID;
 
 @Run(run = RunType.Multiple)
 public class EntityCalendarTest extends BaseTest {
@@ -25,9 +25,14 @@ public class EntityCalendarTest extends BaseTest {
     private static final String NUMBER1 = "56.23";
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-    private static final String TEXT_COMMENTS = "DON'T WAOORY, BE HAPPY!";
     private static final String TITLE_FIELD = UUID.randomUUID().toString();
     private static final String TITLE_FIELD_NEW = UUID.randomUUID().toString();
+    private static final String EDIT_TITLE = String.format("%s_EditTextAllNew", createUUID());
+    private static final String EDIT_COMMENTS = "New comment";
+    private static final String EDIT_INT = "7";
+    private static final String EDIT_DECIMAL = "77.99";
+    private static final String EDIT_DATE = "01/01/2021";
+    private static final String EDIT_DATE_TIME = "02/22/2021 01:00:00";
 
     @Test
     public void newCalendar() {
@@ -47,42 +52,34 @@ public class EntityCalendarTest extends BaseTest {
         Assert.assertEquals(calendarPage.getRowCount(), 1);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "newCalendar")
     public void editCalendar() {
 
-        WebDriver driver = getDriver();
+        CalendarPage calendarPage = new MainPage(getDriver())
+                .clickMenuCalendar()
+                .clickThisList()
+                .editRow()
+                .fillOutParentForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE, EDIT_DATE_TIME)
+                .clickSaveButton();
 
-        WebElement calendar = driver.findElement(By.xpath("//p[contains(text(),'Calendar')]"));
-        ProjectUtils.click(driver, calendar);
-
-        WebElement list = driver.findElement(By.xpath("//div[@class='content']//li[2]"));
-        list.click();
-
-        WebElement editList = driver.findElement(By.xpath("//td/div/button"));
-        editList.click();
-
-        WebElement clickEdit =
-                getWebDriverWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='edit']")));
-        clickEdit.click();
-
-        WebElement str =
-                getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='string']")));
-        ProjectUtils.fill(getWebDriverWait(), str, "New Record");
-
-        WebElement text = driver.findElement(By.xpath("//textarea[@id='text']"));
-        text.clear();
-        text.sendKeys(TEXT_COMMENTS);
-
-        WebElement number = driver.findElement(By.xpath("//input[@id='int']"));
-        number.sendKeys("777");
-
-        WebElement save = driver.findElement(By.xpath("//button[normalize-space()='Save']"));
-        ProjectUtils.click(driver, save);
-
-        WebElement resultEdit = driver.findElement(By.xpath("//tr//td[3]"));
-        Assert.assertEquals(resultEdit.getText(), TEXT_COMMENTS);
+        Assert.assertEquals(calendarPage.getRowCount(), 1);
+        Assert.assertEquals(calendarPage.getTitleText(), EDIT_TITLE);
+        Assert.assertEquals(calendarPage.getCommentsText(), EDIT_COMMENTS);
+        Assert.assertEquals(calendarPage.getNumberText(), EDIT_INT);
+        Assert.assertEquals(calendarPage.getNumber1Text(), EDIT_DECIMAL);
     }
+
+    @Test(dependsOnMethods = {"editCalendar"})
+    public void deleteCalendar() {
+
+        CalendarPage calendarPage = new MainPage(getDriver())
+                .clickMenuCalendar()
+                .clickThisList()
+                .deleteRow();
+
+        Assert.assertEquals(calendarPage.getRowCount(), 0);
+    }
+
 
     public void setValue(WebDriver driver, String title, String text, int num, double decimal) {
 
@@ -123,7 +120,7 @@ public class EntityCalendarTest extends BaseTest {
 
         getWebDriverWait().until(driver1 -> driver.findElement(By.xpath("//tr[@data-index]")).isDisplayed());
     }
-
+    @Ignore
     @Test(dependsOnMethods = "newRecord")
     public void editRecord() {
         WebDriver driver = getDriver();
@@ -142,20 +139,20 @@ public class EntityCalendarTest extends BaseTest {
 
         setValue(driver, TITLE_FIELD_NEW, "test test test", 256, 0.1);
 
-        WebElement nameString = driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]", TITLE_FIELD_NEW)));
+        WebElement nameString = driver.findElement(By.xpath(String.format("//div[contains(text(),'%s')]", TITLE_FIELD_NEW)));
         Assert.assertEquals(nameString.getText(), TITLE_FIELD_NEW);
 
-        WebElement nameText = driver.findElement(By.xpath("//td/a[contains(text(),'test test test')]"));
+        WebElement nameText = driver.findElement(By.xpath("//div[contains(text(),'test test test')]"));
         Assert.assertEquals(nameText.getText(), "test test test");
 
-        WebElement intField = driver.findElement(By.xpath("//td/a[contains(text(),'256')]"));
+        WebElement intField = driver.findElement(By.xpath("//div[contains(text(),'256')]"));
         Assert.assertEquals(intField.getText(), "256");
 
-        WebElement decimalField = driver.findElement(By.xpath("//td/a[contains(text(),'0.10')]"));
-        Assert.assertEquals(decimalField.getText(), "0.10");
+        WebElement decimalField = driver.findElement(By.xpath("//div[contains(text(),'0.1')]"));
+        Assert.assertEquals(decimalField.getText(), "0.1");
     }
-
-    @Test(dependsOnMethods = {"newRecord", "editRecord"})
+    @Ignore
+    @Test(dependsOnMethods = {"newRecord, editRecord"})
     public void deleteRecord() {
         WebDriver driver = getDriver();
 
