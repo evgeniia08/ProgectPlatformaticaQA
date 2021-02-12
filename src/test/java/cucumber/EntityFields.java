@@ -8,6 +8,7 @@ import model.entity.edit.FieldsEditPage;
 import model.entity.table.FieldsPage;
 import model.entity.common.MainPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import runner.CucumberBase;
 import test.data.AppConstant;
 
@@ -60,6 +61,7 @@ public class EntityFields {
                 Arrays.asList(title, comment, int_, decimal, date, "", "", currentUser, ""));
     }
 
+    @Ignore
     @Then("We are on error page")
     public void weAreOnErrorPage() {
         Assert.assertNotNull(errorPage);
