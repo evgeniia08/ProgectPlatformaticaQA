@@ -100,3 +100,4 @@ public class EntityAssign1Test extends BaseTest {
         Assert.assertEquals(myAssignmentsPage.getRowCount(), 0);
     }
 }
+
