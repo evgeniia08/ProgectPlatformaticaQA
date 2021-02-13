@@ -7,6 +7,7 @@ import model.entity.edit.PlaceholderEditPage;
 import model.entity.table.PlaceholderPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -135,6 +136,7 @@ public class EntityPlaceholderTest extends BaseTest {
         Assert.assertTrue(recycleBinPage.getDeletedEntityContent().contains(entityTitle));
     }
 
+    @Ignore
     @Test
     public void invalidIntEntryCreateTest() {
 
@@ -147,6 +149,7 @@ public class EntityPlaceholderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
+    @Ignore
     @Test
     public void invalidDecimalEntryCreateTest() {
 

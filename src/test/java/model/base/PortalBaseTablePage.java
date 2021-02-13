@@ -26,7 +26,7 @@ public abstract class PortalBaseTablePage<S, E, V> extends PortalBaseIndexPage {
     @FindBy(xpath = "//table[@id='pa-all-entities-table']/tbody/tr")
     protected List<WebElement> rows;
 
-    @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
+    @FindBy(xpath = "//a[@class='nav-link active']")
     private WebElement listButton;
 
     @FindBy(xpath = "//h4[contains(text(), 'Password')]/b")

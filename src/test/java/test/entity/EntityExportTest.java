@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -303,6 +304,7 @@ public class EntityExportTest extends BaseTest {
                 .getCellValue(0, 1), exportString);
     }
 
+    @Ignore
     @Test
     public void negativeTestForInt() {
         ErrorPage errorPage = new MainPage(getDriver()).clickMenuExport()
