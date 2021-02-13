@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.List;
+
 public final class AssignPage extends EntityBaseTablePage<AssignPage, AssignEditPage, AssignViewPage> {
 
     @FindBy(xpath = "//select[@class='pa-list-assignee']")
@@ -28,6 +30,11 @@ public final class AssignPage extends EntityBaseTablePage<AssignPage, AssignEdit
 
     public String getSelectedUser() {
         return selectedUser.getText();
+    }
+
+    @Override
+    public List<String> getRow(int rowNumber) {
+        return getRow(rowNumber, "//td/a");
     }
 
     @Override
