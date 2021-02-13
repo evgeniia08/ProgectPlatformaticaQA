@@ -61,7 +61,6 @@ public class EntityFields {
                 Arrays.asList(title, comment, int_, decimal, date, "", "", currentUser, ""));
     }
 
-    @Ignore
     @Then("We are on error page")
     public void weAreOnErrorPage() {
         Assert.assertNotNull(errorPage);
