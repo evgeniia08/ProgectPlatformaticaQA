@@ -101,8 +101,7 @@ public class MarketplaceInstanceTest extends BaseTest {
 
     private void assertInstanceValues (String[] instance_values) {
         if (instance_values != null) {
-            List<WebElement> actual_instance_record = getWebDriverWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-                    (By.xpath("//tbody/tr/td/a")));
+            List<WebElement> actual_instance_record = getDriver().findElements(By.xpath("//tbody/tr/td/a"));
             for (int i = 0; i < instance_values.length; i++){
                 String actual_value = String.valueOf(actual_instance_record.get(i).getText());
                 Assert.assertEquals(actual_value, instance_values[i]);

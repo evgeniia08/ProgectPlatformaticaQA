@@ -21,7 +21,7 @@ import java.util.*;
 @Run(run = RunType.Multiple)
 public class EntityGanttTest extends BaseTest {
 
-    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button");
+    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button/i");
     private static final By GANTT_MENU = By.xpath("//p[contains(text(),'Gantt')]");
     private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
     private static final By LIST_BUTTON = By.xpath("//a[contains(@href,'35')]/i[text()='list']");
@@ -79,8 +79,8 @@ public class EntityGanttTest extends BaseTest {
         }
     }
 
-    private void actionsClick(WebDriver driver, String mode) {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(ACTIONS_BUTTON)).click();
+    private void actionsClick(String mode) {
+        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(ACTIONS_BUTTON)).click();
         getWebDriverWait().until(TestUtils.movingIsFinished
                 (By.xpath(String.format("//a[contains(text(),'%s')]", mode)))).click();
     }
@@ -105,7 +105,7 @@ public class EntityGanttTest extends BaseTest {
     }
 
     private void assertRecordView(WebDriver driver) {
-        actionsClick(driver, "view");
+        actionsClick("view");
         List<WebElement> actual_record = driver.findElements
                 (By.xpath("//span[@class='pa-view-field']|//label[text()='User']/../p"));
         for (int i = 0; i < record_values.length; i++) {
@@ -165,7 +165,7 @@ public class EntityGanttTest extends BaseTest {
         WebDriver driver = clickMenuGantt();
 
         driver.findElement(LIST_BUTTON).click();
-        actionsClick(driver, "edit");
+        actionsClick("edit");
         createGanttChart(driver, "save");
         assertRecordView(driver);
     }
@@ -175,7 +175,7 @@ public class EntityGanttTest extends BaseTest {
         WebDriver driver = clickMenuGantt();
 
         driver.findElement(LIST_BUTTON).click();
-        actionsClick(driver, "delete");
+        actionsClick("delete");
         Assert.assertTrue(driver.findElement(TABLE).getText().isEmpty());
 
         driver.findElement(By.xpath("//i[text()='delete_outline']/..")).click();
