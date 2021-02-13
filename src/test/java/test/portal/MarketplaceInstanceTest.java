@@ -7,14 +7,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -22,32 +23,33 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceInstanceTest extends BaseTest {
 
+    private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
+    private static final By ACTIONS_BUTTON = By.xpath("//tr[@data-index='0']/td/div/button");
     private static final By DRAFT_BUTTON = By.xpath("//button[@id='pa-entity-form-draft-btn']");
     private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
+    private static final By RESET = By.xpath("//a[contains(text(), 'Reset')]");
     private static final String PRIMARY_LANGUAGE = "English";
     private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
     private String[] app_values = new String[7];
 
     private Boolean isUnableCreateApp() {
         return getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//body"))).getText().equals("Unable to create instance");
+                (By.xpath("//body"))).getText().equalsIgnoreCase(AppConstant.PORTAL_ERROR_MESSAGE);
     }
 
     private String[] getInstanceValues() {
         String name = RandomStringUtils.randomAlphanumeric(6, 10).toLowerCase();
-        return new String[] {name, name, String.format("https://%s.eteam.work", name), "admin", "2", "1", "English"};
+        return new String[] {name, name, String.format("https://%s.eteam.work", name), "admin", "2", "1", PRIMARY_LANGUAGE};
     }
 
-    private String[] createInstance(WebDriver driver) throws InterruptedException {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+    private String[] createInstance(WebDriver driver) {
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         String[] instance_values;
         do {
             instance_values = getInstanceValues();
@@ -62,12 +64,10 @@ public class MarketplaceInstanceTest extends BaseTest {
         return instance_values;
     }
 
-
-    private void actionsClick(WebDriver driver, int record_index, String mode) {
-        ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath(String.format("//tr[@data-index='%d']/td/div/button", record_index)))));
-        ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath(String.format("//a[contains(text(),'%s')]", mode)))));
+    private void actionsClick(WebDriver driver, String mode) {
+        driver.findElement(ACTIONS_BUTTON).click();
+        getWebDriverWait().until(TestUtils.movingIsFinished
+                (By.xpath(String.format("//a[contains(text(),'%s')]", mode)))).click();
     }
 
     private String[] createTemplate(WebDriver driver, String mode) {
@@ -75,7 +75,7 @@ public class MarketplaceInstanceTest extends BaseTest {
         dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
         String time = dateFormatGmt.format(new Date());
         String[] template_values =
-                {ProjectUtils.createUUID(), ProjectUtils.createUUID(), time, ProjectUtils.createUUID(), "Own", "0"};
+                {ProjectUtils.createUUID(), ProjectUtils.createUUID(), time, ProjectUtils.createUUID(), "Own", "0.00"};
 
         List<WebElement> template_edit_fields = driver.findElements
                 (By.xpath("//input[@id='title']|//input[@id='author']"));
@@ -101,7 +101,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     private void assertInstanceValues (String[] instance_values) {
         if (instance_values != null) {
             List<WebElement> actual_instance_record = getWebDriverWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-                    (By.xpath("//table[@id='pa-all-entities-table']//a/div")));
+                    (By.xpath("//tbody/tr/td/a")));
             for (int i = 0; i < instance_values.length; i++){
                 String actual_value = String.valueOf(actual_instance_record.get(i).getText());
                 Assert.assertEquals(actual_value, instance_values[i]);
@@ -109,19 +109,10 @@ public class MarketplaceInstanceTest extends BaseTest {
         }
     }
 
-    private void resetAccount(WebDriver driver) {
-        ProjectUtils.click(driver, driver.findElement(By.id("navbarDropdownProfile")));
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//a[contains(text(), 'Reset')]")));
-
-        WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
-        Assert.assertTrue(record_table.getText().isEmpty());
-    }
-
     @Test
-    public void instanceCancelTest() throws InterruptedException {
+    public void instanceCancelTest() {
         WebDriver driver = getDriver();
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         WebElement app_name = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='name']")));
         ProjectUtils.inputKeys(driver, app_name, getInstanceValues()[0]);
@@ -132,11 +123,10 @@ public class MarketplaceInstanceTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "instanceCancelTest")
-    public void instanceDraftTest() throws InterruptedException {
+    public void instanceDraftTest() {
         WebDriver driver = getDriver();
 
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         WebElement app_name = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='name']")));
         app_values = getInstanceValues();
@@ -144,59 +134,58 @@ public class MarketplaceInstanceTest extends BaseTest {
         driver.findElement(DRAFT_BUTTON).click();
 
         assertInstanceValues(app_values);
-        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), "fa fa-pencil");
-        resetAccount(driver);
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), AppConstant.DRAFT_ICON_CLASS);
+        ProjectUtils.click(driver, driver.findElement(RESET));
     }
 
     @Test (dependsOnMethods = "instanceDraftTest")
-    public void instanceUniquenessTest() throws InterruptedException {
+    public void instanceUniquenessTest() {
         WebDriver driver = getDriver();
 
         app_values = createInstance(driver);
 
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         WebElement subdomain = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='subdomain']")));
         ProjectUtils.inputKeys(driver, subdomain, app_values[0]);
         String field_note = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//label[@id='_field-note-subdomain']"))).getText();
 
-        Assert.assertEquals(field_note, "sorry, this subdomain is already taken, please try another name");
-        resetAccount(driver);
+        Assert.assertEquals(field_note, AppConstant.INSTANCE_UNIQUENESS_ERROR);
+        ProjectUtils.click(driver, driver.findElement(RESET));
     }
 
     @Test (dependsOnMethods = "instanceUniquenessTest")
-    public void instancePasswordTest() throws InterruptedException {
+    public void instancePasswordTest() {
         WebDriver driver = getDriver();
 
         createInstance(driver);
         String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
-        Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
+        Assert.assertEquals(congrats, AppConstant.INSTANCE_CREATED_TEXT);
 
         Assert.assertFalse(getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[contains(@class,'card-body')]//h4[2]/b"))).getText().isEmpty());
         driver.navigate().refresh();
         Assert.assertEquals(getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[contains(@class,'card-body')]//h4[2]/b"))).getText(), "[[notfound]]");
-        resetAccount(driver);
+        ProjectUtils.click(driver, driver.findElement(RESET));
     }
 
     @Test(dependsOnMethods = {"instanceUniquenessTest", "instancePasswordTest"})
-    public void instanceCreateTest() throws InterruptedException {
+    public void instanceCreateTest() {
         WebDriver driver = getDriver();
 
         app_values = createInstance(driver);
         assertInstanceValues(app_values);
         String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
-        Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
+        Assert.assertEquals(congrats, AppConstant.INSTANCE_CREATED_TEXT);
     }
 
     @Test (dependsOnMethods = "instanceCreateTest")
     public void instanceViewTest() {
         WebDriver driver = getDriver();
 
-        actionsClick(driver, 0, "view");
+        actionsClick(driver,"view");
         List<WebElement> instance_elements = driver.findElements
                 (By.xpath("//div[contains(@class,'card-body')]//span"));
         for (int i = 0; i < 4; i++) {
@@ -208,7 +197,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     public void instanceTemplateCancelTest() {
         WebDriver driver = getDriver();
 
-        actionsClick(driver, 0, "Save as template");
+        actionsClick(driver, "Save as template");
         assertInstanceValues(createTemplate(driver, "cancel"));
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
@@ -218,10 +207,10 @@ public class MarketplaceInstanceTest extends BaseTest {
     public void instanceTemplateDraftTest() {
         WebDriver driver = getDriver();
 
-        actionsClick(driver, 0, "Save as template");
+        actionsClick(driver,"Save as template");
         assertInstanceValues(createTemplate(driver, "draft"));
-        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), "fa fa-pencil");
-        actionsClick(driver,0, "delete");
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), AppConstant.DRAFT_ICON_CLASS);
+        actionsClick(driver,"delete");
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
     }
@@ -230,10 +219,10 @@ public class MarketplaceInstanceTest extends BaseTest {
     public void instanceTemplateSaveTest() {
         WebDriver driver = getDriver();
 
-        actionsClick(driver, 0, "Save as template");
+        actionsClick(driver,"Save as template");
         assertInstanceValues(createTemplate(driver, "save"));
-        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), "fa fa-check-square-o");
-        actionsClick(driver,0, "delete");
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td/i")).getAttribute("class"), AppConstant.RECORD_ICON_CLASS);
+        actionsClick(driver,"delete");
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
     }
@@ -242,14 +231,13 @@ public class MarketplaceInstanceTest extends BaseTest {
     public void instanceDeleteTest() {
         WebDriver driver = getDriver();
 
-        actionsClick(driver, 0, "delete");
+        actionsClick(driver,"delete");
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
     }
-    //functional bug
-    @Ignore
-    @Test
-    public void ascOrder() {
+
+    @Test (dependsOnMethods = "instanceDeleteTest")
+            public void ascOrder() {
         InstancePage instancePage = new InstancePage(getDriver())
                         .clickNewFolder()
                         .fillOutInstanceForm("nnnn", "nnnn", PRIMARY_LANGUAGE)
