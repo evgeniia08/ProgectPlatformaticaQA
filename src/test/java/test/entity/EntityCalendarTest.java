@@ -25,7 +25,7 @@ public class EntityCalendarTest extends BaseTest {
     private static final String NUMBER1 = "56.23";
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-    private static final String TEXT_COMMENTS = "DON'T WAOORY, BE HAPPY!";
+    private static final String TEXT_COMMENTS = "DON'T WORRY, BE HAPPY!";
     private static final String TITLE_FIELD = UUID.randomUUID().toString();
     private static final String TITLE_FIELD_NEW = UUID.randomUUID().toString();
 
@@ -47,7 +47,6 @@ public class EntityCalendarTest extends BaseTest {
         Assert.assertEquals(calendarPage.getRowCount(), 1);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "newCalendar")
     public void editCalendar() {
 
@@ -64,7 +63,7 @@ public class EntityCalendarTest extends BaseTest {
 
         WebElement clickEdit =
                 getWebDriverWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='edit']")));
-        clickEdit.click();
+        ProjectUtils.click(driver, clickEdit);
 
         WebElement str =
                 getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='string']")));
