@@ -11,6 +11,7 @@ import runner.type.Run;
 import runner.type.RunType;
 import java.util.Arrays;
 
+@Ignore
 @Run(run = RunType.Multiple)
 public class EntityChildRecordsLoopTest extends BaseTest {
 
