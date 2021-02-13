@@ -43,6 +43,14 @@ public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
         return this;
     }
 
+    public String getDate() {
+        return inputDate.getAttribute("value");
+    }
+
+    public String getDateTime() {
+        return inputDateTime.getAttribute("value");
+    }
+
     @Override
     protected AssignPage createPage() {
         return new AssignPage(getDriver());
