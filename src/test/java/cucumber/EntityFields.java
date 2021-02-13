@@ -8,6 +8,7 @@ import model.entity.edit.FieldsEditPage;
 import model.entity.table.FieldsPage;
 import model.entity.common.MainPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import runner.CucumberBase;
 import test.data.AppConstant;
 
