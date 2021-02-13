@@ -6,6 +6,7 @@ import model.entity.edit.AssignEditPage;
 import model.entity.table.AssignPage;
 import model.entity.common.MainPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.ProfileType;
@@ -53,6 +54,7 @@ public class EntityAssign1Test extends BaseTest {
         Assert.assertEquals(assignPage.getRow(0), expectedValues);
     }
 
+    @Ignore
     @Test (dependsOnMethods = "assignTest")
     public void editTest() {
 
@@ -73,10 +75,11 @@ public class EntityAssign1Test extends BaseTest {
         PROFILE_TYPE.login(getDriver());
         myAssignmentsPage.clickMenuMyAssignments();
 
-        Assert.assertEquals(myAssignmentsPage.getRowCount(), 0); //change to 1
-//        Assert.assertEquals(assignPage.getRow(0), expectedValues);
+        Assert.assertEquals(myAssignmentsPage.getRowCount(), 1);
+        Assert.assertEquals(assignPage.getRow(0), expectedValues);
     }
 
+    @Ignore
     @Test (dependsOnMethods = "editTest")
     public void deleteTest() {
 

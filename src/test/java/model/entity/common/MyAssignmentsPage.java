@@ -21,6 +21,7 @@ public class MyAssignmentsPage extends EntityBaseTablePage {
         return pageName.isDisplayed();
     }
 
+    @Override
     public int getRowCount() {
         if (!body.getText().contains("Assign")) {
             return 0;
