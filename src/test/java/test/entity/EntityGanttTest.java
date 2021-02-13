@@ -21,7 +21,7 @@ import java.util.*;
 @Run(run = RunType.Multiple)
 public class EntityGanttTest extends BaseTest {
 
-    private static final By ACTIONS_BUTTON = By.xpath("//tr[@data-index='0']/td/div/button");
+    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button");
     private static final By GANTT_MENU = By.xpath("//p[contains(text(),'Gantt')]");
     private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
     private static final By LIST_BUTTON = By.xpath("//a[contains(@href,'35')]/i[text()='list']");
@@ -80,7 +80,7 @@ public class EntityGanttTest extends BaseTest {
     }
 
     private void actionsClick(WebDriver driver, String mode) {
-        driver.findElement(ACTIONS_BUTTON).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(ACTIONS_BUTTON)).click();
         getWebDriverWait().until(TestUtils.movingIsFinished
                 (By.xpath(String.format("//a[contains(text(),'%s')]", mode)))).click();
     }

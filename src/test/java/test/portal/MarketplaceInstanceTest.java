@@ -28,7 +28,7 @@ import java.util.TimeZone;
 public class MarketplaceInstanceTest extends BaseTest {
 
     private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
-    private static final By ACTIONS_BUTTON = By.xpath("//tr[@data-index='0']/td/div/button");
+    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button");
     private static final By DRAFT_BUTTON = By.xpath("//button[@id='pa-entity-form-draft-btn']");
     private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
@@ -237,7 +237,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "instanceDeleteTest")
-            public void ascOrder() {
+    public void ascOrder() {
         InstancePage instancePage = new InstancePage(getDriver())
                         .clickNewFolder()
                         .fillOutInstanceForm("nnnn", "nnnn", PRIMARY_LANGUAGE)
