@@ -21,7 +21,7 @@ import java.util.*;
 @Run(run = RunType.Multiple)
 public class EntityGanttTest extends BaseTest {
 
-    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button/i");
+    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button");
     private static final By GANTT_MENU = By.xpath("//p[contains(text(),'Gantt')]");
     private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
     private static final By LIST_BUTTON = By.xpath("//a[contains(@href,'35')]/i[text()='list']");
@@ -165,6 +165,7 @@ public class EntityGanttTest extends BaseTest {
         WebDriver driver = clickMenuGantt();
 
         driver.findElement(LIST_BUTTON).click();
+        Assert.assertEquals(driver.findElements(By.xpath("//tbody/tr")).size(), 1);
         actionsClick("edit");
         createGanttChart(driver, "save");
         assertRecordView(driver);
