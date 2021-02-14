@@ -1,5 +1,4 @@
 package test.portal;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,7 +11,6 @@ import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +59,7 @@ public class MarketplaceContactTest extends BaseTest {
         List<WebElement> trs = driver.findElements(By.xpath("//table[@id='pa-all-entities-table']/tbody/tr"));
         Assert.assertEquals(trs.size(), 1);
 
-        List<WebElement> allLines = driver.findElements(By.xpath("//tbody//a/div"));
+        List<WebElement> allLines = driver.findElements(By.xpath("//td/a"));
         for (int i = 0; i < allLines.size(); i++) {
                   Assert.assertEquals(allLines.get(i).getText(), FIELD_INPUTS[i]);
        }
