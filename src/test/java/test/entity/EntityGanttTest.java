@@ -87,11 +87,11 @@ public class EntityGanttTest extends BaseTest {
 
     private void assertGanttRecord(WebDriver driver) {
         WebElement string_table_element = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated
-                (By.xpath("//td[@class][2]")));
+                (By.xpath("//td[contains(@class,'e-rowcell')][2]")));
         Assert.assertEquals(string_table_element.getText(), record_values[0]);
 
         WebElement date_table_field = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated
-                (By.xpath("//td[@class][3]")));
+                (By.xpath("//td[contains(@class,'e-rowcell')][3]")));
         SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
         String date = dateFormat.format(new Date());
         Assert.assertEquals(date_table_field.getText(), date);
