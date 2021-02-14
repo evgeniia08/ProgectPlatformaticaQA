@@ -84,7 +84,6 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
         CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
         dateTimePlaceholder.click();
         calendar.clickOnCalendarDate(getDriver());
-        System.out.println(time.getText());
 
         datePlaceholder.click();
         calendar.clickOnCalendarDate(getDriver());
