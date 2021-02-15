@@ -168,6 +168,7 @@ public class EntityGanttTest extends BaseTest {
         Assert.assertEquals(driver.findElements(By.xpath("//tbody/tr")).size(), 1);
         actionsClick(driver, "edit");
         createGanttChart(driver, "save");
+        driver.findElement(LIST_BUTTON).click();
         assertRecordView(driver);
     }
 
