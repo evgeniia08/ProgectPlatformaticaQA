@@ -25,9 +25,9 @@ public class EntityGanttTest extends BaseTest {
     private static final By GANTT_MENU = By.xpath("//p[contains(text(),'Gantt')]");
     private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
     private static final By LIST_BUTTON = By.xpath("//a[contains(@href,'35')]/i[text()='list']");
-    private static final By DRAFT_BUTTON = By.xpath("//button[@id='pa-entity-form-draft-btn']");
-    private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
-    private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
+    private static final By DRAFT_BUTTON = By.cssSelector("button[id*='draft']");
+    private static final By SAVE_BUTTON = By.cssSelector("button[id*='save']");
+    private static final By CANCEL_BUTTON = By.xpath("//button[text() = 'Cancel']");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
     private static final By RESET = By.xpath("//a[contains(text(), 'Reset')]");
     private String[] record_values = new String[6];
@@ -70,9 +70,13 @@ public class EntityGanttTest extends BaseTest {
             new Select(driver.findElement(By.id("user"))).selectByVisibleText(record_values[6]);
 
             if (mode.equals("draft")) {
-                driver.findElement(DRAFT_BUTTON).click();
+//                driver.findElement(DRAFT_BUTTON).click();
+                ProjectUtils.scroll(driver, driver.findElement(DRAFT_BUTTON));
+                ProjectUtils.click(driver, driver.findElement(DRAFT_BUTTON));
             } else if (mode.equals("save")) {
-                driver.findElement(SAVE_BUTTON).click();
+                ProjectUtils.scroll(driver, driver.findElement(SAVE_BUTTON));
+                ProjectUtils.click(driver, driver.findElement(SAVE_BUTTON));
+//                driver.findElement(SAVE_BUTTON).click();
             }
             record_values[4] = time;
             record_values[5] = time;
