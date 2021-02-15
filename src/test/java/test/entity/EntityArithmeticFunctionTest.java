@@ -6,6 +6,7 @@ import model.entity.common.MainPage;
 import model.entity.edit.ArithmeticFunctionEditPage;
 import model.entity.table.ArithmeticFunctionPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -79,6 +80,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
         Assert.assertEquals(arithmeticFunctionEditPage.getValues(), expectedData);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "editRecordTest")
     public void createNewRecordNegativeStringTest() {
 
@@ -91,6 +93,7 @@ public class EntityArithmeticFunctionTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), AppConstant.ERROR_MESSAGE);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "createNewRecordNegativeStringTest")
     public void deleteRecordTest() {
 

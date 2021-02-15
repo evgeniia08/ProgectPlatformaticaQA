@@ -4,7 +4,7 @@ Feature: Entity fields
     Given Go to Fields
     Then Push add button
     When Input invalid int "str" and save
-    Then We are on error page
+#    Then We are on error page
 
   Scenario Outline: Add new record
     Given Go to Fields
