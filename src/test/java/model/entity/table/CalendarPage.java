@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public final class CalendarPage extends EntityBaseTablePage<CalendarPage, CalendarEditPage, CalendarViewPage> {
 
-    @FindBy(xpath = ("//ul[@role='tablist']//i[contains(text(),'list')]"))
+    @FindBy(xpath = ("//div[@class='content']//li[2]"))
     private WebElement clickList;
 
     @FindBy(xpath = "//tbody/tr")
