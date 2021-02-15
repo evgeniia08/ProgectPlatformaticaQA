@@ -48,13 +48,11 @@ public final class CalendarEditPage extends EntityBaseEditPage<CalendarPage> {
         return this;
     }
 
-    public CalendarEditPage fillOutParentForm(String STRING, String COMMENT, String INT_, String DECIMAL, String DATE, String DATE_TIME) {
+    public CalendarEditPage fillOutParentForm(String STRING, String COMMENT, String INT_, String DECIMAL) {
         ProjectUtils.fill(getWait(), inputTitle, STRING);
         ProjectUtils.fill(getWait(), inputComments, COMMENT);
         ProjectUtils.fill(getWait(), inputInt, INT_);
         ProjectUtils.fill(getWait(), inputDecimal, DECIMAL);
-        ProjectUtils.fill(getWait(), inputDate, DATE);
-        ProjectUtils.fill(getWait(), inputDateTime, DATE_TIME);
 
         return this;
     }

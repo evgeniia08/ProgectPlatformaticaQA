@@ -30,8 +30,6 @@ public class EntityCalendarTest extends BaseTest {
     private static final String EDIT_COMMENTS = "New comment";
     private static final String EDIT_INT = "7";
     private static final String EDIT_DECIMAL = "77.99";
-    private static final String EDIT_DATE = "01/01/2021";
-    private static final String EDIT_DATE_TIME = "02/22/2021 01:00:00";
 
     @Test
     public void newCalendar() {
@@ -58,7 +56,7 @@ public class EntityCalendarTest extends BaseTest {
                 .clickMenuCalendar()
                 .clickThisList()
                 .editRow()
-                .fillOutParentForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE, EDIT_DATE_TIME)
+                .fillOutParentForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL)
                 .clickSaveButton();
 
         Assert.assertEquals(calendarPage.getRowCount(), 1);
