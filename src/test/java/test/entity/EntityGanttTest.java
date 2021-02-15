@@ -79,8 +79,8 @@ public class EntityGanttTest extends BaseTest {
         }
     }
 
-    private void actionsClick(String mode) {
-        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(ACTIONS_BUTTON)).click();
+    private void actionsClick(WebDriver driver, String mode) {
+        driver.findElement(ACTIONS_BUTTON).click();
         getWebDriverWait().until(TestUtils.movingIsFinished
                 (By.xpath(String.format("//a[contains(text(),'%s')]", mode)))).click();
     }
@@ -105,7 +105,7 @@ public class EntityGanttTest extends BaseTest {
     }
 
     private void assertRecordView(WebDriver driver) {
-        actionsClick("view");
+        actionsClick(driver, "view");
         List<WebElement> actual_record = driver.findElements
                 (By.xpath("//span[@class='pa-view-field']|//label[text()='User']/../p"));
         for (int i = 0; i < record_values.length; i++) {
@@ -166,7 +166,7 @@ public class EntityGanttTest extends BaseTest {
 
         driver.findElement(LIST_BUTTON).click();
         Assert.assertEquals(driver.findElements(By.xpath("//tbody/tr")).size(), 1);
-        actionsClick("edit");
+        actionsClick(driver, "edit");
         createGanttChart(driver, "save");
         assertRecordView(driver);
     }
@@ -176,7 +176,7 @@ public class EntityGanttTest extends BaseTest {
         WebDriver driver = clickMenuGantt();
 
         driver.findElement(LIST_BUTTON).click();
-        actionsClick("delete");
+        actionsClick(driver, "delete");
         Assert.assertTrue(driver.findElement(TABLE).getText().isEmpty());
 
         driver.findElement(By.xpath("//i[text()='delete_outline']/..")).click();
