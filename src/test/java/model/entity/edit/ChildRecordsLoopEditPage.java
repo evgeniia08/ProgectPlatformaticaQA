@@ -1,5 +1,4 @@
 package model.entity.edit;
-
 import model.base.EntityBaseEditPage;
 import model.entity.table.ChildRecordsLoopPage;
 import org.openqa.selenium.By;
@@ -33,17 +32,20 @@ public class ChildRecordsLoopEditPage extends EntityBaseEditPage<ChildRecordsLoo
     @FindBy(xpath = "//button[@data-table_id='68']")
     private WebElement greenPlus;
 
-    @FindBy(xpath = "//textarea[@class='pa-entity-table-textarea pa-table-field t-68-amount']")
+    @FindBy(xpath = "//textarea[@class='pa-entity-table-textarea pa-table-field t-68-amount valid']")
     private List<WebElement> tableLines;
 
     @FindBy(xpath = "//td/a")
     private List<WebElement> balances;
 
+    @FindBy(xpath = "//tbody/tr")
+    private List<WebElement> all;
+
     public ChildRecordsLoopEditPage(WebDriver driver) {
         super(driver);
     }
 
-    public ChildRecordsLoopEditPage tableLinesSendValues(int n, String value) {
+   public ChildRecordsLoopEditPage tableLinesSendValues(int n, String value) {
         tableLines.get(n).clear();
         tableLines.get(n).sendKeys(value);
         return this;
