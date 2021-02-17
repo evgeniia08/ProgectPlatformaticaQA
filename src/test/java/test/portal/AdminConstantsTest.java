@@ -12,9 +12,10 @@ import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
-
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
+
 public class AdminConstantsTest extends BaseTest {
 
     private WebDriver driver;
@@ -60,7 +61,7 @@ public class AdminConstantsTest extends BaseTest {
                 (By.xpath("//textarea[@id='pa-cli-cmd']"))));
     }
 
-    @Ignore
+
     @Test
     public void createApplicationTest() throws InterruptedException {
         driver = getDriver();
