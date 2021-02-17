@@ -19,7 +19,7 @@ import test.data.AppConstant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
@@ -36,7 +36,7 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
     private String WORK_PASSWORD;
     private static final List<String> EDIT_LABELS = Arrays.asList(ENTITY_FIELD_LABEL, ENTITY_FIELD_BODY);
 
-    @Ignore
+
     @Test
     public void instanceCreateTest() {
 
