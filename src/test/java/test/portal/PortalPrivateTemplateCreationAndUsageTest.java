@@ -7,6 +7,7 @@ import model.portal.table.InstancePage;
 import model.portal.table.TemplatePage;
 import model.work.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Profile;
@@ -35,6 +36,7 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
     private String WORK_PASSWORD;
     private static final List<String> EDIT_LABELS = Arrays.asList(ENTITY_FIELD_LABEL, ENTITY_FIELD_BODY);
 
+    @Ignore
     @Test
     public void instanceCreateTest() {
 
