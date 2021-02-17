@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,9 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
     public ChevronPage(WebDriver driver) {
         super(driver);
     }
+
+    @FindBy(xpath = "//tr//td[4]//a")
+    private List <WebElement> element;
 
     @Override
     protected ChevronEditPage createEditPage() {
@@ -60,5 +64,18 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
 
     public String getCellData() {
         return getDriver().findElement(By.xpath("//tr[@data-index='4']/td[3]")).getText();
+    }
+
+    public int getSum() {
+        int sum = 0;
+        for (WebElement li1 : element) {
+            String s = li1.getText().replace("(", "");
+            sum += Integer.parseInt(s.replace(")", ""));
+        } return sum;
+    }
+
+    public int getAvr() {
+        int avrSum = getSum()/ element.size();
+        return avrSum;
     }
 }
