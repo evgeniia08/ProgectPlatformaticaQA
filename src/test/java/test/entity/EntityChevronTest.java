@@ -37,10 +37,10 @@ public class EntityChevronTest extends BaseTest {
     @DataProvider(name = "testData")
     private Object[][] testData1() {
         return new Object[][]{
-                {"TEST2", "11", "0.11", Data, DataTime},
-                {"TEST3", "11", "0.11", Data, DataTime},
-                {"TEST4", "11", "0.11", Data, DataTime},
-                {"TEST5", "11", "0.11", Data, DataTime}
+                {"TEST2", "20", "0.11", Data, DataTime},
+                {"TEST3", "30", "0.11", Data, DataTime},
+                {"TEST4", "30", "0.11", Data, DataTime},
+                {"TEST5", "100", "0.11", Data, DataTime}
         };
     }
 
@@ -98,6 +98,15 @@ public class EntityChevronTest extends BaseTest {
                 .getRowCount(), 5);
     }
 
+    @Test(dependsOnMethods = "deleteRecord")
+    public void getFullSum() {
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuChevron()
+                .getSum(), 271);
+        Assert.assertEquals(new MainPage(getDriver())
+                .clickMenuChevron()
+                .getAvr(), 54);
+    }
     @Test(dependsOnMethods = "dragTheRowUp")
     public void findChevron()  {
 

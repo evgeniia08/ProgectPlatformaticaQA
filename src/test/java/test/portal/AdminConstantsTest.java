@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -11,9 +12,10 @@ import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
-
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
+
 public class AdminConstantsTest extends BaseTest {
 
     private WebDriver driver;
@@ -26,7 +28,7 @@ public class AdminConstantsTest extends BaseTest {
 
     private String[] getEntityValues() {
         String name = RandomStringUtils.randomAlphanumeric(6, 10).toLowerCase();
-        return new String[] {name, name, String.format("https://%s.eteam.work", name), "admin", "2", "1", "English"};
+        return new String[]{name, name, String.format("https://%s.eteam.work", name), "admin", "2", "1", "English"};
     }
 
     private WebElement getCompany(String value) {
@@ -58,6 +60,7 @@ public class AdminConstantsTest extends BaseTest {
         getWebDriverWait().until(ExpectedConditions.stalenessOf(driver.findElement
                 (By.xpath("//textarea[@id='pa-cli-cmd']"))));
     }
+
 
     @Test
     public void createApplicationTest() throws InterruptedException {
@@ -94,7 +97,7 @@ public class AdminConstantsTest extends BaseTest {
         driver.findElement(By.xpath("//button[contains(text(),'Sign in')]")).click();
     }
 
-    @Test (dependsOnMethods = "createApplicationTest")
+    @Test(dependsOnMethods = "createApplicationTest")
     public void createConstants() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
@@ -110,7 +113,7 @@ public class AdminConstantsTest extends BaseTest {
         Assert.assertEquals(getCompany("Email").getAttribute("value"), "contact@company.com");
     }
 
-    @Test (dependsOnMethods = "createConstants")
+    @Test(dependsOnMethods = "createConstants")
     public void editConstant() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
@@ -124,7 +127,7 @@ public class AdminConstantsTest extends BaseTest {
         Assert.assertEquals(String.valueOf(getCompany("Name").getAttribute("value")), company_name_2);
     }
 
-    @Test (dependsOnMethods = "editConstant")
+    @Test(dependsOnMethods = "editConstant")
     public void deleteConstants() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
