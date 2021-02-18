@@ -42,28 +42,28 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
         super(driver);
     }
 
-    public BoardEditPage selectDropOption (String status) {
+    public BoardEditPage selectDropOption(String status) {
         Select drop = new Select(dropDownStatus);
         drop.selectByVisibleText(status);
-        return  this;
+        return this;
     }
 
-    public BoardEditPage fillText (String text) {
+    public BoardEditPage fillText(String text) {
         ProjectUtils.fill(getWait(), textInput, text);
-        return  this;
+        return this;
     }
 
-    public BoardEditPage fillInt (String number)  {
+    public BoardEditPage fillInt(String number) {
         ProjectUtils.fill(getWait(), intInput, number);
         return this;
     }
 
-    public BoardEditPage fillDecimal (String decimal)  {
+    public BoardEditPage fillDecimal(String decimal) {
         ProjectUtils.fill(getWait(), decimalInput, decimal);
         return this;
     }
 
-    public BoardEditPage selectUser (String user) {
+    public BoardEditPage selectUser(String user) {
         ProjectUtils.scroll(getDriver(), dropdownUser);
         Select dropUser = new Select(dropdownUser);
         dropUser.selectByVisibleText(user);
@@ -71,7 +71,7 @@ public final class BoardEditPage extends EntityBaseEditPage<BoardPageEntityBase>
     }
 
     public String[] getCreatedTime() {
-        return  time.getText().split(" ");
+        return time.getText().split(" ");
     }
 
     public BoardEditPage fillform(String status, String text, String number, String decimal, String user) {

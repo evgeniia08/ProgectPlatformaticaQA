@@ -28,6 +28,12 @@ public abstract class EntityBasePage <TablePage, EditPage, ViewPage> extends Mai
     @FindBy(xpath = "//a[contains(@href, 'action_list')]/i[text()='list']")
     private WebElement listButton;
 
+    @FindBy(xpath = "//input[@placeholder='Search']")
+    private WebElement searchBox;
+
+    @FindBy(className = "pagination-info")
+    private WebElement paginationInfo;
+
     public EntityBasePage(WebDriver driver) {
         super(driver);
     }
@@ -50,6 +56,10 @@ public abstract class EntityBasePage <TablePage, EditPage, ViewPage> extends Mai
         } else {
             return getRows().size();
         }
+    }
+
+    public void waitRowCountToBe(int count) {
+        getWait().until(i -> getRowCount() == count);
     }
 
     public String getRowIconClass(int rowNumber) {
@@ -100,5 +110,14 @@ public abstract class EntityBasePage <TablePage, EditPage, ViewPage> extends Mai
     public TablePage clickListButton() {
         listButton.click();
         return (TablePage)this;
+    }
+
+    public TablePage fillSearchBox(String text) {
+        searchBox.sendKeys(text);
+        return (TablePage) this;
+    }
+
+    public String getPaginationInfo() {
+        return paginationInfo.getText();
     }
 }

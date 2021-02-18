@@ -38,7 +38,7 @@ public abstract class BaseIndexPage extends BasePage {
         ProjectUtils.click(getDriver(), resetButton);
     }
 
-    public RecycleBinPage clickRecycleBin () {
+    public RecycleBinPage clickRecycleBin() {
         ProjectUtils.click(getWait(), recycleBinIcon);
         return new RecycleBinPage(getDriver());
     }
