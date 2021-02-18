@@ -2,10 +2,14 @@ package model.base;
 
 import com.beust.jcommander.Strings;
 import model.entity.common.MainPage;
+import model.entity.table.BoardListPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
 import java.util.List;
@@ -14,7 +18,6 @@ import java.util.stream.Collectors;
 public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends MainPage {
 
     private static final String ROW_MENU_ = "//button[@data-toggle='dropdown']/../ul/li/a[text()='%s']";
-
     private static final By ROW_MENU_VIEW = By.xpath(String.format(ROW_MENU_, "view"));
     private static final By ROW_MENU_EDIT = By.xpath(String.format(ROW_MENU_, "edit"));
     private static final By ROW_MENU_DELETE = By.xpath(String.format(ROW_MENU_, "delete"));
@@ -31,6 +34,9 @@ public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='list']")
     private WebElement listButton;
 
+    @FindBy(xpath = "//input[@placeholder='Search']")
+    private WebElement searchBox;
+
     public EntityBaseTablePage(WebDriver driver) {
         super(driver);
     }
@@ -39,7 +45,7 @@ public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends
 
     protected abstract ViewPage createViewPage();
 
-    public WebElement getBody(){
+    public WebElement getBody() {
         return body;
     }
 
@@ -98,7 +104,7 @@ public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends
 
     public TablePage deleteRow(int rowNumber) {
         clickRowMenu(rowNumber, ROW_MENU_DELETE);
-        return (TablePage)this;
+        return (TablePage) this;
     }
 
     public TablePage deleteRow() {
@@ -107,6 +113,12 @@ public abstract class EntityBaseTablePage<TablePage, EditPage, ViewPage> extends
 
     public TablePage clickListButton() {
         listButton.click();
-        return (TablePage)this;
+        return (TablePage) this;
     }
+
+    public TablePage fillSearchBox(String text) {
+        searchBox.sendKeys(text);
+        return (TablePage) this;
+    }
+
 }

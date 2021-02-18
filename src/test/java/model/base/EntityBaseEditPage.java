@@ -62,4 +62,5 @@ public abstract class EntityBaseEditPage<TablePage> extends BasePage {
     public List<String> getInputValues() {
         return inputFields.stream().map(e -> e.getAttribute("value")).collect(Collectors.toList());
     }
+
 }

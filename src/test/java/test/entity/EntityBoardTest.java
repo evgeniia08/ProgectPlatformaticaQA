@@ -8,24 +8,19 @@ import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import model.entity.view.BoardViewPage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-import java.util.function.Function;
-
 
 @Run(run = RunType.Multiple)
 public class EntityBoardTest extends BaseTest {
@@ -43,6 +38,7 @@ public class EntityBoardTest extends BaseTest {
     private String dateForValidation;
     private String dateTimeForValidation;
     private String time;
+
     CalendarEntityPage calendar = new CalendarEntityPage(getDriver());
 
     @Test
@@ -222,40 +218,34 @@ public class EntityBoardTest extends BaseTest {
         Assert.assertEquals(boardPage.getPendingItemsCount(), 0);
     }
 
-    @Test (dependsOnMethods = {"cancelInputTest"})
+    @Test(dependsOnMethods = {"cancelInputTest"})
     public void searchRecord() {
 
-        WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 3);
+        BoardListPage boardListPage = new MainPage(getDriver())
+                .clickMenuBoard()
+                .clickNewFolder()
+                .fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER)
+                .clickSaveButton()
+                .clickNewFolder()
+                .fillform(DONE, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, APP_USER)
+                .clickSaveButton()
+                .clickListButton();
 
-        WebElement board = driver.findElement(By.xpath("//p[contains(text(),'Board')]"));
-        ProjectUtils.click(driver, board);
-
-        WebElement newFolder = driver.findElement(By.xpath("//i[text() = 'create_new_folder']"));
-        newFolder.click();
-        BoardEditPage boardEditPage = new BoardEditPage(driver);
-        boardEditPage.fillform(PENDING, TEXT, NUMBER, DECIMAL, APP_USER);
-        WebElement saveButton = driver.findElement(By.cssSelector("button[id*='save']"));
-        saveButton.click();
-        WebElement newFolder1 = driver.findElement(By.xpath("//i[text() = 'create_new_folder']"));
-        newFolder1.click();
-        boardEditPage.fillform(DONE, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, APP_USER);
-        WebElement saveButton1 = driver.findElement(By.cssSelector("button[id*='save']"));
-        saveButton1.click();
-        WebElement listButton = driver.findElement(By.xpath("//a[contains(@href, '31')]/i[text()='list']"));
-        listButton.click();
-        time = getDriver().findElement(By.xpath("//tr[2]/td[7]")).getText().split(" ")[1];
-        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(), calendar.getCurrentYear(), '/');
+        time = boardListPage.getCreatedTime()[1];
+        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(),
+                calendar.getCurrentYear(), '/');
         dateTimeForValidation = String.format("%1s %2s", dateForValidation, time);
-        WebElement searchBox = driver.findElement(By.xpath("//input[@placeholder='Search']"));
-        searchBox.sendKeys( "done");
-        WebElement searchStatus = driver.findElement(By.xpath("//a[normalize-space()='Done']"));
-        List<String> expectedValues1 = Arrays.asList(DONE, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation, dateTimeForValidation, "", APP_USER);
-        System.out.println(expectedValues1);
-        BoardListPage boardListPage1 = new BoardListPage(driver);
-        String confirmationText = driver.findElement(By.xpath("//span[normalize-space()='Showing 1 to 1 of 1 rows']")).getText();
+
+        new BoardListPage(getDriver())
+                .fillSearchBox(DONE);
+
+        List<String> expectedValues = Arrays.asList(DONE, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation,
+                dateTimeForValidation, "", APP_USER);
+        String confirmationText = getDriver().findElement(By.xpath("//span[normalize-space()='Showing 1 to 1 of 1 rows']")).
+                getText();
+        Assert.assertEquals(boardListPage.getRowCount(), 1);
         Assert.assertEquals(confirmationText, "Showing 1 to 1 of 1 rows");
-        Assert.assertEquals(boardListPage1.getRow(0), expectedValues1);
+        Assert.assertEquals(boardListPage.getRow(0), expectedValues);
     }
 }
 

@@ -160,6 +160,7 @@ public class BoardPageEntityBase extends BaseIndexPage {
         return new BoardListPage(getDriver());
     }
 
+
     public BoardPageEntityBase moveFromPedingToOntrack() {
         getActions().dragAndDrop(pendingCardItems.get(0), onTrackKanbanItem).build().perform();
         return this;

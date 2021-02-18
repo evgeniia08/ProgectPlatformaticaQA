@@ -13,8 +13,15 @@ import java.util.stream.Collectors;
 
 public class BoardListPage extends EntityBaseTablePage<BoardListPage, BoardEditPage, BoardViewPage> {
 
+
     @FindBy(xpath = "//a[contains(@href, '31')]/i[text()='dashboard']")
     private WebElement boardButton;
+
+    @FindBy(xpath = "//tr[2]/td[7]")
+    private WebElement timeSecondRow;
+
+    @FindBy(xpath = "//span[normalize-space()='Showing 1 to 1 of 1 rows']")
+    private WebElement confirmationText;
 
     public BoardListPage(WebDriver driver) {
         super(driver);
@@ -39,4 +46,13 @@ public class BoardListPage extends EntityBaseTablePage<BoardListPage, BoardEditP
     public void clickBoardButton() {
         boardButton.click();
     }
+
+    public String viewConfirmationText() {
+        return confirmationText.getText();
+    }
+
+    public String[] getCreatedTime() {
+        return timeSecondRow.getText().split(" ");
+    }
+
 }
