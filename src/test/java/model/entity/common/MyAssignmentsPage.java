@@ -1,11 +1,11 @@
 package model.entity.common;
 
-import model.base.EntityBaseTablePage;
+import model.base.EntityBasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MyAssignmentsPage extends EntityBaseTablePage {
+public class MyAssignmentsPage extends EntityBasePage<MyAssignmentsPage, MyAssignmentsPage, MyAssignmentsPage> {
 
     @FindBy(xpath = "//b[text()='My Assignments']")
     private WebElement pageName;
@@ -31,12 +31,12 @@ public class MyAssignmentsPage extends EntityBaseTablePage {
     }
 
     @Override
-    protected Object createEditPage() {
+    protected MyAssignmentsPage createEditPage() {
         return null;
     }
 
     @Override
-    protected Object createViewPage() {
+    protected MyAssignmentsPage createViewPage() {
         return null;
     }
 }
