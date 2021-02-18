@@ -7,7 +7,6 @@ import model.entity.common.RecycleBinPage;
 import model.entity.edit.BoardEditPage;
 import model.entity.table.BoardListPage;
 import model.entity.view.BoardViewPage;
-import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -219,7 +218,7 @@ public class EntityBoardTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"cancelInputTest"})
-    public void searchRecord() {
+    public void searchRecordByString() {
 
         BoardListPage boardListPage = new MainPage(getDriver())
                 .clickMenuBoard()
@@ -231,22 +230,11 @@ public class EntityBoardTest extends BaseTest {
                 .clickSaveButton()
                 .clickListButton();
 
-        time = boardListPage.getCreatedTime()[1];
-        dateForValidation = String.format("%1$s%4$s%2$s%4$s%3$s", calendar.getRandomDay(), calendar.getCurrentMonth(),
-                calendar.getCurrentYear(), '/');
-        dateTimeForValidation = String.format("%1s %2s", dateForValidation, time);
+        List<String> expectedValues = boardListPage.getRow(1);
 
-        new BoardListPage(getDriver())
-                .fillSearchBox(DONE);
+        boardListPage.fillSearchBox(expectedValues.get(0)).waitRowCountToBe(1);
 
-        List<String> expectedValues = Arrays.asList(DONE, TEXT_EDIT, NUMBER_EDIT, DECIMAL_EDIT, dateForValidation,
-                dateTimeForValidation, "", APP_USER);
-        String confirmationText = getDriver().findElement(By.xpath("//span[normalize-space()='Showing 1 to 1 of 1 rows']")).
-                getText();
-        Assert.assertEquals(boardListPage.getRowCount(), 1);
-        Assert.assertEquals(confirmationText, "Showing 1 to 1 of 1 rows");
         Assert.assertEquals(boardListPage.getRow(0), expectedValues);
+        Assert.assertEquals(boardListPage.getPaginationInfo(), "Showing 1 to 1 of 1 rows");
     }
 }
-
-
