@@ -8,14 +8,13 @@ import model.entity.common.MainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
+import static runner.ProjectUtils.createUUID;
 
 @Run(run = RunType.Multiple)
 public class EntityCalendarTest extends BaseTest {
@@ -25,9 +24,14 @@ public class EntityCalendarTest extends BaseTest {
     private static final String NUMBER1 = "56.23";
     private static final String DATE = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
-    private static final String TEXT_COMMENTS = "DON'T WORRY, BE HAPPY!";
     private static final String TITLE_FIELD = UUID.randomUUID().toString();
     private static final String TITLE_FIELD_NEW = UUID.randomUUID().toString();
+    private static final String EDIT_TITLE = String.format("%s_EditTextAllNew", createUUID());
+    private static final String EDIT_COMMENTS = "New comment";
+    private static final String EDIT_INT = "7";
+    private static final String EDIT_DECIMAL = "77.99";
+    private static final String EDIT_DATE = "01/01/2021";
+    private static final String EDIT_DATE_TIME = "02/22/2021 01:00:00";
 
     @Test
     public void newCalendar() {
@@ -36,7 +40,6 @@ public class EntityCalendarTest extends BaseTest {
                 .clickMenuCalendar()
                 .clickNewFolder()
                 .sendKeys(STRING, NUMBER, NUMBER1, DATE)
-                .clickDataTime()
                 .clickSaveButton()
                 .clickThisList();
 
@@ -50,37 +53,29 @@ public class EntityCalendarTest extends BaseTest {
     @Test(dependsOnMethods = "newCalendar")
     public void editCalendar() {
 
-        WebDriver driver = getDriver();
+        CalendarPage calendarPage = new MainPage(getDriver())
+                .clickMenuCalendar()
+                .clickThisList()
+                .editRow()
+                .fillOutCalendarForm(EDIT_TITLE, EDIT_COMMENTS, EDIT_INT, EDIT_DECIMAL, EDIT_DATE, EDIT_DATE_TIME)
+                .clickSaveButton();
 
-        WebElement calendar = driver.findElement(By.xpath("//p[contains(text(),'Calendar')]"));
-        ProjectUtils.click(driver, calendar);
+        Assert.assertEquals(calendarPage.getRowCount(), 1);
+        Assert.assertEquals(calendarPage.getTitleText(), EDIT_TITLE);
+        Assert.assertEquals(calendarPage.getCommentsText(), EDIT_COMMENTS);
+        Assert.assertEquals(calendarPage.getNumberText(), EDIT_INT);
+        Assert.assertEquals(calendarPage.getNumber1Text(), EDIT_DECIMAL);
+    }
 
-        WebElement list = driver.findElement(By.xpath("//div[@class='content']//li[2]"));
-        list.click();
+    @Test(dependsOnMethods = {"editCalendar"})
+    public void deleteCalendar() {
 
-        WebElement editList = driver.findElement(By.xpath("//td/div/button"));
-        editList.click();
+        CalendarPage calendarPage = new MainPage(getDriver())
+                .clickMenuCalendar()
+                .clickThisList()
+                .deleteRow();
 
-        WebElement clickEdit =
-                getWebDriverWait().until(ExpectedConditions.elementToBeClickable(By.xpath("//a[normalize-space()='edit']")));
-        ProjectUtils.click(driver, clickEdit);
-
-        WebElement str =
-                getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='string']")));
-        ProjectUtils.fill(getWebDriverWait(), str, "New Record");
-
-        WebElement text = driver.findElement(By.xpath("//textarea[@id='text']"));
-        text.clear();
-        text.sendKeys(TEXT_COMMENTS);
-
-        WebElement number = driver.findElement(By.xpath("//input[@id='int']"));
-        number.sendKeys("777");
-
-        WebElement save = driver.findElement(By.xpath("//button[normalize-space()='Save']"));
-        ProjectUtils.click(driver, save);
-
-        WebElement resultEdit = driver.findElement(By.xpath("//tr//td[3]"));
-        Assert.assertEquals(resultEdit.getText(), TEXT_COMMENTS);
+        Assert.assertEquals(calendarPage.getRowCount(), 0);
     }
 
     public void setValue(WebDriver driver, String title, String text, int num, double decimal) {

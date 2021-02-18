@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public final class CalendarPage extends EntityBaseTablePage<CalendarPage, CalendarEditPage, CalendarViewPage> {
 
-    @FindBy(xpath = ("//div[2]/div[1]//div[1]/div/ul/li[2]/a"))
+    @FindBy(xpath = ("//div[@class='content']//li[2]"))
     private WebElement clickList;
 
     @FindBy(xpath = "//tbody/tr")
@@ -58,6 +58,10 @@ public final class CalendarPage extends EntityBaseTablePage<CalendarPage, Calend
         return table.findElement(By.xpath("//tr/td[2]/a")).getText();
     }
 
+    public String getCommentsText(){
+        return table.findElement(By.xpath("//tr/td[3]/a")).getText();
+    }
+
     public String getNumberText(){
         return table.findElement(By.xpath("//tr/td[4]/a")).getText();
     }
@@ -70,3 +74,5 @@ public final class CalendarPage extends EntityBaseTablePage<CalendarPage, Calend
         return table.findElement(By.xpath("//tr/td[6]/a")).getText();
     }
 }
+
+
