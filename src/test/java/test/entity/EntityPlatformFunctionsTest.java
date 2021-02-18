@@ -6,7 +6,6 @@ import model.entity.table.PlatformFuncPage;
 import model.entity.common.RecycleBinPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -15,7 +14,7 @@ import test.data.AppConstant;
 
 import java.util.Arrays;
 import java.util.List;
-@Ignore
+
 @Run(run = RunType.Multiple)
 public class EntityPlatformFunctionsTest extends BaseTest {
 
@@ -182,12 +181,14 @@ public class EntityPlatformFunctionsTest extends BaseTest {
     @Test(dependsOnMethods = "viewRecordLongStringTest")
     public void invalidLastIntTest() {
 
-        Assert.assertEquals(new MainPage(getDriver())
+        PlatformFuncEditPage platformFuncEditPage = new MainPage(getDriver())
                 .clickMenuPlatformFunctions()
                 .clickNewFolder()
                 .fillValues(INVALID_LAST_INT, TEST_TEXT)
-                .clickSaveButtonErrorExpected()
-                .getErrorMessage(), ERROR_MESSAGE);
+                .clickSaveButtonNoRedirectionExpected();
+
+        Assert.assertTrue(platformFuncEditPage.isFocusOnLastIntField());
+        Assert.assertEquals(platformFuncEditPage.getInputValues(), Arrays.asList(INVALID_LAST_INT, TEST_TEXT, CONSTANT));
     }
 
     @Test(dependsOnMethods = "invalidLastIntTest")

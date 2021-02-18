@@ -67,4 +67,13 @@ public class PlatformFuncEditPage extends EntityBaseEditPage<PlatformFuncPage> {
         fillLastString(text);
         return this;
     }
+
+    public PlatformFuncEditPage clickSaveButtonNoRedirectionExpected() {
+        getActions().moveToElement(saveButton).click().build().perform();
+        return this;
+    }
+
+    public boolean isFocusOnLastIntField() {
+        return getDriver().switchTo().activeElement().equals(inputLastInt);
+    }
 }
