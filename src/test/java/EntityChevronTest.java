@@ -104,6 +104,7 @@ public class EntityChevronTest extends BaseTest {
         ProjectUtils.click(driver, row.findElement(By.xpath(".//a[contains(@href, 'action_edit')]")));
 
         ProjectUtils.click(driver, driver.findElement(By.xpath("//button[@data-id='string']")));
+        // click on status pending
         ProjectUtils.click(driver, driver.findElement(By.xpath(String.format("//span[contains(text(), '%s')]", STATUS_EDITED))));
         ProjectUtils.click(driver, driver.findElement(By.id("pa-entity-form-save-btn")));
 
