@@ -2,13 +2,11 @@ package test.entity;
 
 import model.entity.common.MainPage;
 import model.entity.table.ChevronPage;
-import org.testng.annotations.DataProvider;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.Ignore;
+import org.testng.annotations.DataProvider;
 import runner.BaseTest;
-import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 import org.testng.Assert;
@@ -167,7 +165,7 @@ public class EntityChevronTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "getFullSum")
-    private void addRecord() throws InterruptedException {
+    private void addRecord() {
 
         WebDriver driver = getDriver();
 
@@ -194,9 +192,8 @@ public class EntityChevronTest extends BaseTest {
         return wait;
     }
 
-
     @Test(dependsOnMethods = "addRecord")
-    public void editStatus()  throws InterruptedException {
+    public void editStatus() {
 
         WebDriver driver = getDriver();
 
