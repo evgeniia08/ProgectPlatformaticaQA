@@ -74,6 +74,9 @@ public class MainPage extends BaseIndexPage {
     @FindBy(xpath = "//p[contains (text(), 'Visibility')]/parent::a")
     private WebElement menuVisibilityEvents;
 
+    @FindBy(xpath = "//p[contains(text(), 'Readonly')]")
+    private WebElement menuReadOnly;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -181,5 +184,10 @@ public class MainPage extends BaseIndexPage {
     public VisibilityEventsPage clickMenuVisibilityEvents() {
         clickMainMenu(menuVisibilityEvents);
         return new VisibilityEventsPage(getDriver());
+    }
+
+    public ReadOnlyPage clickMenuReadOnly() {
+        clickMainMenu(menuReadOnly);
+        return new ReadOnlyPage(getDriver());
     }
 }

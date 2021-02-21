@@ -1,88 +1,63 @@
 package test.entity;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.entity.common.MainPage;
+import model.entity.edit.ReadOnlyEditPage;
+import model.entity.table.ReadOnlyPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 
-import java.util.ArrayList;
+import runner.type.Run;
+import runner.type.RunType;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Run(run = RunType.Multiple)
 public class EntityReadonlyTest extends BaseTest {
 
-    private static final List<String> EXPECTED_VALUES =
-            Arrays.asList("", "", "", "0", "0.00", "", "", "", "", "", "menu");
+    private static final List<String> EXPECTED_VALUES_LIST =
+            Arrays.asList("", "", "0", "0.00", "", "");
+
+    private static final String EXPECTED_VALUES = "String\nText\nInt\nDecimal\nDate\nDatetime\nFile\nFile image\nUser";
 
     @Test
     public void verifyListIsEmptyTest() {
-        WebDriver driver = getDriver();
+        ReadOnlyPage readOnlyPage = new MainPage(getDriver())
+                .clickMenuReadOnly()
+                .clickListButton();
 
-        WebElement readonlyPage = driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]"));
-        ProjectUtils.click(driver, readonlyPage);
-        driver.findElement(By.xpath("//a[@href='index.php?action=action_list&list_type=table&entity_id=6']")).click();
-        Assert.assertEquals(driver.findElement(By.className("card-body")).getText(), "");
+        Assert.assertEquals(readOnlyPage.getCardBodyText(), "");
     }
 
-    @Test
-    public void verifyRowsAreEmptyTest() {
-        WebDriver driver = getDriver();
-
-        WebElement readonlePage = driver.findElement(By.xpath("//p[contains(text(), ' Readonly ')]"));
-        ProjectUtils.click(driver, readonlePage);
-        WebElement createNewRecordButton = driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]"));
-        ProjectUtils.click(driver, createNewRecordButton);
-        WebElement saveButton = driver.findElement(By.xpath("//button[contains(text(), 'Save')][1]"));
-        ProjectUtils.click(driver, saveButton);
-
-        List<WebElement> rowsList = driver.findElements(By.xpath("//tbody/tr"));
-        List<WebElement> rowValue = driver.findElements(By.xpath("//td"));
-
-        Assert.assertEquals(rowsList.size(), 1);
-        Assert.assertEquals(rowValue.stream().map(WebElement::getText).collect(Collectors.toList()), EXPECTED_VALUES);
-    }
-
-    @Ignore
-    @Test
+    @Test (dependsOnMethods = "verifyListIsEmptyTest")
     public void inputTest() {
+        ReadOnlyEditPage editPage = new MainPage(getDriver())
+                .clickMenuReadOnly()
+                .clickNewFolder();
 
-        WebDriver driver = getDriver();
-        driver.findElement(By.xpath("//p[contains(text(), 'Readonly')]")).click();
-        driver.findElement(By.xpath("//i[contains(text(), 'create_new_folder')]")).click();
+        Assert.assertTrue(editPage.getStringIsReadOnly());
+        Assert.assertTrue(editPage.getTextIsReadOnly());
+        Assert.assertTrue(editPage.getIntIsReadOnly());
+        Assert.assertTrue(editPage.getDecimalIsReadOnly());
+        Assert.assertTrue(editPage.getDateIsReadOnly());
+        Assert.assertTrue(editPage.getDateTimeIsReadOnly());
 
-        WebElement inpString = driver.findElement(By.xpath("//input[@id='string']"));
-        WebElement inpText = driver.findElement(By.xpath("//textarea[@id='text']"));
-        WebElement inpDec = driver.findElement(By.xpath("//input[@id='decimal']"));
-        WebElement inpInt = driver.findElement(By.xpath("//input[@id='int']"));
-        WebElement inpDate = driver.findElement(By.xpath("//input[@id='date']"));
-        WebElement inpDatetime = driver.findElement(By.xpath("//input[@id='datetime']"));
-        WebElement btnAddEmbedRec = driver.findElement(By.xpath("//button[contains(text(),'+')]"));
+        ReadOnlyPage tablePage = editPage
+                .clickSaveButton()
+                .clickButtonOrder();
 
-        Assert.assertTrue(Boolean.parseBoolean(inpString.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(inpText.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(inpDec.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(inpInt.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(inpDate.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(inpDatetime.getAttribute("readonly")));
-        Assert.assertTrue(Boolean.parseBoolean(btnAddEmbedRec.getAttribute("disabled")));
-
-        driver.findElement(By.xpath("//button[contains(text(),'Save')]")).click();
-        driver.findElement(By.xpath("//i[contains(text(),'format_line_spacing')]")).click();
-
-        WebElement lastRow = driver.findElement(By.xpath("//tr[last()]"));
-        Assert.assertEquals(lastRow.getText(),"String\n" +
-                                                        "Text\n" +
-                                                        "Int\n" +
-                                                        "Decimal\n" +
-                                                        "Date\n" +
-                                                        "Datetime\n" +
-                                                        "File\n" +
-                                                        "File image\n" +
-                                                        "User");
+        Assert.assertEquals(tablePage.getLastRowText(), EXPECTED_VALUES);
     }
+
+    @Test(dependsOnMethods = "inputTest")
+    public void verifyRowsAreEmptyTest() {
+
+        ReadOnlyPage tablePage = new MainPage(getDriver())
+                .clickMenuReadOnly();
+
+        Assert.assertEquals(tablePage.getRowCount(), 1);
+        Assert.assertEquals(tablePage.getRow(0), EXPECTED_VALUES_LIST);
+    }
+
 }
