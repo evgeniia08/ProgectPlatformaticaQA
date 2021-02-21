@@ -98,6 +98,7 @@ public class EntityChevronTest extends BaseTest {
                 .getRowCount(), 5);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "deleteRecord")
     public void getFullSum() {
         Assert.assertEquals(new MainPage(getDriver())
