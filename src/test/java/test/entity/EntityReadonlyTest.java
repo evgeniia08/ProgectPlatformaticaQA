@@ -43,10 +43,6 @@ public class EntityReadonlyTest extends BaseTest {
         Assert.assertTrue(editPage.getDateIsReadOnly());
         Assert.assertTrue(editPage.getDateTimeIsReadOnly());
 
-        // Following call disabled due to bug where + button is active.
-        // If user can add new embedded rows they alter the entity, so it is not read-only
-        //Assert.assertTrue(editPage.isButtonAddEmbededDisabled());
-
         ReadOnlyPage tablePage = editPage
                 .clickSaveButton()
                 .clickButtonOrder();
