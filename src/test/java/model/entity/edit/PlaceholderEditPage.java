@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import runner.ProjectUtils;
 import static runner.ProjectUtils.fill;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -123,5 +124,12 @@ public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPag
         ProjectUtils.click(getDriver(),userSelection);
         ProjectUtils.click(getDriver(),newUser);
         return this;
+    }
+
+    public List<String> getDefaultValues() {
+        List<String> defaultPlaceholderValues = new ArrayList<>();
+        defaultPlaceholderValues.add(inputString.getAttribute("placeholder"));
+        return defaultPlaceholderValues;
+
     }
 }
