@@ -77,6 +77,9 @@ public class MainPage extends BaseIndexPage {
     @FindBy(xpath = "//p[contains(text(), 'Readonly')]")
     private WebElement menuReadOnly;
 
+    @FindBy(xpath = "//p[contains(text(),'Tag')]")
+    private WebElement menuTag;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -189,5 +192,10 @@ public class MainPage extends BaseIndexPage {
     public ReadOnlyPage clickMenuReadOnly() {
         clickMainMenu(menuReadOnly);
         return new ReadOnlyPage(getDriver());
+    }
+
+    public TagListPage clickMenuTag() {
+        clickMainMenu(menuTag);
+        return new TagListPage(getDriver());
     }
 }
