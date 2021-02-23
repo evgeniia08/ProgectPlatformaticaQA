@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-@Ignore
 @Run(run = RunType.Multiple)
 public class EntityDefaultTest extends BaseTest {
 
