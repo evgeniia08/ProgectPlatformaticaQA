@@ -1,17 +1,14 @@
 package model.entity.edit;
 
-import model.base.EntityBaseEditPage;
+import model.base.EntityBaseEditExtPage;
 import model.entity.table.FieldsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import static runner.ProjectUtils.fill;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
-public final class FieldsEditPage extends EntityBaseEditPage<FieldsPage> {
+public final class FieldsEditPage extends EntityBaseEditExtPage<FieldsPage, FieldsEditPage> {
 
     @FindBy(id = "title")
     private WebElement inputTitle;
@@ -42,6 +39,16 @@ public final class FieldsEditPage extends EntityBaseEditPage<FieldsPage> {
 
     public FieldsEditPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    protected FieldsPage createPage() {
+        return new FieldsPage(getDriver());
+    }
+
+    @Override
+    protected FieldsEditPage createEditPage() {
+        return new FieldsEditPage(getDriver());
     }
 
     public FieldsEditPage fillTitle(String title) {
@@ -81,28 +88,6 @@ public final class FieldsEditPage extends EntityBaseEditPage<FieldsPage> {
         fill(getWait(), inputDecimal, decimal);
         fill(getWait(), inputDate, date);
         fill(getWait(), inputDateTime, datetime);
-
         return this;
     }
-
-    public String getRandomUser() {
-        List<WebElement> userList = selectUserAllUsers;
-        String randomUser = userList.get(ThreadLocalRandom.current().nextInt(1, userList.size())).getText();
-
-        return randomUser;
-    }
-
-    public FieldsEditPage selectUser(String user) {
-        WebElement userText = getWait().until(ExpectedConditions.visibilityOf(selectedUser));
-        getActions().moveToElement(userText).perform();
-        new Select(selectUser).selectByVisibleText(user);
-
-        return this;
-    }
-
-    @Override
-    protected FieldsPage createPage() {
-        return new FieldsPage(getDriver());
-    }
-
 }

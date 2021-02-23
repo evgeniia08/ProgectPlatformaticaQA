@@ -1,160 +1,147 @@
 package test.entity;
 
-import com.beust.jcommander.Strings;
+import model.entity.common.MainPage;
+import model.entity.table.TagListPage;
+import model.entity.table.TagPage;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.type.Run;
+import runner.type.RunType;
+import test.data.AppConstant;
 
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
 
-@Ignore
+@Run(run = RunType.Multiple)
 public class EntityTagTest extends BaseTest {
 
+    private static final String TAG_1 = String.format("TempTag1_%s", RandomStringUtils.randomNumeric(5));
+    private static final String TAG_2 = String.format("TempTag2_%s", RandomStringUtils.randomNumeric(5));
+    private static final String TAG_3 = String.format("TempTag3_%s", RandomStringUtils.randomNumeric(5));
+    private static final String STRING = String.format("Record_1_%s", RandomStringUtils.randomNumeric(5));
+    private static final String TEXT = RandomStringUtils.randomAlphanumeric(25);
+    private static final String INT = "1025";
+    private static final String DECIMAL = "512.99";
+    private static final String DATE = ProjectUtils.getGMTDate();
+    private static final String DATE_TIME = DATE + " 09:55:00";
+    private String user;
+
     @Test
-    public void editTest() {
+    public void createTagRecordTest() {
 
-        WebDriver driver = getDriver();
+        List<String> expectedData = Arrays.asList(STRING, TEXT, INT, DECIMAL, DATE, DATE_TIME, "", user);
 
-        WebElement sidebar = driver.findElement(By.xpath("//div[contains(@class, 'sidebar-wrapper')]"));
-        Actions builder = new Actions(driver);
-        builder.moveToElement(sidebar).perform();
-        WebElement tag = driver.findElement(By.xpath("//li/a/p[contains(text(), 'Tag')]"));
-        builder.moveToElement(tag).build().perform();
-        tag.click();
+        MainPage mainPage = new MainPage(getDriver());
+        user = mainPage.getCurrentUser();
+        expectedData.set(7, user);
+        TagListPage tagListPage = mainPage
+                .clickMenuTag()
+                .clickNewFolder()
+                .fillOutTagEditForm(STRING, TEXT, INT, DECIMAL, DATE, DATE_TIME, user)
+                .clickSaveButton();
 
-        String tagRecordText = createTagEntity(driver);
-        String newTagText = createTag(driver);
-
-        tagEntity(driver, tagRecordText).click();
-
-        By newTagLocator = By.xpath("//label[contains(text(), '" + newTagText + "')]");
-        WebElement newTag = driver.findElement(newTagLocator);
-        builder.moveToElement(newTag).perform();
-        newTag.click();
-        ProjectUtils.click(driver, assignButton(driver, builder));
-
-        Assert.assertEquals(getNumberOfAssignedTags(driver, newTagText), 1);
-        tagEntity(driver, tagRecordText).click();
-        ProjectUtils.click(driver, assignButton(driver, builder));
-        Assert.assertEquals(getNumberOfAssignedTags(driver, newTagText), 0);
+        Assert.assertEquals(tagListPage.getRowCount(), 1);
+        Assert.assertEquals(tagListPage.getRow(0), expectedData);
+        Assert.assertEquals(tagListPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 
-    @Ignore
-    @Test
-    public void viewTest() throws InterruptedException {
+    @Test(dependsOnMethods = "createTagRecordTest")
+    public void createTagTest() {
 
-        WebDriver driver = getDriver();
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton()
+                .createNewTag(TAG_1);
 
-        Actions builder = new Actions(driver);
-        sideBar(driver, builder);
-        WebElement tag = driver.findElement(By.xpath("//li/a/p[contains(text(), 'Tag')]"));
-        builder.moveToElement(tag).build().perform();
-        tag.click();
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_1), 1);
 
-        String tagRecordText = createTagEntity(driver);
-        String newTagText = createTag(driver);
+        tagPage.createNewTag(TAG_2).createNewTag(TAG_3);
 
-        tagEntity(driver, tagRecordText).click();
-
-        By newTagLocator = By.xpath("//label[contains(text(), '" + newTagText + "')]");
-        WebElement newTag = driver.findElement(newTagLocator);
-        builder.moveToElement(newTag).perform();
-        newTag.click();
-        ProjectUtils.click(driver, assignButton(driver, builder));
-        By blueTagLocator = By.xpath("//table[@id='pa-all-entities-table']//div[contains(text(), '"+ tagRecordText +"')]/../../../td[2]/span");
-        WebElement blueTag = driver.findElement(blueTagLocator);
-        Assert.assertEquals(blueTag.getText(), newTagText);
-
-        // Check tag record on dashboard
-        sideBar(driver, builder);
-        WebElement dashboard = driver.findElement(By.xpath("//li/a/p[contains(text(), 'Dashboard')]"));
-        builder.moveToElement(dashboard).build().perform();
-        //dashboard.click();
-        ProjectUtils.click(driver, dashboard);
-
-        By selectTagButtonLocator = By.xpath("//button[@class='dropdown-toggle btn btn-link']");
-        WebElement selectTagButton = driver.findElement(selectTagButtonLocator);
-        ProjectUtils.click(driver, selectTagButton);
-        String currentText = null;
-        WebElement lastElement;
-        By lastItemLocator = By.xpath("//ul[@class='dropdown-menu inner show']/li[last()]/a");
-        while (!Objects.equals(currentText, (lastElement = getDriver().findElement(lastItemLocator)).getText())) {
-            ProjectUtils.scroll(getDriver(), lastElement);
-            currentText = lastElement.getText();
-            getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(lastItemLocator));
-        }
-        ProjectUtils.click(driver, lastElement);
-
-        By goButtonLocator = By.xpath("//button[@class='btn btn-warning pa-go-btn']");
-        WebElement goButton = driver.findElement(goButtonLocator);
-        ProjectUtils.click(driver, goButton);
-
-        By tagRecordsLocator = By.xpath("//table[@id='pa-all-entities-table']//tr/td[6]//div");
-        WebElement tagRecords = driver.findElement(tagRecordsLocator);
-        ProjectUtils.click(driver, tagRecords);
-        WebElement tagString = driver.findElement(By.xpath("//label[text() = 'String']/following::span[1]"));
-        Assert.assertEquals(tagString.getText(), tagRecordText);
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_1), 1);
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_2), 1);
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_3), 1);
     }
 
-    private static WebElement sideBar(WebDriver driver, Actions builder) {
-        WebElement sidebar = driver.findElement(By.xpath("//div[contains(@class, 'sidebar-wrapper')]"));
-        builder.moveToElement(sidebar).perform();
-        return sidebar;
+    @Test(dependsOnMethods = "createTagTest")
+    public void assignTagTest() {
+
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton()
+                .selectTagRecordByString(STRING)
+                .selectTagByName(TAG_1)
+                .clickAssignButton();
+
+        Assert.assertEquals(tagPage.getRowCount(), 1);
+        Assert.assertEquals(tagPage.getTagsByRecordString(STRING), Arrays.asList(TAG_1));
     }
 
-    private static WebElement assignButton(WebDriver driver, Actions builder) {
-        WebElement assignButton =  driver.findElement(By.xpath("//button[@value='assign']"));
-        builder.moveByOffset(10,261).moveToElement(assignButton).perform();
-        return assignButton;
+    @Test(dependsOnMethods = "assignTagTest")
+    public void reAssignTagTest() {
+
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton()
+                .selectTagRecordByString(STRING)
+                .selectTagByName(TAG_2)
+                .selectTagByName(TAG_3)
+                .clickAssignButton();
+
+        Assert.assertEquals(tagPage.getRowCount(), 1);
+        Assert.assertEquals(tagPage.getTagsByRecordString(STRING), Arrays.asList(TAG_2, TAG_3));
     }
 
-    private static int getNumberOfAssignedTags(WebDriver driver, String newTagText) {
-        if (Strings.isStringEmpty(driver.findElement(By.xpath("//tbody/tr/td[2]")).getText())) {
-            return 0;
-        }
-        By assignedTags = By.xpath(String.format("//span[@class='pa-tag'][contains(text(), '%s')]", newTagText));
-        return driver.findElements(assignedTags).size();
+    @Test(dependsOnMethods = "reAssignTagTest")
+    public void deleteTagTest() {
+
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton();
+
+        List<String> expectedTags = tagPage.getTags();
+
+        tagPage.selectTagByName(TAG_1).clickDeleteTagsButton();
+        expectedTags.remove(TAG_1);
+
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_1), 0);
+        Assert.assertEquals(tagPage.getTags(), expectedTags);
+        Assert.assertEquals(tagPage.getRowCount(), 1);
     }
 
-    private static String createTagEntity(WebDriver driver) {
-        By createTagIconLocator = By.xpath("//div[@class='card-icon']");
-        WebElement createTagIcon = driver.findElement(createTagIconLocator);
-        createTagIcon.click();
-        WebElement stringInput = driver.findElement(By.xpath("//input[@id='string']"));
-        String randomTag = RandomStringUtils.randomNumeric(10);
-        stringInput.sendKeys(randomTag);
-        WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
-        saveButton.click();
-        return randomTag;
+    @Test(dependsOnMethods = "deleteTagTest")
+    public void deleteAssignedTagTest() {
+
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton();
+
+        List<String> expectedTags = tagPage.getTags();
+
+        tagPage.selectTagByName(TAG_2).clickDeleteTagsButton();
+        expectedTags.remove(TAG_2);
+
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_2), 0);
+        Assert.assertEquals(tagPage.getTags(), expectedTags);
+        Assert.assertEquals(tagPage.getRowCount(), 1);
+        Assert.assertEquals(tagPage.getTagsByRecordString(STRING), Arrays.asList(TAG_3));
+        Assert.assertNull(tagPage.selectTagByName(TAG_3).clickDeleteTagsButton().getTagsByRecordString(STRING));
+
+        expectedTags.remove(TAG_3);
+        Assert.assertEquals(tagPage.getTagCountByName(TAG_3), 0);
+        Assert.assertEquals(tagPage.getTags(), expectedTags);
     }
 
-    private static String createTag(WebDriver driver) {
-        By tagIconLocator = By.xpath("//li/a[contains(@href, 'index.php?action=action_list&list_type=table&entity_id=42&taggable=1')]");
-        WebElement tagIcon = driver.findElement(tagIconLocator);
-        tagIcon.click();
+    @Test(dependsOnMethods = "deleteAssignedTagTest")
+    public void deleteTagRecordTest() {
 
-        By newTagInputLocator = By.xpath("//input[@name='new_tag']");
-        WebElement newTagInput = driver.findElement(newTagInputLocator);
-        By newTagButtonLocator = By.xpath("//button[contains(text(), 'New tag')]");
-        WebElement newTagButton = driver.findElement(newTagButtonLocator);
+        TagPage tagPage = new MainPage(getDriver())
+                .clickMenuTag()
+                .clickTagButton();
 
-        Actions builder = new Actions(driver);
-        builder.moveToElement(newTagButton).perform();
-
-        String randomTag = RandomStringUtils.randomNumeric(5);
-        newTagInput.sendKeys(randomTag);
-        newTagButton.click();
-        return randomTag;
-    }
-
-    private static WebElement tagEntity(WebDriver driver, String tagRecordText) {
-        By tagEntityLocator = By.xpath("//tr//td/a/[contains(text(), '" + tagRecordText + "')]/../../../td[1]/div");
-        return driver.findElement(tagEntityLocator);
+        Assert.assertEquals(tagPage.deleteRow(0).getRowCount(), 0);
+        Assert.assertEquals(tagPage.clickListButton().getRowCount(), 0);
     }
 }
