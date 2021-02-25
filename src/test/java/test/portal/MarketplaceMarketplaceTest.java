@@ -21,7 +21,6 @@ import test.data.AppConstant;
 import java.util.Arrays;
 import java.util.List;
 
-@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceMarketplaceTest extends BaseTest {
@@ -35,7 +34,6 @@ public class MarketplaceMarketplaceTest extends BaseTest {
     private static List<WebElement> listOfAllProducts;
     private static List<WebElement> productDescriptionAndPrice;
     private static List<WebElement> userEmailAndBalance;
-
 
     @Test
     public void buyProduct() {
@@ -74,6 +72,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
         Assert.assertEquals(userEmailAndBalance.get(1).getText().substring(11), String.valueOf(balanceLeftover));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "checkTheRemainingBalance")
     public void installLaterTest() {
 
