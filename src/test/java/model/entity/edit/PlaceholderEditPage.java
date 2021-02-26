@@ -126,10 +126,19 @@ public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPag
         return this;
     }
 
+    public String getDefaultValue(WebElement webElement) {
+        return webElement.getAttribute("placeholder");
+    }
+
     public List<String> getDefaultValues() {
         List<String> defaultPlaceholderValues = new ArrayList<>();
         defaultPlaceholderValues.add(inputString.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputText.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputInt.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDecimal.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDate.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDateTime.getAttribute("placeholder"));
         return defaultPlaceholderValues;
-
     }
+//    replace by method that return single default values and than assign separate variable to them
 }

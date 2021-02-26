@@ -179,4 +179,19 @@ public class EntityPlaceholderTest extends BaseTest {
 
         Assert.assertEquals(placeholderPage.getDecimal(0), ALL_ZERO_AFTER_DECIMAL);
     }
+
+    @Test
+    public void createRecordDefaultValuesTest() {
+
+        PlaceholderEditPage placeholderEditPage = new MainPage(getDriver())
+                .clickMenuPlaceholder()
+                .clickNewFolder();
+
+//        List<String> defaultValues = placeholderEditPage.getDefaultValue();
+
+
+
+
+
+    }
 }
