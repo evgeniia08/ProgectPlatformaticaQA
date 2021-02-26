@@ -17,7 +17,6 @@ import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
     private static List<WebElement> listOfAllProducts;
     private static List<WebElement> productDescriptionAndPrice;
     private static List<WebElement> userEmailAndBalance;
+    private static final String NAME = "Simple Project Management";
 
     @Test
     public void buyProduct() {
@@ -95,5 +95,32 @@ public class MarketplaceMarketplaceTest extends BaseTest {
         Assert.assertEquals(templatePage.getRowData(0), expectedTemplateRowData);
         Assert.assertEquals(templatePage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
         Assert.assertEquals(templatePage.clickMenuApps().getRowCount(), 0);
+    }
+    @Test
+    public void installNow() {
+
+        WebDriver driver = getDriver();
+
+        ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains (text(), 'Marketplace')]/preceding-sibling::i")));
+
+        WebElement clickBuyCart = driver.findElement(By.xpath("//div[@class='card']/a"));
+        ProjectUtils.click(driver, clickBuyCart);
+
+        WebElement clickBuyNow = driver.findElement(By.xpath("//button[.='Buy now']"));
+        ProjectUtils.click(driver, clickBuyNow);
+
+        WebElement clickGet = driver.findElement(By.xpath("//button[text()='Get with credit']"));
+        ProjectUtils.click(driver, clickGet);
+
+        WebElement installNow = driver.findElement(By.xpath("//button[contains(text(), 'Now')]"));
+        ProjectUtils.click(driver, installNow);
+
+        WebElement inputName = driver.findElement(By.id("name"));
+        inputName.sendKeys(NAME);
+
+        WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
+        ProjectUtils.click(driver, saveButton);
+
+        Assert.assertEquals(driver.findElement(By.xpath("//tr/td[2]")).getText(), "Simple Project Management");
     }
 }
