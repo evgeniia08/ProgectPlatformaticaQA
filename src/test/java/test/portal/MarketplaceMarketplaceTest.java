@@ -33,7 +33,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
     private static List<WebElement> listOfAllProducts;
     private static List<WebElement> productDescriptionAndPrice;
     private static List<WebElement> userEmailAndBalance;
-    private static final String NAME = "Simple Project Management";
+    private static final String NAME = "Simple CRM";
 
     @Test
     public void buyProduct() {
@@ -103,7 +103,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
 
         ProjectUtils.click(driver, driver.findElement(By.xpath("//p[contains (text(), 'Marketplace')]/preceding-sibling::i")));
 
-        WebElement clickBuyCart = driver.findElement(By.xpath("//div[@class='card']/a"));
+        WebElement clickBuyCart = driver.findElement(By.xpath("//a[contains(text(),'Simple CRM')]"));
         ProjectUtils.click(driver, clickBuyCart);
 
         WebElement clickBuyNow = driver.findElement(By.xpath("//button[.='Buy now']"));
