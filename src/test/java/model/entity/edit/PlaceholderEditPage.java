@@ -2,7 +2,6 @@ package model.entity.edit;
 
 import model.base.EntityBaseEditPage;
 import model.entity.table.PlaceholderPage;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,7 +12,6 @@ import static runner.ProjectUtils.fill;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPage> {
