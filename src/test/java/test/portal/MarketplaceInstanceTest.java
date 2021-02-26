@@ -36,7 +36,7 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By RESET = By.xpath("//a[contains(text(), 'Reset')]");
     private static final By CONGRATS_TEXT = By.xpath("//div[@class='card-body ']/child::div/child::h3[1]");
     private static final String PRIMARY_LANGUAGE = "English";
-    private static final List<String> ascNames = Arrays.asList("aaaa", "bbbb");
+    private static final List<String> ascNames = Arrays.asList("aaaaa", "bbbbb");
     private String[] app_values = new String[7];
 
     private Boolean isUnableCreateApp() {
@@ -235,13 +235,13 @@ public class MarketplaceInstanceTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "instanceDeleteTest")
-    public void ascOrder() {
+    public void ascOrderTest() {
         InstancePage instancePage = new InstancePage(getDriver())
                         .clickNewFolder()
-                        .fillOutInstanceForm("bbbb", "bbbb", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("bbbbb", "bbbbb", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickNewFolder()
-                        .fillOutInstanceForm("aaaa", "aaaa", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("aaaaa", "aaaaa", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickColumnHeader("Name");
 
