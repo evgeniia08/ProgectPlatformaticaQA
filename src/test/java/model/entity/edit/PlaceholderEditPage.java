@@ -2,6 +2,7 @@ package model.entity.edit;
 
 import model.base.EntityBaseEditPage;
 import model.entity.table.PlaceholderPage;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +13,7 @@ import static runner.ProjectUtils.fill;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPage> {
@@ -126,10 +128,6 @@ public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPag
         return this;
     }
 
-    public String getDefaultValue(WebElement webElement) {
-        return webElement.getAttribute("placeholder");
-    }
-
     public List<String> getDefaultValues() {
         List<String> defaultPlaceholderValues = new ArrayList<>();
         defaultPlaceholderValues.add(inputString.getAttribute("placeholder"));
@@ -138,7 +136,19 @@ public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPag
         defaultPlaceholderValues.add(inputDecimal.getAttribute("placeholder"));
         defaultPlaceholderValues.add(inputDate.getAttribute("placeholder"));
         defaultPlaceholderValues.add(inputDateTime.getAttribute("placeholder"));
+        defaultPlaceholderValues.add("");
+        defaultPlaceholderValues.add("");
+        defaultPlaceholderValues.add("User 1 Demo");
         return defaultPlaceholderValues;
     }
-//    replace by method that return single default values and than assign separate variable to them
+
+    public PlaceholderEditPage fillOutFormDefaultValues() {
+        fill(getWait(), inputString, getDefaultValues().get(0));
+        fill(getWait(), inputText, getDefaultValues().get(1));
+        fill(getWait(), inputInt, getDefaultValues().get(2));
+        fill(getWait(), inputDecimal, getDefaultValues().get(3));
+        fill(getWait(), inputDate, getDefaultValues().get(4));
+        fill(getWait(), inputDateTime, getDefaultValues().get(5));
+        return this;
+    }
 }

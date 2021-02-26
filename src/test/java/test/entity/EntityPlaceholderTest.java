@@ -178,20 +178,22 @@ public class EntityPlaceholderTest extends BaseTest {
                 .clickSaveButton();
 
         Assert.assertEquals(placeholderPage.getDecimal(0), ALL_ZERO_AFTER_DECIMAL);
+        placeholderPage.deleteRow(0);
     }
 
-    @Test
+    @Test(dependsOnMethods = "entityDecimalEndsZeroTest")
     public void createRecordDefaultValuesTest() {
 
         PlaceholderEditPage placeholderEditPage = new MainPage(getDriver())
                 .clickMenuPlaceholder()
                 .clickNewFolder();
 
-//        List<String> defaultValues = placeholderEditPage.getDefaultValue();
+        List<String> defaultValues = placeholderEditPage.getDefaultValues();
 
+        PlaceholderPage placeholderPage = placeholderEditPage.fillOutFormDefaultValues().clickSaveButton();
 
-
-
-
+        Assert.assertEquals(placeholderPage.getRowCount(), 1);
+        Assert.assertEquals(placeholderPage.getRow(0), defaultValues);
+        Assert.assertEquals(placeholderPage.getRowIconClass(0), AppConstant.RECORD_ICON_CLASS);
     }
 }
