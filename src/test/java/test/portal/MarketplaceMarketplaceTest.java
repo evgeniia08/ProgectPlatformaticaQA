@@ -121,6 +121,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
         WebElement saveButton = driver.findElement(By.xpath("//button[@id='pa-entity-form-save-btn']"));
         ProjectUtils.click(driver, saveButton);
 
-        Assert.assertEquals(driver.findElement(By.xpath("//a[contains(text(),'Simple Project Management')]")).getText(), "Simple Project Management");
+        WebElement resultInstall = driver.findElement(By.xpath(String.format("//a[contains(text(),'%s')]", NAME)));
+        Assert.assertEquals(resultInstall.getText(), NAME);
     }
 }
