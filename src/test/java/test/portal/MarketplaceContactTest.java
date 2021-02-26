@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceContactTest extends BaseTest {
@@ -46,7 +45,6 @@ public class MarketplaceContactTest extends BaseTest {
         ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (CREATE_NEW_RECORD)));
     }
-
 
     @Test
     public void successfulContact() {

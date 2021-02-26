@@ -6,29 +6,32 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 import runner.type.Profile;
 import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
+import test.data.AppConstant;
 
 import java.util.*;
 
-@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class AdminEntityTest extends BaseTest {
 
+    private static final By CREATE_FOLDER = By.xpath("//i[contains(text(),'create_new_folder')]");
+    private static final By ACTIONS_BUTTON = By.xpath("//td/div/button");
+    private static final By SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
     private static final String[] FIELD_TYPE = {"string", "text", "int", "decimal", "date", "datetime", "file", "user"};
     private WebDriver driver;
     private String app_name;
 
     private Boolean isUnableCreateApp() {
         return getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//body"))).getText().equals("Unable to create instance");
+                (By.xpath("//body"))).getText().equalsIgnoreCase(AppConstant.PORTAL_ERROR_MESSAGE);
     }
 
     private String[] getEntityValues() {
@@ -42,16 +45,12 @@ public class AdminEntityTest extends BaseTest {
     }
 
     private Map<Integer, String> createRecordValues(){
-        double random_double = getRandomInteger();
-        while (random_double % 10 == 0) {
-            random_double = getRandomInteger();
-        }
-        double finalRandom_double = random_double * 0.01;
+        double random_double = getRandomInteger() * 0.01;
         return new HashMap<Integer, String>() {{
             put(1, ProjectUtils.createUUID());
             put(2, ProjectUtils.createUUID());
             put(3, String.valueOf(getRandomInteger()));
-            put(4, String.format("%.2f", finalRandom_double));
+            put(4, String.format("%.2f", random_double));
         }};
     }
 
@@ -60,10 +59,10 @@ public class AdminEntityTest extends BaseTest {
             ("//p[contains(text(),'%s')]/preceding-sibling::i/parent::a", entity_name));
     private final Map<Integer, String> entity_record = createRecordValues();
 
-    private void selectRecordAction (WebDriver driver, String action) {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//tr[@data-index='0']/td/div/button"))).click();
-        ProjectUtils.click(driver, driver.findElement(By.linkText(action)));
+    private void selectRecordAction (String action) {
+        driver.findElement(ACTIONS_BUTTON).click();
+        getWebDriverWait().until(TestUtils.movingIsFinished
+                (By.xpath(String.format("//a[contains(text(),'%s')]", action)))).click();
     }
 
     private void goToConfiguration() {
@@ -74,8 +73,6 @@ public class AdminEntityTest extends BaseTest {
     }
 
     private void goToEntities() {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//div[contains(@class,'card-body')]")));
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//i[contains(text(),'dynamic_feed')]/parent::a"))).click();
     }
@@ -91,11 +88,8 @@ public class AdminEntityTest extends BaseTest {
                 (By.xpath("//textarea[@id='pa-cli-cmd']"))));
     }
 
-    private void createFieldForEntity(WebDriver driver, int label, String type) throws InterruptedException {
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//h3[contains(text(),'Fields')]")));
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+    private void createFieldForEntity(int label, String type) {
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         ProjectUtils.fill(getWebDriverWait(), getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='pa-adm-new-fields-label']"))), Integer.toString(label));
         driver.findElement(By.xpath("//div[@class='filter-option-inner-inner']")).click();
@@ -106,9 +100,8 @@ public class AdminEntityTest extends BaseTest {
                 (By.xpath("//h3[contains(text(),'Fields')]")));
     }
 
-    private void assertEntityRecords (Map<Integer, String> expected_element){
-        List<WebElement> actual_entity_record = getWebDriverWait().until(ExpectedConditions.visibilityOfAllElementsLocatedBy
-                (By.xpath("//table[@id='pa-all-entities-table']//a/div")));
+    private void assertEntityRecords(Map<Integer, String> expected_element){
+        List<WebElement> actual_entity_record = driver.findElements(By.xpath("//tbody/tr/td/a"));
         for (int i = 0; i < entity_record.size(); i++){
             String actual_value = String.valueOf(actual_entity_record.get(i).getText());
             Assert.assertEquals(actual_value, String.valueOf(expected_element.get(i+1)));
@@ -116,11 +109,10 @@ public class AdminEntityTest extends BaseTest {
     }
 
     @Test
-    public void createApplicationTest() throws InterruptedException {
+    public void createApplicationTest() {
         driver = getDriver();
 
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         String[] entity_values;
         do {
             entity_values = getEntityValues();
@@ -130,12 +122,11 @@ public class AdminEntityTest extends BaseTest {
             WebElement app_name = getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                     (By.xpath("//input[@id='name']")));
             ProjectUtils.inputKeys(driver, app_name, entity_values[0]);
-            getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                    (By.xpath("//button[@id='pa-entity-form-save-btn']"))).click();
+            getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
         } while (isUnableCreateApp());
 
         String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
-        Assert.assertEquals(congrats, "Congratulations! Your instance was successfully created");
+        Assert.assertEquals(congrats, AppConstant.INSTANCE_CREATED_TEXT);
 
         app_name = entity_values[0];
 
@@ -151,13 +142,13 @@ public class AdminEntityTest extends BaseTest {
     }
 
     @Test (dependsOnMethods = "createApplicationTest")
-    public void createEntityTest() throws InterruptedException {
+    public void createEntityTest() {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
         goToConfiguration();
         goToEntities();
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//span[contains(text(),'New...')]"))).click();
+                (By.xpath("//div[@id='formsEntities']//span[2]"))).click();
 
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//input[@id='pa-adm-new-entity-label']"))).sendKeys(entity_name);
@@ -167,7 +158,7 @@ public class AdminEntityTest extends BaseTest {
                 (By.xpath("//ul[@class='navbar-nav']/div"))).getText(), entity_name);
 
         for (int i = 0; i < FIELD_TYPE.length; i++) {
-            createFieldForEntity(driver, i + 1, FIELD_TYPE[i]);
+            createFieldForEntity(i + 1, FIELD_TYPE[i]);
         }
 
         List<WebElement> field_label_element = driver.findElements
@@ -186,8 +177,7 @@ public class AdminEntityTest extends BaseTest {
 
         Assert.assertTrue(driver.findElement(entity_in_menu).isDisplayed());
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(entity_in_menu)).click();
-        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//i[contains(text(),'create_new_folder')]"))).click();
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(CREATE_FOLDER)).click();
         for (int i = 1; i < entity_record.size() + 1; i++){
             if (i == 2) {
                 getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -197,9 +187,8 @@ public class AdminEntityTest extends BaseTest {
                         (By.xpath(String.format("//input[@id='%d']", i)))).sendKeys(entity_record.get(i));
             }
         }
-        ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//button[@id='pa-entity-form-save-btn']"))));
-        assertEntityRecords (entity_record);
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
+        assertEntityRecords(entity_record);
     }
 
     @Test (dependsOnMethods = "createRecordsTest")
@@ -207,7 +196,7 @@ public class AdminEntityTest extends BaseTest {
         driver.get(String.format("https://%s.eteam.work", app_name));
 
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(entity_in_menu)).click();
-        selectRecordAction(driver, "view");
+        selectRecordAction("view");
         List<WebElement> actual_entity_record = driver.findElements(By.xpath("//label/following-sibling::div//span"));
         for (int i = 0; i < entity_record.size(); i++){
             Assert.assertEquals(actual_entity_record.get(i).getText(), entity_record.get(i + 1));
@@ -215,7 +204,7 @@ public class AdminEntityTest extends BaseTest {
         getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(entity_in_menu)).click();
 
         Map<Integer, String> edited_entity_record = createRecordValues();
-        selectRecordAction(driver, "edit");
+        selectRecordAction("edit");
         for (int i = 1; i < edited_entity_record.size() + 1; i++){
             if (i == 2) {
                 getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
@@ -229,11 +218,10 @@ public class AdminEntityTest extends BaseTest {
                         (By.xpath(String.format("//input[@id='%d']", i)))).sendKeys(edited_entity_record.get(i));
             }
         }
-        ProjectUtils.click(driver, getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
-                (By.xpath("//button[@id='pa-entity-form-save-btn']"))));
+        getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(SAVE_BUTTON)).click();
         assertEntityRecords (edited_entity_record);
 
-        selectRecordAction(driver, "delete");
+        selectRecordAction("delete");
         WebElement records_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated
                 (By.xpath("//div[contains(@class,'card-body')]")));
         Assert.assertTrue(records_table.getText().isEmpty());

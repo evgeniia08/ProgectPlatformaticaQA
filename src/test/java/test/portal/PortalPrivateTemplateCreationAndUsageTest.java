@@ -7,7 +7,6 @@ import model.portal.table.InstancePage;
 import model.portal.table.TemplatePage;
 import model.work.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Profile;
@@ -19,7 +18,7 @@ import test.data.AppConstant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-@Ignore
+
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
@@ -35,7 +34,6 @@ public class PortalPrivateTemplateCreationAndUsageTest extends BaseTest {
     private String WORK_USER_NAME;
     private String WORK_PASSWORD;
     private static final List<String> EDIT_LABELS = Arrays.asList(ENTITY_FIELD_LABEL, ENTITY_FIELD_BODY);
-
 
     @Test
     public void instanceCreateTest() {
