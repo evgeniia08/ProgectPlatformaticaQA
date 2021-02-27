@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import runner.ProjectUtils;
 import static runner.ProjectUtils.fill;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -122,6 +123,30 @@ public final class PlaceholderEditPage extends EntityBaseEditPage<PlaceholderPag
     public PlaceholderEditPage selectUser(){
         ProjectUtils.click(getDriver(),userSelection);
         ProjectUtils.click(getDriver(),newUser);
+        return this;
+    }
+
+    public List<String> getDefaultValues() {
+        List<String> defaultPlaceholderValues = new ArrayList<>();
+        defaultPlaceholderValues.add(inputString.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputText.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputInt.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDecimal.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDate.getAttribute("placeholder"));
+        defaultPlaceholderValues.add(inputDateTime.getAttribute("placeholder"));
+        defaultPlaceholderValues.add("");
+        defaultPlaceholderValues.add("");
+        defaultPlaceholderValues.add("User 1 Demo");
+        return defaultPlaceholderValues;
+    }
+
+    public PlaceholderEditPage fillOutFormDefaultValues() {
+        fill(getWait(), inputString, getDefaultValues().get(0));
+        fill(getWait(), inputText, getDefaultValues().get(1));
+        fill(getWait(), inputInt, getDefaultValues().get(2));
+        fill(getWait(), inputDecimal, getDefaultValues().get(3));
+        fill(getWait(), inputDate, getDefaultValues().get(4));
+        fill(getWait(), inputDateTime, getDefaultValues().get(5));
         return this;
     }
 }
