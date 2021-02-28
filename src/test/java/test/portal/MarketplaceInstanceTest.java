@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceInstanceTest extends BaseTest {
@@ -234,6 +236,7 @@ public class MarketplaceInstanceTest extends BaseTest {
         Assert.assertTrue(record_table.getText().isEmpty());
     }
 
+    @Ignore
     @Test (dependsOnMethods = "instanceDeleteTest")
     public void ascOrderTest() {
         InstancePage instancePage = new InstancePage(getDriver())
