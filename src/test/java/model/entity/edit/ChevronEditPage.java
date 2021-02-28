@@ -20,6 +20,12 @@ public final class ChevronEditPage extends EntityBaseEditPage<ChevronPage> {
     @FindBy(xpath = "//span[contains(text(),'Fulfillment')]")
     private WebElement fulfillmentButton;
 
+    @FindBy(xpath = "//span[contains(text(),'Pending')]")
+    private WebElement pendingButton;
+
+    @FindBy(xpath = "//span[contains(text(),'Sent')]")
+    private WebElement sentButton;
+
     @FindBy(xpath = "//textarea[@id = 'text']")
     private WebElement inputString;
 
@@ -40,10 +46,24 @@ public final class ChevronEditPage extends EntityBaseEditPage<ChevronPage> {
         return new ChevronPage(getDriver());
     }
 
-    public ChevronEditPage chooseRecordStatus() {
+    public ChevronEditPage chooseRecordStatus(String status) {
         statusButton.click();
-        getActions().moveToElement(fulfillmentButton).perform();
-        fulfillmentButton.click();
+        switch(status)
+        {
+            case "Fulfillment":
+                getActions().moveToElement(fulfillmentButton).perform();
+                fulfillmentButton.click();
+                break;
+            case "Pending":
+                getActions().moveToElement(pendingButton).perform();
+                pendingButton.click();
+                break;
+            case "Sent":
+                getActions().moveToElement(sentButton).perform();
+                sentButton.click();
+                break;
+        }
+
         return this;
     }
 
