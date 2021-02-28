@@ -41,19 +41,16 @@ public class EntityChevronTest extends BaseTest {
     public void createMultipleEntities(String status, String title, String int_, String decimal, String data, String time) {
 
         ChevronPage chevronPage = new MainPage(getDriver()).clickMenuChevron();
-        //int rowCount = chevronPage.getRowCount();
         chevronPage.clickFilter("All")
                 .clickNewFolder()
                 .chooseRecordStatus(status)
                 .sendKeys(title, int_, decimal, data, time)
                 .clickSaveButton();
-        //Assert.assertEquals(chevronPage.getRowCount(), rowCount + 1);
     }
 
-
     @Test(dependsOnMethods = "createMultipleEntities")
-    public void viewChevronStatus() {
-        ChevronViewPage viewPage;
+    public void checkChevronStatus() {
+
         MainPage mainPage = new MainPage(getDriver());
 
         ChevronPage chevronPage = mainPage
@@ -61,7 +58,7 @@ public class EntityChevronTest extends BaseTest {
                 .clickFilter("Pending");
         Assert.assertEquals(chevronPage.getStringValue(), "Pending");
 
-        viewPage = chevronPage.viewRow(0);
+        ChevronViewPage viewPage = chevronPage.viewRow(0);
         Assert.assertEquals(viewPage.getActiveChevronText(), "Pending");
 
         chevronPage = mainPage
@@ -81,41 +78,37 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(viewPage.getActiveChevronText(), "Sent");
     }
 
-    @Test(dependsOnMethods = "viewChevronStatus")
+    @Test(dependsOnMethods = "checkChevronStatus")
     public void createNewRecord() {
+
         ChevronPage chevronPage = new MainPage(getDriver())
                 .clickMenuChevron()
-                .clickNewFolder()
-                .chooseRecordStatus("Fulfillment")
-                .sendKeys("TEST55", INT, DECIMAL, DATE_TIME, DATE)
-                .ChooseValues()
-                .clickSaveButton()
                 .clickNewFolder()
                 .chooseRecordStatus("Fulfillment")
                 .sendKeys(COMMENTS, INT, DECIMAL, DATE_TIME, DATE)
                 .ChooseValues()
                 .clickSaveButton()
                 .clickFilter("All");
-        Assert.assertEquals(chevronPage.getRow(4), expectedResults);
+        Assert.assertEquals(chevronPage.getRow(3), expectedResults);
     }
 
-
     @Test(dependsOnMethods = "createNewRecord")
-    public void dragTheRowUp() throws InterruptedException {
+    public void dragAndDrop() {
+
         String stringValue = new MainPage(getDriver())
                 .clickMenuChevron()
                 .orderBy()
-                .dragUp(4, 2)
+                .dragAndDrop(3, 1)
                 .getCellData(2);
         Assert.assertEquals(stringValue, "TEST1");
     }
 
-    @Test(dependsOnMethods = "dragTheRowUp")
+    @Test(dependsOnMethods = "createNewRecord")
     public void viewRecord() {
         List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
                 .clickFilter("All")
-                .clickRowToView(4)
+                .clickRowToView(2)
                 .getColumn();
         Assert.assertEquals(page, expectedResults);
     }
@@ -126,7 +119,7 @@ public class EntityChevronTest extends BaseTest {
         Assert.assertEquals(chevronPage
                 .clickMenuChevron()
                 .deleteRow()
-                .getRowCount(), 4);
+                .getRowCount(), 2);
     }
 
     @Ignore

@@ -38,7 +38,7 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
     @FindBy(xpath = "//div/div/a[text() = 'Sent']")
     private WebElement filterSent;
 
-    private static final String STRING_FIELD = "//tr[@data-index='%d']/td[2]/a";
+    private static final String STRING_FIELD = "//tr[%d]/td[2]/a";
 
     @Override
     protected ChevronEditPage createEditPage() {
@@ -56,6 +56,14 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
         return new ChevronViewPage(getDriver());
     }
 
+    private void sleep(int miliSec){
+        try {
+            Thread.sleep(miliSec);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ChevronPage clickRowToView(int rowNumber) {
         getDriver().findElement(By.xpath(String.format(STRING_FIELD, rowNumber))).click();
         return new ChevronPage(getDriver());
@@ -70,38 +78,15 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
     public ChevronPage orderBy() {
         getDriver().findElement(By.xpath("//ul[@role='tablist']/li[2]")).click();
         return this;
-
     }
 
-    private void sleep(int miliSec){
-        try {
-            Thread.sleep(miliSec);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ChevronPage dragUp(int rowFrom, int rowTo) {
-//        WebElement bottom = getDriver().findElement(By.xpath(String.format("//tbody/tr[%d]/td[3]/a", rowFrom)));
-//        WebElement up = getDriver().findElement(By.xpath(String.format("//tr[@id='customId_%d']/td[2]/a", rowTo-1)));
-//        new Actions(getDriver())
-//                .dragAndDrop(bottom, up)
-//                .build()
-//                .perform();
-
-        WebElement bottom = getDriver().findElement(By.xpath("//tbody/tr[4]"));
-        WebElement up = getDriver().findElement(By.xpath("//tr[@id='customId_0']"));
-//        Actions act = new Actions(getDriver());
-//        act.dragAndDrop(bottom, up).build().perform();
-
-//        Actions builder = new Actions(getDriver());
-//        Action dargAndDrop = builder.clickAndHold(bottom)
-//                .moveToElement(up)
-//                .release(up)
-//                .build();
-
-        sleep(5000);
-
+    public ChevronPage dragAndDrop(int rowFrom, int rowTo) {
+        WebElement bottom = getDriver().findElement(By.xpath(String.format("//tbody/tr[%d]/td[2]/a", rowFrom)));
+        WebElement up = getDriver().findElement(By.xpath(String.format("//tbody/tr[%d]/td[2]/a", rowTo)));
+        new Actions(getDriver())
+                .dragAndDrop(bottom, up)
+                .build()
+                .perform();
         return this;
     }
 
