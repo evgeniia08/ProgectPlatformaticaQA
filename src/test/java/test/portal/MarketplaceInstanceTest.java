@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+
 @Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
@@ -35,8 +36,9 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
     private static final By RESET = By.xpath("//a[contains(text(), 'Reset')]");
+    private static final By CONGRATS_TEXT = By.xpath("//div[@class='card-body ']/child::div/child::h3[1]");
     private static final String PRIMARY_LANGUAGE = "English";
-    private static final List<String> ascNames = Arrays.asList("bbbb", "kkkk", "nnnn", "zzzz" );
+    private static final List<String> ascNames = Arrays.asList("aaaa", "bbbb");
     private String[] app_values = new String[7];
 
     private Boolean isUnableCreateApp() {
@@ -160,8 +162,7 @@ public class MarketplaceInstanceTest extends BaseTest {
         WebDriver driver = getDriver();
 
         createInstance(driver);
-        String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
-        Assert.assertEquals(congrats, AppConstant.INSTANCE_CREATED_TEXT);
+        Assert.assertEquals(driver.findElement(CONGRATS_TEXT).getText(), AppConstant.INSTANCE_CREATED_TEXT);
 
         Assert.assertFalse(getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//div[contains(@class,'card-body')]//h4[2]/b"))).getText().isEmpty());
@@ -177,8 +178,7 @@ public class MarketplaceInstanceTest extends BaseTest {
 
         app_values = createInstance(driver);
         assertInstanceValues(app_values);
-        String congrats = driver.findElement(By.xpath("//div[@class='card-body ']/child::div/child::h3[1]")).getText();
-        Assert.assertEquals(congrats, AppConstant.INSTANCE_CREATED_TEXT);
+        Assert.assertEquals(driver.findElement(CONGRATS_TEXT).getText(), AppConstant.INSTANCE_CREATED_TEXT);
     }
 
     @Test (dependsOnMethods = "instanceCreateTest")
@@ -241,16 +241,10 @@ public class MarketplaceInstanceTest extends BaseTest {
     public void ascOrder() {
         InstancePage instancePage = new InstancePage(getDriver())
                         .clickNewFolder()
-                        .fillOutInstanceForm("nnnn", "nnnn", PRIMARY_LANGUAGE)
-                        .clickSaveButton()
-                        .clickNewFolder()
                         .fillOutInstanceForm("bbbb", "bbbb", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickNewFolder()
-                        .fillOutInstanceForm("kkkk", "kkkk", PRIMARY_LANGUAGE)
-                        .clickSaveButton()
-                        .clickNewFolder()
-                        .fillOutInstanceForm("zzzz", "zzzz", PRIMARY_LANGUAGE)
+                        .fillOutInstanceForm("aaaa", "aaaa", PRIMARY_LANGUAGE)
                         .clickSaveButton()
                         .clickColumnHeader("Name");
 
