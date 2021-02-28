@@ -18,7 +18,7 @@ import java.util.List;
 @Run(run = RunType.Multiple)
 public class EntityChevronTest extends BaseTest {
 
-    private static final String COMMENTS = "TEST1";
+    private static final String COMMENTS = "TEST3";
     private static final String INT = "11";
     private static final String DECIMAL = "0.11";
 
@@ -26,14 +26,14 @@ public class EntityChevronTest extends BaseTest {
 
     private static final String DATE_TIME = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
 
-    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST1", "11", "0.11", DATE, DATE_TIME);
+    List<String> expectedResults = Arrays.asList("Fulfillment", "TEST3", "11", "0.11", DATE, DATE_TIME);
 
     @DataProvider(name = "testData")
     private Object[][] testData1() {
         return new Object[][]{
-                {"Fulfillment","TEST2", "20", "0.11", DATE, DATE_TIME},
-                {"Pending", "TEST3", "30", "0.11", DATE, DATE_TIME},
-                {"Sent", "TEST4", "30", "0.11", DATE, DATE_TIME},
+                {"Fulfillment","TEST4", "20", "0.11", DATE, DATE_TIME},
+                {"Pending", "TEST1", "30", "0.11", DATE, DATE_TIME},
+                {"Sent", "TEST2", "30", "0.11", DATE, DATE_TIME},
         };
     }
 
@@ -94,20 +94,18 @@ public class EntityChevronTest extends BaseTest {
 
     @Test(dependsOnMethods = "createNewRecord")
     public void dragAndDrop() {
-
         String stringValue = new MainPage(getDriver())
                 .clickMenuChevron()
                 .orderBy()
-                .dragAndDrop(3, 1)
-                .getCellData(2);
+                .dragAndDrop(1, 3)
+                .getCellData(1);
         Assert.assertEquals(stringValue, "TEST1");
     }
 
-    @Test(dependsOnMethods = "createNewRecord")
+    @Test(dependsOnMethods = "dragAndDrop")
     public void viewRecord() {
         List<String> page = new MainPage(getDriver())
                 .clickMenuChevron()
-                .clickFilter("All")
                 .clickRowToView(2)
                 .getColumn();
         Assert.assertEquals(page, expectedResults);

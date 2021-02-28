@@ -56,14 +56,6 @@ public final class ChevronPage extends EntityBaseTablePage<ChevronPage, ChevronE
         return new ChevronViewPage(getDriver());
     }
 
-    private void sleep(int miliSec){
-        try {
-            Thread.sleep(miliSec);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public ChevronPage clickRowToView(int rowNumber) {
         getDriver().findElement(By.xpath(String.format(STRING_FIELD, rowNumber))).click();
         return new ChevronPage(getDriver());
