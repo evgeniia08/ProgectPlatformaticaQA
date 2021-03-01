@@ -36,7 +36,6 @@ public class MarketplacePage extends PortalBaseIndexPage {
     }
 
     public List<String> getAllAppNames() {
-        return getWait().until(ExpectedConditions.visibilityOfAllElements(allAppNames)).stream()
-                .map(WebElement::getText).collect(Collectors.toList());
+        return allAppNames.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }
