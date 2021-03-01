@@ -12,11 +12,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
-import runner.TestUtils;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
