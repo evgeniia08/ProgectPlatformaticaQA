@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
-@Ignore
+
 public class EntityImportEditTest extends BaseTest {
 
     private static final String STRING = "String new Added";
@@ -143,7 +143,7 @@ public class EntityImportEditTest extends BaseTest {
         ProjectUtils.click(driver, delete);
     }
 
-    @Test
+
     public void importEditManually() {
 
         WebDriver driver = getDriver();
@@ -164,7 +164,7 @@ public class EntityImportEditTest extends BaseTest {
 
         userEdit(driver);
 
-        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text() , '" + STRING_EDIT + "')]"))
+        Assert.assertEquals(driver.findElement(By.xpath("//a[contains(text() , '" + STRING_EDIT + "')]"))
                 .getText(), STRING_EDIT);
 
         userDelete(driver);
