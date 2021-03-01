@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -19,12 +18,8 @@ import runner.type.RunType;
 import test.data.AppConstant;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
-@Ignore
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
 public class MarketplaceInstanceTest extends BaseTest {
@@ -36,9 +31,8 @@ public class MarketplaceInstanceTest extends BaseTest {
     private static final By CANCEL_BUTTON = By.xpath("//button[contains(text(),'Cancel')]");
     private static final By TABLE = By.xpath("//div[contains(@class,'card-body')]");
     private static final By RESET = By.xpath("//a[contains(text(), 'Reset')]");
-    private static final By CONGRATS_TEXT = By.xpath("//div[@class='card-body ']/child::div/child::h3[1]");
+    private static final By CONGRATS_TEXT = By.xpath("//div[contains(@class,'card-body')]/div/h3[1]");
     private static final String PRIMARY_LANGUAGE = "English";
-    private static final List<String> ascNames = Arrays.asList("aaaaa", "bbbbb");
     private String[] app_values = new String[7];
 
     private Boolean isUnableCreateApp() {
@@ -234,20 +228,24 @@ public class MarketplaceInstanceTest extends BaseTest {
         actionsClick(driver,"delete");
         WebElement record_table = getWebDriverWait().until(ExpectedConditions.presenceOfElementLocated(TABLE));
         Assert.assertTrue(record_table.getText().isEmpty());
+
+        ProjectUtils.click(driver, driver.findElement(RESET));
     }
 
-    @Ignore
     @Test (dependsOnMethods = "instanceDeleteTest")
     public void ascOrderTest() {
-        InstancePage instancePage = new InstancePage(getDriver())
-                        .clickNewFolder()
-                        .fillOutInstanceForm("bbbbb", "bbbbb", PRIMARY_LANGUAGE)
-                        .clickSaveButton()
-                        .clickNewFolder()
-                        .fillOutInstanceForm("aaaaa", "aaaaa", PRIMARY_LANGUAGE)
-                        .clickSaveButton()
-                        .clickColumnHeader("Name");
+        InstancePage instancePage = new InstancePage(getDriver());
+        ArrayList<String> listOfNames = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            listOfNames.add(RandomStringUtils.randomAlphanumeric(6, 10).toLowerCase());
+            instancePage
+                    .clickNewFolder()
+                    .fillOutInstanceForm(listOfNames.get(i), listOfNames.get(i), PRIMARY_LANGUAGE)
+                    .clickSaveButton();
+        }
+        instancePage.clickColumnHeader("Name");
+        Collections.sort(listOfNames);
 
-        Assert.assertEquals(instancePage.getNames(), ascNames);
+        Assert.assertEquals(instancePage.getNames(), listOfNames);
     }
 }
