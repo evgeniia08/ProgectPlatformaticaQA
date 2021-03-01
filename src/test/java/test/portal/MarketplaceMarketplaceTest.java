@@ -16,7 +16,6 @@ import runner.type.ProfileType;
 import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,6 +32,7 @@ public class MarketplaceMarketplaceTest extends BaseTest {
     private static List<WebElement> listOfAllProducts;
     private static List<WebElement> productDescriptionAndPrice;
     private static List<WebElement> userEmailAndBalance;
+    private static final String NAME = "Simple Project Management";
 
     @Test
     public void buyProduct() {

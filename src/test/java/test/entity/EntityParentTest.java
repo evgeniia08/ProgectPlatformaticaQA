@@ -1,13 +1,10 @@
 package test.entity;
 
 import model.entity.table.ParentPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import model.entity.view.ParentViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.type.Run;
 import runner.type.RunType;
 import java.text.SimpleDateFormat;
@@ -54,31 +51,18 @@ public class EntityParentTest extends BaseTest {
     @Test(dependsOnMethods = {"createParent"})
     public void viewParent() {
 
-        WebDriver driver = getDriver();
+        ParentViewPage parentViewPage = new MainPage(getDriver())
+                .clickMenuParent()
+                .clickListButton()
+                .viewRow();
 
-        WebElement parent = driver.findElement(By.xpath("//p[contains(text(),'Parent')]"));
-        ProjectUtils.click(driver, parent);
-
-        WebElement parentAction = driver.findElement(By.xpath("//button[@data-toggle='dropdown']/../ul/li/a[text()='view']"));
-        ProjectUtils.click(driver, parentAction);
-
-        WebElement viewTitle = driver.findElement(By.xpath("//label[text()='String']/../div[1]//span"));
-        WebElement viewComment = driver.findElement(By.xpath("//label[text()='String']/../div[2]//span"));
-        WebElement viewInt = driver.findElement(By.xpath("//label[text()='String']/../div[3]//span"));
-        WebElement viewDecimal = driver.findElement(By.xpath("//label[text()='String']/../div[4]//span"));
-        WebElement viewDate = driver.findElement(By.xpath("//label[text()='String']/../div[5]//span"));
-        WebElement viewDateTime = driver.findElement(By.xpath("//label[text()='String']/../div[6]//span"));
-        WebElement viewUser = driver.findElement(By.xpath("//div[@class='row']//p"));
-
-        Assert.assertEquals(viewTitle.getText(), STRING);
-        Assert.assertEquals(viewComment.getText(), COMMENT);
-        Assert.assertEquals(viewInt.getText(), INT_);
-        Assert.assertEquals(viewDecimal.getText(), DECIMAL);
-        Assert.assertEquals(viewDate.getText(), DATE);
-        Assert.assertEquals(viewDateTime.getText(), DATE_TIME);
-        Assert.assertEquals(viewUser.getText(), USER_DEMO);
+        Assert.assertEquals(parentViewPage.viewTitle(), STRING);
+        Assert.assertEquals(parentViewPage.viewComment(), COMMENT);
+        Assert.assertEquals(parentViewPage.viewInt(), INT_);
+        Assert.assertEquals(parentViewPage.viewDecimal(), DECIMAL);
+        Assert.assertEquals(parentViewPage.viewDate(), DATE);
+        Assert.assertEquals(parentViewPage.viewUser(), (USER_DEMO));
     }
-
 
     @Test(dependsOnMethods = {"viewParent"})
     public void editParent() {
