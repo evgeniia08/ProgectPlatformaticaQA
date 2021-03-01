@@ -28,12 +28,13 @@ public class EntityImportEditTest extends BaseTest {
     private static final String EDIT_VALUE = "edit";
     private static final String DELETE_VALUE = "delete";
 
+
     private static final String DO_IMPORT = "Do import";
     private static final String CUSTOM_IMPORT = "Custom Import";
     private static final String FILTERED_IMPORT_2 = "Filtered Import2";
     private static final String FILTERED_IMPORT_3 = "Filtered Import3";
-    private static final String SELECT_FOR_EMBEDED = "Select For Embeded";
-    private static final String SELECT_FOR_EMBEDED_CUSTOM = "Select For Embeded Custom";
+    private static final String SELECT_FOR_EMBEDDED = "Select For Embedded";
+    private static final String SELECT_FOR_EMBEDDED_CUSTOM = "Select For Embedded Custom";
 
     private static final String THIS_IS_A_CUSTOM_TEXT = "This is a custom TEXT";
 
@@ -143,7 +144,7 @@ public class EntityImportEditTest extends BaseTest {
         ProjectUtils.click(driver, delete);
     }
 
-
+    @Test
     public void importEditManually() {
 
         WebDriver driver = getDriver();
@@ -266,7 +267,7 @@ public class EntityImportEditTest extends BaseTest {
 
     @Ignore
     @Test
-    public void importEditSelectForEmbeded() {
+    public void importEditSelectForEmbedded() {
 
         WebDriver driver = getDriver();
 
@@ -278,7 +279,7 @@ public class EntityImportEditTest extends BaseTest {
 
         clickImportTag(driver);
 
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//input[@value='" + SELECT_FOR_EMBEDED + "']")));
+        ProjectUtils.click(driver, driver.findElement(By.xpath("//input[@value='" + SELECT_FOR_EMBEDDED + "']")));
 
         checkBoxClick(driver);
 
@@ -292,7 +293,7 @@ public class EntityImportEditTest extends BaseTest {
 
     @Ignore
     @Test
-    public void importEditSelectForEmbededCustom() {
+    public void importEditSelectForEmbeddedCustom() {
 
         WebDriver driver = getDriver();
 
@@ -304,7 +305,7 @@ public class EntityImportEditTest extends BaseTest {
 
         clickImportTag(driver);
 
-        ProjectUtils.click(driver, driver.findElement(By.xpath("//input[@value='" + SELECT_FOR_EMBEDED_CUSTOM + "']")));
+        ProjectUtils.click(driver, driver.findElement(By.xpath("//input[@value='" + SELECT_FOR_EMBEDDED_CUSTOM + "']")));
 
         checkBoxClick(driver);
 
