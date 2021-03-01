@@ -31,6 +31,6 @@ public class CheckoutPage extends PortalBaseIndexPage {
     }
 
     public String getPrice() {
-        return price.getText();
+        return String.format("%.2f", Double.valueOf(price.getText()));
     }
 }

@@ -1,31 +1,11 @@
 package model.entity.edit;
 
+import model.base.EntityBaseEditExtPage;
 import model.entity.table.AssignPage;
-import model.base.EntityBaseEditPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
-public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
-
-    @FindBy(id = "string")
-    private WebElement inputString;
-
-    @FindBy(id = "text")
-    private WebElement inputText;
-
-    @FindBy(id = "int")
-    private WebElement inputInt;
-
-    @FindBy(id = "decimal")
-    private WebElement inputDecimal;
-
-    @FindBy(id = "date")
-    private WebElement inputDate;
-
-    @FindBy(id = "datetime")
-    private WebElement inputDateTime;
+public class AssignEditPage extends EntityBaseEditExtPage<AssignPage, AssignEditPage> {
 
     public AssignEditPage(WebDriver driver) {
         super(driver);
@@ -54,6 +34,11 @@ public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
     @Override
     protected AssignPage createPage() {
         return new AssignPage(getDriver());
+    }
+
+    @Override
+    protected AssignEditPage createEditPage() {
+        return new AssignEditPage(getDriver());
     }
 }
 

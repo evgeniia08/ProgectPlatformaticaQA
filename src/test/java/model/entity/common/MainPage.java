@@ -80,6 +80,9 @@ public class MainPage extends BaseIndexPage {
     @FindBy(xpath = "//p[contains(text(),'Tag')]")
     private WebElement menuTag;
 
+    @FindBy(xpath = "//a[contains(@href, 'id=17')]")
+    private WebElement menuImport;
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
@@ -197,5 +200,10 @@ public class MainPage extends BaseIndexPage {
     public TagListPage clickMenuTag() {
         clickMainMenu(menuTag);
         return new TagListPage(getDriver());
+    }
+
+    public ImportPage clickMenuImport() {
+        clickMainMenu(menuImport);
+        return new ImportPage(getDriver());
     }
 }

@@ -11,6 +11,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class EntityBaseEditExtPage<TablePage, EditPage> extends EntityBaseEditPage<TablePage> {
 
+    @FindBy(id = "string")
+    protected WebElement inputString;
+
+    @FindBy(id = "text")
+    protected WebElement inputText;
+
+    @FindBy(id = "int")
+    protected WebElement inputInt;
+
+    @FindBy(id = "decimal")
+    protected WebElement inputDecimal;
+
+    @FindBy(id = "date")
+    protected WebElement inputDate;
+
+    @FindBy(id = "datetime")
+    protected WebElement inputDateTime;
+
     @FindBy(css = "select#user > option")
     private List<WebElement> selectUserAllUsers;
 

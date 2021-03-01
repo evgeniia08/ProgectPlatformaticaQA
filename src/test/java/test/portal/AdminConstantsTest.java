@@ -15,7 +15,6 @@ import test.data.AppConstant;
 
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
-
 public class AdminConstantsTest extends BaseTest {
 
     private WebDriver driver;
