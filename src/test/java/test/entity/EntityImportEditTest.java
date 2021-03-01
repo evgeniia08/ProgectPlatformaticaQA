@@ -155,7 +155,7 @@ public class EntityImportEditTest extends BaseTest {
 
         userCreate(driver);
 
-        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(text(),'" + STRING + "')]")).getText(), STRING);
+        Assert.assertEquals(driver.findElement(By.xpath("//a[contains(text(),'" + STRING + "')]")).getText(), STRING);
 
         ProjectUtils.click(driver, driver.findElement(By.xpath("//i[normalize-space()='menu']")));
 
