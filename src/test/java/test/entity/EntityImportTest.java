@@ -25,22 +25,6 @@ import java.util.UUID;
 
 public class EntityImportTest extends BaseTest {
 
-    @Test
-    public void deleteRecordFromEntityImport() {
-
-        final String str = UUID.randomUUID().toString();
-
-        RecycleBinPage recycleBinPage = new ImportValuesPage(getDriver())
-                .clickMenuImportValues()
-                .clickNewFolder()
-                .sendKeys(str)
-                .clickSaveButton()
-                .deleteRow()
-                .clickRecycleBin();
-
-        Assert.assertEquals(recycleBinPage.getDeletedImportValue(), str);
-    }
-
     private static final String STRING_VALUE = "Denys_String";
     private static final String TEXT_VALUE = "Denys_Text";
     private static final String INTEGER_VALUE = "2";
@@ -80,6 +64,21 @@ public class EntityImportTest extends BaseTest {
     private static final By BY_BUTTON_OK2 = By.xpath("//div[@id='pa-ajax-data-56']/div/div/div[2]/button[1]");
     private static final String STRING_INP = UUID.randomUUID().toString();
 
+    @Test
+    public void deleteRecordFromEntityImport() {
+
+        final String str = UUID.randomUUID().toString();
+
+        RecycleBinPage recycleBinPage = new ImportValuesPage(getDriver())
+                .clickMenuImportValues()
+                .clickNewFolder()
+                .sendKeys(str)
+                .clickSaveButton()
+                .deleteRow()
+                .clickRecycleBin();
+
+        Assert.assertEquals(recycleBinPage.getDeletedImportValue(), str);
+    }
 
     @Test
     public void doImportTest() {
