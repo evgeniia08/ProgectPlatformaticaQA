@@ -1,5 +1,8 @@
 package test.entity;
 
+import model.entity.common.MainPage;
+import model.entity.edit.ImportValuesEditPage;
+import model.entity.table.ImportPage;
 import model.entity.table.ImportValuesPage;
 import model.entity.common.RecycleBinPage;
 import org.openqa.selenium.By;
@@ -14,6 +17,8 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,46 +59,38 @@ public class EntityImportTest extends BaseTest {
     private static final By BY_CREATE_INT_FIELD = By.xpath("//input[@id='int']");
     private static final By BY_CREATE_DECIMAL_FIELD = By.xpath("//input[@id='decimal']");
     private static final By BY_CREATE_SAVE_BUTTON = By.xpath("//button[@id='pa-entity-form-save-btn']");
+    private static final String STRING_INP = UUID.randomUUID().toString();
 
-    @Ignore
+
     @Test
-    public void doImportButton() {
+    public void doImportTest() {
 
-        WebDriver driver = getDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
+        final String intInp = String.valueOf((int) (Math.random() * 100));
+        final String decimalInp = String.valueOf(new DecimalFormat("0.00").format(Math.random() * 100));
+        final List<String> expectedValues = Arrays.asList(STRING_INP, "test text", intInp, decimalInp, "date", "dateTime");
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
+        ImportValuesEditPage importValuesEditPage = new MainPage(getDriver())
+                .clickMenuImportValues()
+                .clickNewFolder()
+                .fillOutForm(STRING_INP, "test text", intInp, decimalInp);
 
-        WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
-        createImportFolder.click();
+        expectedValues.set(4, importValuesEditPage.getDate());
+        expectedValues.set(5, importValuesEditPage.getDateTime());
 
-        WebElement doImportButton = driver.findElement(BY_DO_IMPORT_BUTTON);
-        doImportButton.click();
+        importValuesEditPage.clickSaveButton();
 
-        WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
-        wait.until(TestUtils.movingIsFinished(selectRecord));
-        wait.until(ExpectedConditions.elementToBeClickable(selectRecord)).click();
+        Assert.assertEquals(new ImportValuesPage(getDriver()).getRowCount(), 1);
+        Assert.assertEquals(new ImportValuesPage(getDriver()).getRow(0), expectedValues);
 
-        WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
-        ProjectUtils.scroll(driver, saveButton);
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton)).click();
+        ImportPage importPage = new MainPage(getDriver())
+                .clickMenuImport()
+                .clickNewFolder()
+                .clickDoImportButton()
+                .clickImportButton()
+                .clickSaveButton();
 
-        List<WebElement> importedRow = driver.findElements(BY_IMPORTED_ROW);
-        Assert.assertEquals(importedRow.size(), 1);
-
-        WebElement fieldString = importedRow.get(0).findElement(By.xpath("//td[2]/a"));
-        WebElement fieldText = importedRow.get(0).findElement(By.xpath("//td[3]/a"));
-        WebElement fieldInt = importedRow.get(0).findElement(By.xpath("//td[4]/a"));
-        WebElement fieldDecimal = importedRow.get(0).findElement(By.xpath("//td[5]/a"));
-        WebElement fieldUser = importedRow.get(0).findElement(By.xpath("//td[9]"));
-
-        Assert.assertEquals(fieldString.getText(), STRING_VALUE);
-        Assert.assertEquals(fieldText.getText(), TEXT_VALUE);
-        Assert.assertEquals(fieldInt.getText(), INTEGER_VALUE);
-        Assert.assertEquals(fieldDecimal.getText(),DECIMAL_VALUE);
-        Assert.assertEquals(fieldUser.getText(), USER_VALUE);
+        Assert.assertEquals(importPage.getRowCount(), 1);
+        Assert.assertEquals(importPage.getRow(0), expectedValues);
     }
 
     @Ignore

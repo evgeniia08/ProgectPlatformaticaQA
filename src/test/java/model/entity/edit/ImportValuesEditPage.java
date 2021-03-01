@@ -1,19 +1,12 @@
 package model.entity.edit;
 
-import model.base.BasePage;
+import model.base.EntityBaseEditExtPage;
 import model.entity.table.ImportValuesPage;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
-public class ImportValuesEditPage extends BasePage {
-
-    @FindBy(xpath = "//input[@id='string']")
-    private WebElement inputString;
-
-    @FindBy(xpath = "//button[@id='pa-entity-form-save-btn']")
-    private WebElement buttonSave;
+public class ImportValuesEditPage extends EntityBaseEditExtPage<ImportValuesPage, ImportValuesEditPage> {
 
     public ImportValuesEditPage(WebDriver driver) {
         super(driver);
@@ -25,9 +18,33 @@ public class ImportValuesEditPage extends BasePage {
         return this;
     }
 
-    public ImportValuesPage clickSaveButton() {
-        ProjectUtils.click(getDriver(), buttonSave);
+    public ImportValuesEditPage fillOutForm(String string, String text, String int_, String decimal) {
+        inputString.sendKeys(string);
+        inputText.sendKeys(text);
+        inputInt.sendKeys(int_);
+        inputDecimal.sendKeys(decimal);
+        inputDate.click();
+        inputDateTime.click();
+        inputDateTime.sendKeys(Keys.ENTER);
 
+        return this;
+    }
+
+    public String getDate() {
+        return inputDate.getAttribute("value");
+    }
+
+    public String getDateTime() {
+        return inputDateTime.getAttribute("value");
+    }
+
+    @Override
+    protected ImportValuesPage createPage() {
         return new ImportValuesPage(getDriver());
+    }
+
+    @Override
+    protected ImportValuesEditPage createEditPage() {
+        return new ImportValuesEditPage(getDriver());
     }
 }
