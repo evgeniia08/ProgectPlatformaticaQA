@@ -15,6 +15,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -114,21 +115,18 @@ public class EntityImportTest extends BaseTest {
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
+
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
         WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
         ProjectUtils.click(driver, ImportEntity);
-
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
-
         WebElement customImportButton = driver.findElement(BY_CUSTOM_IMPORT_BUTTON);
         customImportButton.click();
-
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
         wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
-
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -159,17 +157,13 @@ public class EntityImportTest extends BaseTest {
 
         WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
         ProjectUtils.click(driver, ImportEntity);
-
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
-
         WebElement filteredImport2 = driver.findElement(BY_FILTERED_IMPORT2);
         filteredImport2.click();
-
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
         wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
-
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -188,7 +182,6 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldInt.getText(), INTEGER_VALUE2);
         Assert.assertEquals(fieldDecimal.getText(), DECIMAL_VALUE);
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
-
     }
 
     @Test
@@ -201,20 +194,15 @@ public class EntityImportTest extends BaseTest {
 
         WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
         ProjectUtils.click(driver, ImportEntity);
-
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
-
         WebElement fillInfField = driver.findElement(BY_INT_FIELD);
         ProjectUtils.inputKeys(driver, fillInfField, INTEGER_VALUE);
-
         WebElement filteredImport3 = driver.findElement(BY_FILTERED_IMPORT3);
         filteredImport3.click();
-
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
         wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
-
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -233,11 +221,10 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldInt.getText(), INTEGER_VALUE);
         Assert.assertEquals(fieldDecimal.getText(), DECIMAL_VALUE);
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
-
     }
 
     @Test
-    public void selectForEmbededButtonTest() throws InterruptedException{
+    public void selectForEmbededButtonTest(){
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
@@ -246,23 +233,19 @@ public class EntityImportTest extends BaseTest {
 
         WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
         ProjectUtils.click(driver, ImportEntity);
-
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
-
-        WebElement clickEmbededBtn = driver.findElement(BY_SELECT_FOR_EMBEDED);
-        clickEmbededBtn.click();
+        WebElement clickSelectForEmbeded = driver.findElement(BY_SELECT_FOR_EMBEDED);
+        clickSelectForEmbeded.click();
         WebElement checkbox = driver.findElement(BY_CHECKBOX_EMBEDED);
         checkbox.click();
-        Thread.sleep(500);
-        WebElement okButton = driver.findElement(BY_BUTTON_OK1);
-        okButton.click();
-        wait.until(ExpectedConditions.invisibilityOf(okButton));
+        getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
+        WebElement clickOkButton = driver.findElement(BY_BUTTON_OK1);
+        clickOkButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(clickOkButton));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
-
-
         WebElement openRecord = driver.findElement(By.xpath("//td/a[contains(text(), '0')]"));
         openRecord.click();
 
@@ -280,11 +263,10 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldInt.getText(), INTEGER_VALUE);
         Assert.assertEquals(fieldDecimal.getText(), DECIMAL_VALUE);
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
-
     }
 
     @Test
-    public void selectForEmbededCustomButtonTest() throws InterruptedException{
+    public void selectForEmbededCustomButtonTest(){
 
         WebDriver driver = getDriver();
         WebDriverWait wait = getWebDriverWait();
@@ -293,23 +275,19 @@ public class EntityImportTest extends BaseTest {
 
         WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
         ProjectUtils.click(driver, ImportEntity);
-
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
-
-        WebElement clickEmbededBtn = driver.findElement(BY_SELECT_FOR_EMBEDED_CUSTOM);
-        clickEmbededBtn.click();
+        WebElement clickSelecetForEmbededCustom = driver.findElement(BY_SELECT_FOR_EMBEDED_CUSTOM);
+        clickSelecetForEmbededCustom.click();
         WebElement checkbox = driver.findElement(BY_CHECKBOX_EMBEDED);
         checkbox.click();
-        Thread.sleep(500);
-        WebElement okButton = driver.findElement(BY_BUTTON_OK2);
-        okButton.click();
-        wait.until(ExpectedConditions.invisibilityOf(okButton));
+        getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
+        WebElement clickOkButton = driver.findElement(BY_BUTTON_OK2);
+        clickOkButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(clickOkButton));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
-
-
         WebElement openRecord = driver.findElement(By.xpath("//td/a[contains(text(), '0')]"));
         openRecord.click();
 
@@ -327,16 +305,11 @@ public class EntityImportTest extends BaseTest {
         Assert.assertEquals(fieldInt.getText(), INTEGER_VALUE);
         Assert.assertEquals(fieldDecimal.getText(), DECIMAL_VALUE);
         Assert.assertEquals(fieldUser.getText(), USER_VALUE);
-
     }
 
     public void createRecordInImportValuesEntity(WebDriver driver, String str, String text, String integ, String decimal) {
 
-        WebElement importValuesTab = driver.findElement(BY_CREATE_IMPORT_TAB);
-        ProjectUtils.click(driver, importValuesTab);
-        WebElement createImportValuesIcon = driver.findElement(BY_CREATE_IMPORT_ICON);
-        createImportValuesIcon.click();
-
+        openImportValuesTab(driver);
         WebElement stringInImportValueField = driver.findElement(BY_CREATE_STRING_FIELD);
         stringInImportValueField.sendKeys(str);
         WebElement textInImportValueField = driver.findElement(BY_CREATE_TEXT_FIELD);
@@ -351,10 +324,7 @@ public class EntityImportTest extends BaseTest {
 
     public void createEmbededRecordInImportValuesEntity(WebDriver driver, String str, String text, String integ, String decimal){
 
-        WebElement importValuesTab = driver.findElement(BY_CREATE_IMPORT_TAB);
-        ProjectUtils.click(driver, importValuesTab);
-        WebElement createImportValuesIcon = driver.findElement(BY_CREATE_IMPORT_ICON);
-        createImportValuesIcon.click();
+        openImportValuesTab(driver);
         WebElement createEmdededRow = driver.findElement(BY_CREATE_EMDEDED_BTN);
         createEmdededRow.click();
 
@@ -383,6 +353,12 @@ public class EntityImportTest extends BaseTest {
         userButton.selectByIndex(1);
         WebElement saveButton = driver.findElement(BY_CREATE_SAVE_BUTTON);
         ProjectUtils.click(driver, saveButton);
+    }
 
+    public void openImportValuesTab (WebDriver driver){
+        WebElement importValuesTab = driver.findElement(BY_CREATE_IMPORT_TAB);
+        ProjectUtils.click(driver, importValuesTab);
+        WebElement clickCreateImportValuesIcon = driver.findElement(BY_CREATE_IMPORT_ICON);
+        clickCreateImportValuesIcon.click();
     }
 }
