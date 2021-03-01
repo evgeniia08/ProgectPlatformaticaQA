@@ -1,20 +1,15 @@
 package model.entity.edit;
 
-import model.base.EntityBaseEditPage;
+import model.base.EntityBaseEditExtPage;
 import model.entity.table.ImportValuesPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import runner.ProjectUtils;
 
-public class ImportValuesEditPage extends EntityBaseEditPage<ImportValuesPage> {
+public class ImportValuesEditPage extends EntityBaseEditExtPage<ImportValuesPage, ImportValuesEditPage> {
 
     public ImportValuesEditPage(WebDriver driver) {
         super(driver);
-    }
-
-    @Override
-    protected ImportValuesPage createPage() {
-        return new ImportValuesPage(getDriver());
     }
 
     public ImportValuesEditPage sendKeys(String string) {
@@ -41,5 +36,15 @@ public class ImportValuesEditPage extends EntityBaseEditPage<ImportValuesPage> {
 
     public String getDateTime() {
         return inputDateTime.getAttribute("value");
+    }
+
+    @Override
+    protected ImportValuesPage createPage() {
+        return new ImportValuesPage(getDriver());
+    }
+
+    @Override
+    protected ImportValuesEditPage createEditPage() {
+        return new ImportValuesEditPage(getDriver());
     }
 }

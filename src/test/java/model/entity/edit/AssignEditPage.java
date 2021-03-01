@@ -1,11 +1,11 @@
 package model.entity.edit;
 
+import model.base.EntityBaseEditExtPage;
 import model.entity.table.AssignPage;
-import model.base.EntityBaseEditPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
-public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
+public class AssignEditPage extends EntityBaseEditExtPage<AssignPage, AssignEditPage> {
 
     public AssignEditPage(WebDriver driver) {
         super(driver);
@@ -34,6 +34,11 @@ public class AssignEditPage extends EntityBaseEditPage<AssignPage> {
     @Override
     protected AssignPage createPage() {
         return new AssignPage(getDriver());
+    }
+
+    @Override
+    protected AssignEditPage createEditPage() {
+        return new AssignEditPage(getDriver());
     }
 }
 

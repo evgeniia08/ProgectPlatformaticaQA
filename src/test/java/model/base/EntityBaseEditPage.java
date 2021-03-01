@@ -11,24 +11,6 @@ import java.util.stream.Collectors;
 
 public abstract class EntityBaseEditPage<TablePage> extends BasePage {
 
-    @FindBy(id = "string")
-    protected WebElement inputString;
-
-    @FindBy(id = "text")
-    protected WebElement inputText;
-
-    @FindBy(id = "int")
-    protected WebElement inputInt;
-
-    @FindBy(id = "decimal")
-    protected WebElement inputDecimal;
-
-    @FindBy(id = "date")
-    protected WebElement inputDate;
-
-    @FindBy(id = "datetime")
-    protected WebElement inputDateTime;
-
     @FindBy(css = "button[id*='save']")
     protected WebElement saveButton;
 
