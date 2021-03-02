@@ -1,6 +1,7 @@
 package test.entity;
 
 import model.entity.common.MainPage;
+import model.entity.common.RecycleBinPage;
 import model.entity.edit.ReadOnlyEditPage;
 import model.entity.table.ReadOnlyPage;
 import org.testng.Assert;
@@ -51,7 +52,7 @@ public class EntityReadonlyTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "inputTest")
-    public void verifyRowsAreEmptyTest() {
+    public void verifyRowsAreEmptyTest() throws InterruptedException {
 
         ReadOnlyPage tablePage = new MainPage(getDriver())
                 .clickMenuReadOnly();
@@ -60,4 +61,29 @@ public class EntityReadonlyTest extends BaseTest {
         Assert.assertEquals(tablePage.getRow(0), EXPECTED_VALUES_LIST);
     }
 
-}
+    @Test(dependsOnMethods = "verifyRowsAreEmptyTest")
+    public void moveReadOnlyRecordToTheRecycleBin() {
+
+        ReadOnlyPage readOnlyPage = new MainPage(getDriver())
+                .clickMenuReadOnly()
+                .deleteRow();
+
+        Assert.assertEquals(readOnlyPage.getRowCount(), 0);
+
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickRecycleBin();
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 1);
+
+    }
+
+    @Test(dependsOnMethods = "moveReadOnlyRecordToTheRecycleBin")
+    public void deleteReadOnlyRecordPermanently() {
+        RecycleBinPage recycleBinPage = new MainPage(getDriver())
+                .clickRecycleBin();
+
+        recycleBinPage.clickDeletePermanently(0);
+
+        Assert.assertEquals(recycleBinPage.getRowCount(), 0);
+    }
+ }
