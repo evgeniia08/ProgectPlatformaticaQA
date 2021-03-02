@@ -52,7 +52,7 @@ public class EntityReadonlyTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "inputTest")
-    public void verifyRowsAreEmptyTest() throws InterruptedException {
+    public void verifyRowsAreEmptyTest() {
 
         ReadOnlyPage tablePage = new MainPage(getDriver())
                 .clickMenuReadOnly();
