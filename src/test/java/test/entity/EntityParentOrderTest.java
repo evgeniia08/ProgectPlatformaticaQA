@@ -25,17 +25,20 @@ public class EntityParentOrderTest extends BaseTest {
                 .clickNewFolder()
                 .sendKeys2(DRUG_THE_ROW_DOWN)
                 .clickSaveButton();
+
         Assert.assertEquals(parentPage.getRowCount(), 2);
     }
 
     @Test(dependsOnMethods = "createMultipleParent")
-    public void dragTheRowUp() {
+    public void dragTheRowUp() throws InterruptedException {
+
         String parentPage = new MainPage(getDriver())
                 .clickMenuParent()
                 .clickOrderParent()
                 .dragUp()
                 .checkCell();
-        Assert.assertEquals(parentPage, "Drag the row up");
+
+        Assert.assertEquals(parentPage, DRUG_THE_ROW_UP);
     }
 }
 
