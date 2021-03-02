@@ -58,16 +58,15 @@ public final class ParentPage extends EntityBaseTablePage<ParentPage, ParentEdit
     }
 
     public ParentPage clickOrderParent() {
-        getDriver().findElement(By.xpath("//a[@class='nav-link active']")).click();
+        getDriver().findElement(By.xpath("//i[contains(text(),'format_line_spacing')]")).click();
 
         return this;
     }
 
     public ParentPage dragUp() {
 
-        getDriver().findElement(By.xpath("//ul[@role='tablist']/li[2]")).click();
-        WebElement down = getDriver().findElement(By.xpath("//tbody/tr[2]"));
-        WebElement up = getDriver().findElement(By.xpath("//tbody/tr[1]"));
+        WebElement down = getDriver().findElement(By.xpath(" //tr[@id='customId_0']"));
+        WebElement up = getDriver().findElement(By.xpath(" //tr[@id='customId_1']"));
         Actions move = new Actions(getDriver());
         move.clickAndHold(down).moveToElement(up).release().build().perform();
 
