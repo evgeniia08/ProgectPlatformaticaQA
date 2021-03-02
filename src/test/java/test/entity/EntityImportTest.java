@@ -114,8 +114,6 @@ public class EntityImportTest extends BaseTest {
     public void customImportButtonTest() {
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = getWebDriverWait();
-
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
         WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
@@ -125,7 +123,7 @@ public class EntityImportTest extends BaseTest {
         WebElement customImportButton = driver.findElement(BY_CUSTOM_IMPORT_BUTTON);
         customImportButton.click();
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
-        wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
+        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
@@ -151,8 +149,6 @@ public class EntityImportTest extends BaseTest {
     public void filteredImport2ButtonTest() {
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = getWebDriverWait();
-
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE2, DECIMAL_VALUE);
 
         WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
@@ -162,7 +158,7 @@ public class EntityImportTest extends BaseTest {
         WebElement filteredImport2 = driver.findElement(BY_FILTERED_IMPORT2);
         filteredImport2.click();
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
-        wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
+        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
@@ -188,8 +184,6 @@ public class EntityImportTest extends BaseTest {
     public void filteredImport3ButtonTest() {
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = getWebDriverWait();
-
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
         WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
@@ -201,7 +195,7 @@ public class EntityImportTest extends BaseTest {
         WebElement filteredImport3 = driver.findElement(BY_FILTERED_IMPORT3);
         filteredImport3.click();
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
-        wait.until(ExpectedConditions.elementToBeClickable(selectRecord));
+        getWebDriverWait().until(ExpectedConditions.elementToBeClickable(selectRecord));
         selectRecord.click();
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
@@ -227,8 +221,6 @@ public class EntityImportTest extends BaseTest {
     public void selectForEmbededButtonTest(){
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = getWebDriverWait();
-
         createEmbededRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
         WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
@@ -242,7 +234,7 @@ public class EntityImportTest extends BaseTest {
         getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
         WebElement buttonOK = driver.findElement(BY_BUTTON_OK1);
         buttonOK.click();
-        wait.until(ExpectedConditions.invisibilityOf(buttonOK));
+        getWebDriverWait().until(ExpectedConditions.invisibilityOf(buttonOK));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -269,8 +261,6 @@ public class EntityImportTest extends BaseTest {
     public void selectForEmbededCustomButtonTest(){
 
         WebDriver driver = getDriver();
-        WebDriverWait wait = getWebDriverWait();
-
         createEmbededRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
         WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
@@ -284,7 +274,7 @@ public class EntityImportTest extends BaseTest {
         getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
         WebElement buttonOk = driver.findElement(BY_BUTTON_OK2);
         buttonOk.click();
-        wait.until(ExpectedConditions.invisibilityOf(buttonOk));
+        getWebDriverWait().until(ExpectedConditions.invisibilityOf(buttonOk));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
