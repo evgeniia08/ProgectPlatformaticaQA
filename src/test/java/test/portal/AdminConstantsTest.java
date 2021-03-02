@@ -14,8 +14,10 @@ import runner.type.Run;
 import runner.type.RunType;
 import test.data.AppConstant;
 
+
 @Profile(profile = ProfileType.MARKETPLACE)
 @Run(run = RunType.Multiple)
+@Ignore
 public class AdminConstantsTest extends BaseTest {
 
     private WebDriver driver;
@@ -58,7 +60,7 @@ public class AdminConstantsTest extends BaseTest {
         getWebDriverWait().until(ExpectedConditions.stalenessOf(driver.findElement
                 (By.xpath("//textarea[@id='pa-cli-cmd']"))));
     }
-    @Ignore
+
     @Test
     public void createApplicationTest() {
         driver = getDriver();
