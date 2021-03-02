@@ -6,6 +6,7 @@ import model.entity.table.PlatformFuncPage;
 import model.entity.common.RecycleBinPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.type.Run;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Run(run = RunType.Multiple)
+@Ignore
 public class EntityPlatformFunctionsTest extends BaseTest {
 
     private static final String POSITIVE_INT = "15";

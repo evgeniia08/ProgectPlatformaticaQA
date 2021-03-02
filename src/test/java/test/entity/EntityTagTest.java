@@ -5,6 +5,7 @@ import model.entity.table.TagListPage;
 import model.entity.table.TagPage;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -16,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Run(run = RunType.Multiple)
+@Ignore
 public class EntityTagTest extends BaseTest {
 
     private static final String TAG_1 = String.format("TempTag1_%s", RandomStringUtils.randomNumeric(5));
