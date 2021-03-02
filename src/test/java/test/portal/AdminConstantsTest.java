@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -57,7 +58,7 @@ public class AdminConstantsTest extends BaseTest {
         getWebDriverWait().until(ExpectedConditions.stalenessOf(driver.findElement
                 (By.xpath("//textarea[@id='pa-cli-cmd']"))));
     }
-
+    @Ignore
     @Test
     public void createApplicationTest() {
         driver = getDriver();
