@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Run(run = RunType.Multiple)
+@Ignore
 public class EntityAssignTest extends BaseTest {
 
     private static final String STRING_INP = UUID.randomUUID().toString();
