@@ -118,10 +118,10 @@ public class EntityImportTest extends BaseTest {
 
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
-        WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
-        createImportFolder.click();
+        WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
+        ProjectUtils.click(driver, importEntity);
+        WebElement importFolder = driver.findElement(BY_IMPORT_FOLDER);
+        importFolder.click();
         WebElement customImportButton = driver.findElement(BY_CUSTOM_IMPORT_BUTTON);
         customImportButton.click();
         WebElement selectRecord = driver.findElement(BY_SELECT_RECORD);
@@ -155,8 +155,8 @@ public class EntityImportTest extends BaseTest {
 
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE2, DECIMAL_VALUE);
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
+        WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
+        ProjectUtils.click(driver, importEntity);
         WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
         createImportFolder.click();
         WebElement filteredImport2 = driver.findElement(BY_FILTERED_IMPORT2);
@@ -192,10 +192,10 @@ public class EntityImportTest extends BaseTest {
 
         createRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
-        WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
-        createImportFolder.click();
+        WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
+        ProjectUtils.click(driver, importEntity);
+        WebElement importFolder = driver.findElement(BY_IMPORT_FOLDER);
+        importFolder.click();
         WebElement fillInfField = driver.findElement(BY_INT_FIELD);
         ProjectUtils.inputKeys(driver, fillInfField, INTEGER_VALUE);
         WebElement filteredImport3 = driver.findElement(BY_FILTERED_IMPORT3);
@@ -231,18 +231,18 @@ public class EntityImportTest extends BaseTest {
 
         createEmbededRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
-        WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
-        createImportFolder.click();
-        WebElement clickSelectForEmbeded = driver.findElement(BY_SELECT_FOR_EMBEDED);
-        clickSelectForEmbeded.click();
+        WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
+        ProjectUtils.click(driver, importEntity);
+        WebElement importFolder = driver.findElement(BY_IMPORT_FOLDER);
+        importFolder.click();
+        WebElement selectForEmbeded = driver.findElement(BY_SELECT_FOR_EMBEDED);
+        selectForEmbeded.click();
         WebElement checkbox = driver.findElement(BY_CHECKBOX_EMBEDED);
         checkbox.click();
         getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
-        WebElement clickOkButton = driver.findElement(BY_BUTTON_OK1);
-        clickOkButton.click();
-        wait.until(ExpectedConditions.invisibilityOf(clickOkButton));
+        WebElement buttonOK = driver.findElement(BY_BUTTON_OK1);
+        buttonOK.click();
+        wait.until(ExpectedConditions.invisibilityOf(buttonOK));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -273,18 +273,18 @@ public class EntityImportTest extends BaseTest {
 
         createEmbededRecordInImportValuesEntity(driver, STRING_VALUE, TEXT_VALUE, INTEGER_VALUE, DECIMAL_VALUE);
 
-        WebElement ImportEntity = driver.findElement(BY_IMPORT_ENTITY);
-        ProjectUtils.click(driver, ImportEntity);
-        WebElement createImportFolder = driver.findElement(BY_IMPORT_FOLDER);
-        createImportFolder.click();
-        WebElement clickSelecetForEmbededCustom = driver.findElement(BY_SELECT_FOR_EMBEDED_CUSTOM);
-        clickSelecetForEmbededCustom.click();
+        WebElement importEntity = driver.findElement(BY_IMPORT_ENTITY);
+        ProjectUtils.click(driver, importEntity);
+        WebElement importFolder = driver.findElement(BY_IMPORT_FOLDER);
+        importFolder.click();
+        WebElement selectForEmbededCustom = driver.findElement(BY_SELECT_FOR_EMBEDED_CUSTOM);
+        selectForEmbededCustom.click();
         WebElement checkbox = driver.findElement(BY_CHECKBOX_EMBEDED);
         checkbox.click();
         getWebDriverWait().until(TestUtils.movingIsFinished(checkbox));
-        WebElement clickOkButton = driver.findElement(BY_BUTTON_OK2);
-        clickOkButton.click();
-        wait.until(ExpectedConditions.invisibilityOf(clickOkButton));
+        WebElement buttonOk = driver.findElement(BY_BUTTON_OK2);
+        buttonOk.click();
+        wait.until(ExpectedConditions.invisibilityOf(buttonOk));
         WebElement saveButton = driver.findElement(BY_SAVE_BUTTON);
         ProjectUtils.scroll(driver, saveButton);
         saveButton.click();
@@ -310,14 +310,14 @@ public class EntityImportTest extends BaseTest {
     public void createRecordInImportValuesEntity(WebDriver driver, String str, String text, String integ, String decimal) {
 
         openImportValuesTab(driver);
-        WebElement stringInImportValueField = driver.findElement(BY_CREATE_STRING_FIELD);
-        stringInImportValueField.sendKeys(str);
-        WebElement textInImportValueField = driver.findElement(BY_CREATE_TEXT_FIELD);
-        textInImportValueField.sendKeys(text);
-        WebElement intInImportValueField = driver.findElement(BY_CREATE_INT_FIELD);
-        intInImportValueField.sendKeys(integ);
-        WebElement decimalInImportValueField = driver.findElement(BY_CREATE_DECIMAL_FIELD);
-        decimalInImportValueField.sendKeys(decimal);
+        WebElement stringField = driver.findElement(BY_CREATE_STRING_FIELD);
+        stringField.sendKeys(str);
+        WebElement textField = driver.findElement(BY_CREATE_TEXT_FIELD);
+        textField.sendKeys(text);
+        WebElement intField = driver.findElement(BY_CREATE_INT_FIELD);
+        intField.sendKeys(integ);
+        WebElement decimalField = driver.findElement(BY_CREATE_DECIMAL_FIELD);
+        decimalField.sendKeys(decimal);
         WebElement saveButton = driver.findElement(BY_CREATE_SAVE_BUTTON);
         ProjectUtils.click(driver, saveButton);
     }
@@ -328,27 +328,27 @@ public class EntityImportTest extends BaseTest {
         WebElement createEmdededRow = driver.findElement(BY_CREATE_EMDEDED_BTN);
         createEmdededRow.click();
 
-        WebElement stringInImportValueField = driver.findElement(BY_CREATE_STRING_FIELD);
-        stringInImportValueField.sendKeys(str);
-        WebElement textInImportValueField = driver.findElement(BY_CREATE_TEXT_FIELD);
-        textInImportValueField.sendKeys(text);
-        WebElement intInImportValueField = driver.findElement(BY_CREATE_INT_FIELD);
-        intInImportValueField.sendKeys(integ);
-        WebElement decimalInImportValueField = driver.findElement(BY_CREATE_DECIMAL_FIELD);
-        decimalInImportValueField.sendKeys(decimal);
-        WebElement embededDateInImportValuesField = driver.findElement(BY_CREATE_DATE_FIELD);
-        embededDateInImportValuesField.click();
-        WebElement embededDateTimeInImportValuesField = driver.findElement(BY_CREATE_DATETIME_FIELD);
-        embededDateTimeInImportValuesField.click();
+        WebElement stringField = driver.findElement(BY_CREATE_STRING_FIELD);
+        stringField.sendKeys(str);
+        WebElement textField = driver.findElement(BY_CREATE_TEXT_FIELD);
+        textField.sendKeys(text);
+        WebElement intField = driver.findElement(BY_CREATE_INT_FIELD);
+        intField.sendKeys(integ);
+        WebElement decimalField = driver.findElement(BY_CREATE_DECIMAL_FIELD);
+        decimalField.sendKeys(decimal);
+        WebElement dateField = driver.findElement(BY_CREATE_DATE_FIELD);
+        dateField.click();
+        WebElement dateTimeField = driver.findElement(BY_CREATE_DATETIME_FIELD);
+        dateTimeField.click();
 
-        WebElement emdededStringInImportValueField = driver.findElement(BY_CREATE_STRING_FIELD2);
-        emdededStringInImportValueField.sendKeys(str);
-        WebElement embededTextInImportValueField = driver.findElement(BY_CREATE_TEXT_FIELD2);
-        embededTextInImportValueField.sendKeys(text);
-        WebElement embededIntInImportValueField = driver.findElement(BY_CREATE_INT_FIELD2);
-        embededIntInImportValueField.sendKeys(integ);
-        WebElement embededDecimalInImportValueField = driver.findElement(BY_CREATE_DECIMAL_FIELD2);
-        embededDecimalInImportValueField.sendKeys(decimal);
+        WebElement stringField2 = driver.findElement(BY_CREATE_STRING_FIELD2);
+        stringField2.sendKeys(str);
+        WebElement textField2 = driver.findElement(BY_CREATE_TEXT_FIELD2);
+        textField2.sendKeys(text);
+        WebElement intField2 = driver.findElement(BY_CREATE_INT_FIELD2);
+        intField2.sendKeys(integ);
+        WebElement decimalField2 = driver.findElement(BY_CREATE_DECIMAL_FIELD2);
+        decimalField2.sendKeys(decimal);
         Select userButton = new Select(driver.findElement(BY_SELECT_USER_EMBED));
         userButton.selectByIndex(1);
         WebElement saveButton = driver.findElement(BY_CREATE_SAVE_BUTTON);
@@ -358,7 +358,7 @@ public class EntityImportTest extends BaseTest {
     public void openImportValuesTab (WebDriver driver){
         WebElement importValuesTab = driver.findElement(BY_CREATE_IMPORT_TAB);
         ProjectUtils.click(driver, importValuesTab);
-        WebElement clickCreateImportValuesIcon = driver.findElement(BY_CREATE_IMPORT_ICON);
-        clickCreateImportValuesIcon.click();
+        WebElement importValuesIcon = driver.findElement(BY_CREATE_IMPORT_ICON);
+        importValuesIcon.click();
     }
 }
